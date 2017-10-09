@@ -1,17 +1,16 @@
 {
-  "name": "react-boilerplate",
-  "version": "3.5.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "name": "la-foulee",
+  "version": "0.0.1",
+  "description": "La Foulee provide the easiest way to find a race",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": "git@github.com:stephane71/la-foulee.git"
   },
   "engines": {
     "npm": ">=3",
     "node": ">=5"
   },
-  "author": "Max Stoiber",
-  "license": "MIT",
+  "author": "Stephane Maire",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
     "preanalyze": "npm run analyze:clean",
