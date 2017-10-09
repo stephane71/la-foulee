@@ -12,18 +12,75 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import styled from 'styled-components';
+import Media from 'react-media'
+import { Helmet } from 'react-helmet';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { HEIGHT_APPBAR } from 'global-styles-variables';
 
-import HomePage from 'containers/HomePage/Loadable';
+import AppHeader from 'components/AppHeader';
+import AppHomeLoader from 'components/AppHomeLoader';
+
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Search from 'containers/Search';
+import Stride from 'containers/Stride';
+import SearchDesktop from 'containers/SearchDesktop';
+
+const AppWrapper = styled.div`
+  min-height: 100%;
+  height: 1px;
+  padding-top: ${HEIGHT_APPBAR}px;
+`
+
+const AppHomeLoaderRoute = ({ component: Component, ...rest }) =>
+  <Route {...rest} render={props => (
+    // <AppHomeLoader>
+      <Component {...props} />
+    // </AppHomeLoader>
+  )}/>
 
 export default function App() {
   return (
-    <div>
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </div>
+    <AppWrapper>
+      <Helmet defaultTitle={`La Foulée`} titleTemplate="La Foulée | %s">
+        <meta name={`description`} content={`Quelle est ta prochaine course ?`} />
+      </Helmet>
+
+      <AppHeader />
+
+      <Media query={`(max-width: 768px)`}>
+        {matches => matches ?
+          <Switch>
+            <Route exact path={`/`} component={() =>
+              <Redirect to={`/search`} />
+            }/>
+
+            <AppHomeLoaderRoute exact path={'/search'} component={Search} />
+            <Route path={'/search/:strideID'} component={({ match, location }) =>
+              <Redirect to={`/foulee/${match.params.strideID}`} />
+            }/>
+
+            <AppHomeLoaderRoute path={'/foulee/:strideID'} component={Stride} />
+
+            <Route component={NotFoundPage} />
+          </Switch>
+        :
+          <Switch>
+            <Route exact path={`/`} component={() =>
+              <Redirect to={`/search`} />
+            }/>
+
+            <AppHomeLoaderRoute exact path={'/search'} component={SearchDesktop} />
+            <AppHomeLoaderRoute path={'/search/:strideID'} component={SearchDesktop} />
+
+            <Route path={'/foulee/:strideID'} component={({ match, location }) =>
+              <Redirect to={`/search/${match.params.strideID}${location.search}`} />
+            }/>
+            <Route component={NotFoundPage} />
+          </Switch>
+        }
+      </Media>
+
+    </AppWrapper>
   );
 }

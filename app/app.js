@@ -24,16 +24,18 @@ import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
-import '!file-loader?name=[name].[ext]!./images/favicon.ico';
-import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
-import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
-import '!file-loader?name=[name].[ext]!./images/icon-128x128.png';
-import '!file-loader?name=[name].[ext]!./images/icon-144x144.png';
-import '!file-loader?name=[name].[ext]!./images/icon-152x152.png';
-import '!file-loader?name=[name].[ext]!./images/icon-192x192.png';
-import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
-import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
-import '!file-loader?name=[name].[ext]!./manifest.json';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/favicon.ico?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/apple-touch-icon.png?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/favicon-32x32.png?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/favicon-16x16.png?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/safari-pinned-tab.svg?v=yya2lgM4gb';
+
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./manifest.json?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/android-chrome-192x192.png?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/android-chrome-512x512.png?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/mstile-70x70.png?v=yya2lgM4gb';
+import '!file-loader?name=[name].[ext]?v=yya2lgM4gb!./images/favicons/mstile-144x144.png?v=yya2lgM4gb';
+
 import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
@@ -42,8 +44,13 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+// moment locals
+import moment from 'moment';
+moment.locale('fr')
+
 // Import CSS reset and Global Styles
 import './global-styles';
+import 'fonts/circular-bold.css';
 
 // Create redux store with history
 const initialState = {};

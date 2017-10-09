@@ -1,0 +1,14 @@
+/* Subsetted */
+@font-face {
+    font-family: "Circular-Bold-S";
+    src:url("./lineto-circular-bold.eot");
+    src:url("./lineto-circular-bold.eot?#iefix") format("embedded-opentype"),
+        url("./lineto-circular-bold.woff2") format("woff2"),
+        url("./lineto-circular-bold.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.circular-bold {
+  font-family: "Circular-Bold-S"
+}

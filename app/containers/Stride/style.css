@@ -1,0 +1,48 @@
+.fade-enter {
+  width: 200%;
+  margin-left: 100%;
+}
+
+.fade-exit {
+  width: 100%;
+  margin-left: 0%;
+  transition: width 500ms ease-in, margin-left 500ms ease-in;
+}
+
+/*.fade-enter {
+  opacity: 0.01;
+  margin-left: 100%;
+}*/
+
+/*.fade-enter.fade-enter-active {
+  opacity: 1;
+  margin-left: 0%;
+  transition: opacity 2000ms ease-in, margin-left 5s;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 2000ms ease-in;
+}*/
+
+
+/*p {
+  animation-duration: 3s;
+  animation-name: slidein;
+}*/
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}

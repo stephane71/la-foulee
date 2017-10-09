@@ -42,7 +42,23 @@ module.exports = (options) => ({
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.svg$/,
+        exclude: [/node_modules/, /app\/images\/background-images/ ],
+        use: [
+          {
+            loader: "babel-loader"
+          },
+          {
+            loader: "react-svg-loader",
+            options: {
+              jsx: true // true outputs JSX tags
+            }
+          }
+        ]
+      },
+      {
         test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
+        include: [/app\/images\/background-images/, /app\/fonts/],
         use: 'file-loader',
       },
       {
@@ -110,6 +126,9 @@ module.exports = (options) => ({
       'jsnext:main',
       'main',
     ],
+    alias: {
+      moment: 'moment/moment.js',
+    }
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
