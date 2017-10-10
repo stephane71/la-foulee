@@ -37,6 +37,9 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
   }
 
   render() {
+    if (!this.props.strides.length)
+      return <span>{`Pas de résultats pour cette sélection !`}</span>
+
     return (
       <WrapperStrideList>
         {this.props.strides.map((stride, i) =>
