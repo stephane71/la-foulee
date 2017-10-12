@@ -44,6 +44,9 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+// AWS
+import 'aws/aws-sdk'
+
 // moment locals
 import moment from 'moment';
 moment.locale('fr')

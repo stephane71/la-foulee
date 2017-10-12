@@ -14,9 +14,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import Media from 'react-media'
+import { compose } from 'redux';
 import { Helmet } from 'react-helmet';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
+
+import injectSaga from 'utils/injectSaga';
 
 import AppHeader from 'components/AppHeader';
 import AppHomeLoader from 'components/AppHomeLoader';
@@ -26,20 +29,23 @@ import Search from 'containers/Search';
 import Stride from 'containers/Stride';
 import SearchDesktop from 'containers/SearchDesktop';
 
+import saga from './saga';
+import credentialProvider from './credentialProvider';
+
 const AppWrapper = styled.div`
   min-height: 100%;
   height: 1px;
   padding-top: ${HEIGHT_APPBAR}px;
 `
 
-const AppHomeLoaderRoute = ({ component: Component, ...rest }) =>
+const AppHomeLoaderRoute = ({ component: Component, request, ...rest }) =>
   <Route {...rest} render={props => (
     // <AppHomeLoader>
-      <Component {...props} />
+      <Component request={request} {...props} />
     // </AppHomeLoader>
   )}/>
 
-export default function App() {
+function App(props) {
   return (
     <AppWrapper>
       <Helmet defaultTitle={`La Foulée`} titleTemplate="La Foulée | %s">
@@ -55,7 +61,7 @@ export default function App() {
               <Redirect to={`/search`} />
             }/>
 
-            <AppHomeLoaderRoute exact path={'/search'} component={Search} />
+            <AppHomeLoaderRoute exact path={'/search'} component={Search} request={props.request}/>
             <Route path={'/search/:strideID'} component={({ match, location }) =>
               <Redirect to={`/foulee/${match.params.strideID}`} />
             }/>
@@ -84,3 +90,10 @@ export default function App() {
     </AppWrapper>
   );
 }
+
+const withSaga = injectSaga({ key: 'app', saga });
+
+export default compose(
+  withSaga,
+  credentialProvider
+)(App)
