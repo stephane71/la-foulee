@@ -1,6 +1,12 @@
-// import { take, call, put, select } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects'
 
-// Individual exports for testing
+import { LOAD_STRIDES } from './constants'
+
+
+function* loadStrides ({ selectors }) {
+  console.log('Search:saga:loadStrides', selectors);
+}
+
 export default function* defaultSaga() {
-  // See example in containers/HomePage/saga.js
+  yield takeLatest(LOAD_STRIDES, loadStrides)
 }
