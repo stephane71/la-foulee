@@ -61,7 +61,7 @@ function App(props) {
               <Redirect to={`/search`} />
             }/>
 
-            <AppHomeLoaderRoute exact path={'/search'} component={Search} request={props.request}/>
+            <AppHomeLoaderRoute exact path={'/search'} component={Search} request={props.request} />
             <Route path={'/search/:strideID'} component={({ match, location }) =>
               <Redirect to={`/foulee/${match.params.strideID}`} />
             }/>
@@ -76,8 +76,8 @@ function App(props) {
               <Redirect to={`/search`} />
             }/>
 
-            <AppHomeLoaderRoute exact path={'/search'} component={SearchDesktop} />
-            <AppHomeLoaderRoute path={'/search/:strideID'} component={SearchDesktop} />
+            <AppHomeLoaderRoute exact path={'/search'} component={SearchDesktop} request={props.request} />
+            <AppHomeLoaderRoute path={'/search/:strideID'} component={SearchDesktop} request={props.request} />
 
             <Route path={'/foulee/:strideID'} component={({ match, location }) =>
               <Redirect to={`/search/${match.params.strideID}${location.search}`} />
