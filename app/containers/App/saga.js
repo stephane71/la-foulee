@@ -22,8 +22,8 @@ function* initCredentials () {
   yield fetchCredentials()
 }
 
-function requestAPI () {
-  console.log('App:saga:requestAPI');
+function* requestAPI ({ action, credentials, data }) {
+  yield put(action(credentials, data))
 }
 
 export default function* defaultSaga() {

@@ -17,18 +17,18 @@ import { Map } from 'immutable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectSelectors } from './selectors';
-import reducer from './reducer';
-import saga from './saga';
-import messages from './messages';
-import { updateSelectors } from './actions';
-import checkParams from './checkParams';
+import { MONTHS, DEPARTEMENTS } from 'utils/enums';
 
 import Selectors from 'components/Selectors';
 import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
 
-import { MONTHS, DEPARTEMENTS } from 'utils/enums';
+import { makeSelectSelectors } from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+import messages from './messages';
+import { updateSelectors, loadStrides } from './actions';
+import checkParams from './checkParams';
 
 const SearchWrapper = styled.div`
   position: relative;
@@ -62,9 +62,10 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   componentWillMount () {
     this.props.validateQueryParams(this.props.selectors.toJS())
 
-setTimeout(() =>
-  this.setState({ loading: false, showShell: false })
-, 3000)
+// setTimeout(() =>
+//   this.setState({ loading: false, showShell: false })
+// , 3000)
+    this.props.request(loadStrides, this.props.selectors.toJS())
 
   }
 
@@ -199,12 +200,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withCheckParams = checkParams({ key: 'search', action: updateSelectors });
-
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'search', reducer });
 const withSaga = injectSaga({ key: 'search', saga });
+
+const withCheckParams = checkParams({ key: 'search', action: updateSelectors });
 
 export default compose(
   withReducer,

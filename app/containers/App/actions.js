@@ -10,10 +10,11 @@ export function initCredentials () {
   }
 }
 
-export function requestAPI (action, data) {
+export function requestAPI (action, credentials, data) {
   return {
     type: REQUEST_API,
     action,
+    credentials,
     data
   }
 }

@@ -17,9 +17,10 @@ export function updateSelectors(selectors) {
   };
 }
 
-export function loadStrides(selectors) {
+export function loadStrides(credentials, selectors) {
   return {
     type: LOAD_STRIDES,
+    credentials,
     selectors
   };
 }

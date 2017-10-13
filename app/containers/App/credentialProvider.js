@@ -12,6 +12,12 @@ export default (WrappedComponent) => {
     static WrappedComponent = WrappedComponent;
     static displayName = `credentialProvider(${(WrappedComponent.displayName || WrappedComponent.name || 'Component')})`;
 
+    constructor (props) {
+      super(props)
+
+      this.request = this.request.bind(this)
+    }
+
     componentWillMount () {
       console.log('CredentialComponent: componentWillMount');
       if (!this.props.credentials) {
@@ -22,7 +28,7 @@ export default (WrappedComponent) => {
 
     request (action, data) {
       // requestAPI manage l'update des credentials
-      this.props.dispatch(requestAPI(this.props.credentials, action, data))
+      this.props.dispatch(requestAPI(action, this.props.credentials, data))
     }
 
     render() {
