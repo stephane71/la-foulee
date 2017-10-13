@@ -3,7 +3,7 @@ import {
   USER_POOL_ID
 } from 'config'
 
-export default function asyncGetCredentials (session) {
+export default function asyncGetCredentials (session, currentCredentials = null) {
   return new Promise((resolve, reject) => {
     let cognitoIdentityConf = {
       IdentityPoolId: IDENTITY_POOL_ID,
@@ -13,8 +13,8 @@ export default function asyncGetCredentials (session) {
     if (session)
       cognitoIdentityConf.Logins[USER_POOL_ID] = session.getIdToken().getJwtToken()
 
-    let cognitoIdentityCredentials = new AWS.CognitoIdentityCredentials(cognitoIdentityConf, { region: 'eu-west-1' })
-// besoin de faire le .get ????
+    let cognitoIdentityCredentials = currentCredentials ? currentCredentials : new AWS.CognitoIdentityCredentials(cognitoIdentityConf, { region: 'eu-west-1' })
+
     cognitoIdentityCredentials.get((err) => {
       if (err) {
         reject(err)

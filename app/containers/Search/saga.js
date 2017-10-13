@@ -3,8 +3,8 @@ import { takeLatest } from 'redux-saga/effects'
 import { LOAD_STRIDES } from './constants'
 
 
-function* loadStrides ({ selectors }) {
-  console.log('Search:saga:loadStrides', selectors);
+function* loadStrides ({ api, selectors }) {
+  console.log('Search:saga:loadStrides', api, selectors);
 }
 
 export default function* defaultSaga() {

@@ -1,6 +1,7 @@
 
 import {
   INIT_CREDENTIALS,
+  UPDATE_CREDENTIALS,
   REQUEST_API
 } from './constants'
 
@@ -10,11 +11,18 @@ export function initCredentials () {
   }
 }
 
-export function requestAPI (action, credentials, data) {
+export function updateCredentials (credentials) {
+  return {
+    type: UPDATE_CREDENTIALS,
+    credentials
+  }
+}
+
+export function requestAPI (api, action, data) {
   return {
     type: REQUEST_API,
+    api,
     action,
-    credentials,
     data
   }
 }
