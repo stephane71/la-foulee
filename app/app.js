@@ -46,6 +46,7 @@ import { translationMessages } from './i18n';
 
 // AWS
 import 'aws/aws-sdk'
+import 'aws/api'
 
 // moment locals
 import moment from 'moment';

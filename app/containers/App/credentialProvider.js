@@ -5,24 +5,70 @@ import {connect} from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { makeSelectUserCredentials } from './selectors';
-import { initCredentials, requestAPI } from './actions';
+import { initCredentials, updateCredentials, requestAPI } from './actions';
+
+function getApiClient (credentials) {
+  return apigClientFactory.newClient({
+    accessKey: credentials.accessKeyId,
+    secretKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
+    region: 'eu-west-1'
+  })
+}
 
 export default (WrappedComponent) => {
   class CredentialComponent extends React.Component {
     static WrappedComponent = WrappedComponent;
     static displayName = `credentialProvider(${(WrappedComponent.displayName || WrappedComponent.name || 'Component')})`;
 
+    constructor (props) {
+      super(props)
+
+      this.request = this.request.bind(this)
+      this.api = null
+      this.pendingRequests = []
+    }
+
     componentWillMount () {
-      console.log('CredentialComponent: componentWillMount');
-      if (!this.props.credentials) {
-        console.log('dispatch initCredentials');
+      if (!this.props.credentials)
         this.props.dispatch(initCredentials())
+    }
+
+    componentWillReceiveProps (nextProps) {
+      if (this.pendingRequests.length) {
+        if ((!this.props.credentials && nextProps.credentials) ||
+           (this.props.credentials.needsRefresh() && !nextProps.credentials.needsRefresh())) {
+          this.triggerPendingRequests(this.getApi(nextProps.credentials))
+        }
       }
     }
 
+    getApi (credentials) {
+      this.api = this.api ? this.api : getApiClient(credentials)
+      return this.api
+    }
+
     request (action, data) {
-      // requestAPI manage l'update des credentials
-      this.props.dispatch(requestAPI(this.props.credentials, action, data))
+      if (!this.props.credentials) {
+        this.pendingRequests.push({ action, data })
+        return
+      }
+
+      if (this.props.credentials.needsRefresh()) {
+        this.dispatch(updateCredentials(this.props.credentials))
+        this.pendingRequests.push({ action, data })
+        return
+      }
+
+      this.props.requestAPI(this.getApi(this.props.credentials), action, data)
+    }
+
+    triggerPendingRequests (api) {
+      let requests = Object.assign([], this.pendingRequests)
+      this.pendingRequests = []
+      requests.map(({ action, data }) => {
+        this.props.requestAPI(api, action, data)
+      })
     }
 
     render() {
@@ -36,7 +82,8 @@ export default (WrappedComponent) => {
 
   function mapDispatchToProps(dispatch) {
     return {
-      dispatch
+      dispatch,
+      requestAPI: (api, action, data) => dispatch(requestAPI(api, action, data))
     };
   }
 

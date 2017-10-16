@@ -1,0 +1,12 @@
+
+import 'script-loader!./axios.standalone.js'
+import 'script-loader!./hmac-sha256.js'
+import 'script-loader!./sha256.js'
+import 'script-loader!./hmac.js'
+import 'script-loader!./enc-base64.js'
+import 'script-loader!./url-template.js'
+import 'script-loader!./sigV4Client.js'
+import 'script-loader!./apiGatewayClient.js'
+import 'script-loader!./simpleHttpClient.js'
+import 'script-loader!./utils.js'
+import 'script-loader!./apigClient.js'
