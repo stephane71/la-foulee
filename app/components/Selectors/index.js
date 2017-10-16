@@ -13,19 +13,17 @@ import { getColor, white } from 'colors';
 import { MONTHS, DEPARTEMENTS, SELECTORS } from 'utils/enums';
 import ArrowDropDown from 'images/background-images/ic_arrow_drop_down_black_24px.svg';
 
-let borderColor = getColor(`extraLight`)
-
 const SelectorsWrapper = styled.div`
   position: sticky;
   top: ${({ top }) => top}px;
+  z-index: 10;
   display: flex;
-  border-bottom: 1px solid ${borderColor};
   background-color: ${white};
 `
 
 const SelectWrapper = styled.div`
   position: relative;
-  border-right: ${props => props.borderRight ? `1px solid ${borderColor}` : ``};
+  border-right: ${props => props.borderRight ? `1px solid ${getColor(`extraLight`)}` : ``};
   width: 50%;
 `
 
@@ -97,5 +95,8 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
 Selectors.propTypes = {
 
 };
+
+// HEIGHT = 2 * spacing 's' + base line height
+export const HEIGHT_SELECTORS = 48;
 
 export default Selectors;

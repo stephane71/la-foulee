@@ -30,7 +30,7 @@ const ContentEmpty = styled.div`
 
 function StrideItemShell() {
   return (
-    <WrapperStrideItem>
+    <WrapperStrideItem borderBottom={true}>
       <LeftBlockEmpty>
         <ContentEmpty />
       </LeftBlockEmpty>
