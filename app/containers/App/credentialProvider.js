@@ -37,10 +37,16 @@ export default (WrappedComponent) => {
     componentWillReceiveProps (nextProps) {
       if (this.pendingRequests.length) {
         if ((!this.props.credentials && nextProps.credentials) ||
-           (this.props.credentials.needsRefresh() && !nextProps.credentials.needsRefresh())) {
+            this.credentialsHasBeenRefreshed(this.props.credentials, nextProps.credentials)) {
           this.triggerPendingRequests(this.getApi(nextProps.credentials))
         }
       }
+    }
+
+    credentialsHasBeenRefreshed(credentials, nextCredentials) {
+      return credentials && nextCredentials &&
+        credentials.needsRefresh() &&
+        !nextProps.credentials.needsRefresh()
     }
 
     getApi (credentials) {
