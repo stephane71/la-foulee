@@ -58,7 +58,7 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
                 key={j}
                 data={stride}
                 onClick={stride => this.props.onStrideSelect(stride)}
-                lastItem={j === strideList.length - 1}
+                lastItem={j === strideList.size - 1}
               />
             )}
           </div>
