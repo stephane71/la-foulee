@@ -13,7 +13,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Map } from 'immutable';
+import { List } from 'immutable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -22,8 +22,19 @@ import { MONTHS, DEPARTEMENTS } from 'utils/enums';
 import Selectors from 'components/Selectors';
 import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
+import { getColor } from 'colors';
 
-import { makeSelectSelectors } from './selectors';
+import {
+  makeSelectFeching,
+  makeSelectMinLoadingTime
+} from 'containers/App/selectors';
+
+import {
+  makeSelectSelectors,
+  makeSelectStrides,
+  makeSelectNbStrides,
+  makeSelectNbPages
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -42,7 +53,9 @@ const RefreshLoader = styled.div`
   height: 100%;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.80);
+  z-index: 20;
 `
+const MIN_LOADING_TIME = 1000
 
 export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -51,48 +64,70 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
     this.handleSelectorChange = this.handleSelectorChange.bind(this)
     this.handleStrideSelect = this.handleStrideSelect.bind(this)
+    this.handlePagination = this.handlePagination.bind(this)
   }
 
   state = {
     refresh: false,
     loading: true,
-    showShell: true
+    showShell: true,
+    currentPage: 0
   }
 
   componentWillMount () {
     this.props.validateQueryParams(this.props.selectors.toJS())
-
-// setTimeout(() =>
-//   this.setState({ loading: false, showShell: false })
-// , 3000)
     this.props.request(loadStrides, this.props.selectors.toJS())
-
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.state.loading && (this.props.loading && !nextProps.loading)) {
-      this.setState({ loading: false, refresh: false, showShell: false })
+    if (this.state.loading && !nextProps.loading && !nextProps.minLoadingTime) {
+      this.setState({
+        loading: false,
+        refresh: false,
+        showShell: false
+      })
+    }
+
+    if (this.isSameList(nextProps) && (this.props.nbStrides < nextProps.nbStrides)) {
+         this.setState(({ currentPage }) => ({
+           currentPage : currentPage + 1
+         }))
     }
   }
 
-  // Store selectors + update queries params + fetch
-  handleSelectorChange ({ name, id }) {
-    let selectors = this.props.selectors.set(name, id)
+  isSameList (nextProps) {
+    return this.props.strides.size && nextProps.strides.size &&
+        // Same list detection
+       (this.props.strides.get(0).get(0).date === nextProps.strides.get(0).get(0).date)
+  }
 
+  handleSelectorChange ({ name, id }) {
     this.setState({
       refresh: true,
-      loading: true
+      loading: true,
+      currentPage: 0
     })
 
-setTimeout(() => {
-  this.setState({ refresh: false, loading: false })
-}, 2000)
+    let selectors = this.props.selectors.set(name, id)
 
     this.props.validateQueryParams(selectors.toJS())
+    this.props.request(loadStrides, this.props.selectors.toJS())
+
+    window.scrollTo(0,0)
   }
 
   handlePagination () {
+    if ((this.state.currentPage + 1) < this.props.pages) {
+      this.setState({
+        loading: true,
+        refresh: false
+      })
 
+      this.props.request(
+        loadStrides,
+        Object.assign({}, this.props.selectors.toJS(), { page: this.state.currentPage + 1 })
+      )
+    }
   }
 
   handleStrideSelect (stride) {
@@ -107,50 +142,6 @@ setTimeout(() => {
   }
 
   render() {
-    let stride = {
-      title: 'escapade de la 1/2 lune',
-      dep: '78',
-      date: 1506204000,
-      id: 'db166c7be05789fba33149b8f916cd84ef35717f',
-      type: 'nature',
-      distances: [
-        {
-          descriptor: { d: '10', unit: 'km' },
-          value: 10000
-        },
-        {
-          descriptor: { d: '5', unit: 'km' },
-          value: 5000
-        }
-      ]
-    }
-
-    let stride0 = Object.assign({}, stride, {
-      title: 'semi-marathon de Boulogne-Billancourt Christian GR'
-    })
-
-    let stride1 = Object.assign({}, stride, {
-      title: 'escapade de la 1/2 lune',
-      id: 'unautreid',
-    })
-
-    let stride2 = Object.assign({}, stride, {
-      title: 'escapade de la 1/2 lune escapade de la 1/2 lune',
-      id: 'encoreunautreid',
-    })
-
-    let stride3 = Object.assign({}, stride, {
-      title: 'escapade de la 1/2 lune escapade de la 1/2 lune escapade de la 1/2 lune',
-      id: 'encoreunefois',
-    })
-
-    let stride4 = Object.assign({}, stride, {
-      title: 'escapade de la 1/2 lune escapade de la 1/2 lune escapade de la 1/2 lune escapade de la 1/2 lune escapade de la 1/2 lune escapade de la 1/2 lune escapade de la 1/2 lune escapade de la 1/2 lune',
-      id: 'enpivoila',
-    })
-
-    let strides = [ stride0, stride1, stride2, stride3 ,stride4 ]
-
     return (
       <SearchWrapper>
         <Helmet>
@@ -172,10 +163,10 @@ setTimeout(() => {
           <StrideListShell />
         :
           <StrideList
-            strides={strides}
+            strides={this.props.strides}
             onStrideSelect={this.handleStrideSelect}
             onPagination={this.handlePagination}
-            loading={this.state.loading && !this.state.refresh}
+            end={this.state.currentPage + 1 === this.props.pages}
           />
         }
 
@@ -186,11 +177,22 @@ setTimeout(() => {
 
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  validateQueryParams: PropTypes.func.isRequired
+  validateQueryParams: PropTypes.func.isRequired,
+  selectors: PropTypes.object.isRequired,
+  strides: PropTypes.instanceOf(List).isRequired,
+  nbStrides: PropTypes.number.isRequired,
+  pages: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
+  minLoadingTime: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
-  selectors: makeSelectSelectors()
+  selectors: makeSelectSelectors(),
+  strides: makeSelectStrides(),
+  nbStrides: makeSelectNbStrides(),
+  pages: makeSelectNbPages(),
+  loading: makeSelectFeching(),
+  minLoadingTime: makeSelectMinLoadingTime()
 });
 
 function mapDispatchToProps(dispatch) {

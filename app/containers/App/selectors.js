@@ -23,7 +23,25 @@ const makeSelectUserCredentials = () => createSelector(
   (userState) => userState.get('credentials')
 );
 
+/*
+ * APP DOMAIN
+ */
+
+ const selectApp = (state) => state.get('app');
+
+ const makeSelectFeching = () => createSelector(
+   selectApp,
+   (appState) => appState.get('fetching')
+ );
+
+ const makeSelectMinLoadingTime = () => createSelector(
+   selectApp,
+   (appState) => appState.get('minLoadingTime')
+ );
+
 export {
   makeSelectLocation,
-  makeSelectUserCredentials
+  makeSelectUserCredentials,
+  makeSelectFeching,
+  makeSelectMinLoadingTime
 };

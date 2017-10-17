@@ -10,7 +10,7 @@ export const WrapperStrideItem = styled.div`
   display: flex;
   align-items: center;
   background-color: ${white};
-  border-bottom: 1px solid ${getColor('extraLight')};
+  border-bottom: ${({ borderBottom }) => borderBottom ? `1px solid ${getColor('extraLight')}` : `0` };
 `;
 
 export const Block = styled.div`

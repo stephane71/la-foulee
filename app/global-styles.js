@@ -85,4 +85,9 @@ injectGlobal`
   ul, ol {
     margin-bottom: ${LISTS.marginBottom}px;
   }
+
+  select {
+    font-size: ${BaseFontSize}px;
+    line-height: ${BaseLineHeight}px;
+  }
 `;

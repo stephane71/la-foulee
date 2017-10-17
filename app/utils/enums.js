@@ -114,3 +114,5 @@ export const DEPARTEMENTS = Reflect.ownKeys(departements).sort().map(depNum =>({
 }))
 
 export const SELECTORS = [`month`, `dep`]
+
+export const DATE_FORMAT = `D MMMM`
