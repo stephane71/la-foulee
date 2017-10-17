@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import Media from 'react-media'
 import { compose } from 'redux';
 import { Helmet } from 'react-helmet';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import injectSaga from 'utils/injectSaga';
@@ -95,5 +95,6 @@ const withSaga = injectSaga({ key: 'app', saga });
 
 export default compose(
   withSaga,
+  withRouter,
   credentialProvider
 )(App)
