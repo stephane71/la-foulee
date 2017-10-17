@@ -10,11 +10,11 @@ import styled from 'styled-components';
 import VisibilitySensor from 'react-visibility-sensor';
 import moment from 'moment';
 import { List } from 'immutable';
+import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
+import { getColor, dominant, white } from 'colors';
 
 import { DATE_FORMAT } from 'utils/enums';
-import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
 import { HEIGHT_SELECTORS } from 'components/Selectors';
-import { dominant, white } from 'colors';
 
 import StrideItem from 'components/StrideItem';
 
@@ -30,25 +30,15 @@ const StrideItemDate = styled.div`
   padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
 `
 
+const StrideListEndMessage = styled.div`
+  border-top: 1px solid ${getColor('extraLight')};
+  padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
+  text-align: center;
+`
+
 class StrideList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
-  state = {
-    loading: false,
-    listEnd: false
-  }
-
-  componentWillReceiveProps (nextProps) {
-    // !!!! length & size (Immutable) !!!!
-    if (this.props.loading && !nextProps.loading) {
-      this.setState({
-        loading: false,
-        listEnd: this.props.strides.length === nextProps.strides.length
-      })
-    }
-  }
-
   onReachStrideListEnd () {
-    this.setState({ loading: true })
     this.props.onPagination()
   }
 
@@ -61,7 +51,7 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
         {this.props.strides.map((strideList, i) =>
           <div key={i}>
             <StrideItemDate>
-              {moment.unix(strideList[0].date).format(DATE_FORMAT)}
+              {moment.unix(strideList.get(0).date).format(DATE_FORMAT)}
             </StrideItemDate>
             {strideList.map((stride, j) =>
               <StrideItem
@@ -75,12 +65,16 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
         )}
         <VisibilitySensor
           onChange={isVisible => isVisible && this.onReachStrideListEnd()}
+          active={!this.props.end}
         />
-        {this.state.loading ?
-          <span>{`Chargement des évennements...`}</span>
-        : this.state.listEnd &&
-          <span>{`Fin de la liste !`}</span>
-        }
+
+        <StrideListEndMessage>
+          {this.props.end ?
+            <span>{`Fin de la liste !`}</span>
+          :
+            <span>{`Chargement des évennements...`}</span>
+          }
+        </StrideListEndMessage>
       </WrapperStrideList>
     );
   }
@@ -90,7 +84,7 @@ StrideList.propTypes = {
   strides: PropTypes.instanceOf(List).isRequired,
   onStrideSelect: PropTypes.func.isRequired,
   onPagination: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  end: PropTypes.bool.isRequired
 };
 
 export default StrideList;

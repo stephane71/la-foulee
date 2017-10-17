@@ -8,14 +8,16 @@ let mock = {"strides":[[{"date":1509490800,"distances":[{"value":18000,"descript
 function* loadStrides ({ api, selectors }) {
   yield put({ type: FETCHING_START })
   let fct = 'stridesMonthGet'
+  let { month, dep, page } = selectors
+  page = page ? page : 0
   let params = {
-    month: selectors.month,
-    page: 0
+    month,
+    page
   }
 
-  if (!isEmpty(selectors.dep)) {
+  if (!isEmpty(dep)) {
     fct = 'stridesMonthDepGet'
-    Object.assign(params, { dep: selectors.dep })
+    Object.assign(params, { dep })
   }
 
   // let res = yield call(api[fct], params)
@@ -23,7 +25,11 @@ function* loadStrides ({ api, selectors }) {
   console.log(res);
 
   yield put({ type: SET_NB_PAGES, pages: res.data.pages })
-  yield put({ type: SET_STRIDES, strides: res.data.strides })
+  yield put({
+    type: SET_STRIDES,
+    strides: res.data.strides,
+    refresh: !page
+  })
 
   yield put({ type: FETCHING_END })
 }

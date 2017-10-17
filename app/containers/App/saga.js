@@ -29,7 +29,7 @@ function* updateCredentials () {
   yield fetchCredentials()
 }
 
-function* requestAPI ({ action, api, data }) {
+function* requestAPI ({ api, action, data }) {
   yield put({ type: MIN_LOADING_TIME })
   yield put(action(api, data))
   yield delay(1000)

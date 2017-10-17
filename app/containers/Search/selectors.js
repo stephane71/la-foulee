@@ -19,6 +19,16 @@ const selectSearchDomain = (state) => state.get('search');
    (substate) => substate.get('strides')
  );
 
+ const makeSelectNbStrides = () => createSelector(
+   selectSearchDomain,
+   (substate) => substate.get('nbStrides')
+ );
+
+ const makeSelectNbPages = () => createSelector(
+   selectSearchDomain,
+   (substate) => substate.get('pages')
+ );
+
 /**
  * Default selector used by Search
  */
@@ -32,5 +42,7 @@ export default makeSelectSearch;
 export {
   selectSearchDomain,
   makeSelectSelectors,
-  makeSelectStrides
+  makeSelectStrides,
+  makeSelectNbStrides,
+  makeSelectNbPages
 };

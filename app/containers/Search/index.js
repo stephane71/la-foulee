@@ -22,10 +22,19 @@ import { MONTHS, DEPARTEMENTS } from 'utils/enums';
 import Selectors from 'components/Selectors';
 import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
+import { getColor } from 'colors';
 
-import { makeSelectFeching, makeSelectMinLoadingTime } from 'containers/App/selectors';
+import {
+  makeSelectFeching,
+  makeSelectMinLoadingTime
+} from 'containers/App/selectors';
 
-import { makeSelectSelectors, makeSelectStrides } from './selectors';
+import {
+  makeSelectSelectors,
+  makeSelectStrides,
+  makeSelectNbStrides,
+  makeSelectNbPages
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -55,12 +64,14 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
     this.handleSelectorChange = this.handleSelectorChange.bind(this)
     this.handleStrideSelect = this.handleStrideSelect.bind(this)
+    this.handlePagination = this.handlePagination.bind(this)
   }
 
   state = {
     refresh: false,
     loading: true,
-    showShell: true
+    showShell: true,
+    currentPage: 0
   }
 
   componentWillMount () {
@@ -69,7 +80,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillReceiveProps (nextProps) {
-    // if (this.state.loading && (this.props.loading && !nextProps.loading)) {
     if (this.state.loading && !nextProps.loading && !nextProps.minLoadingTime) {
       this.setState({
         loading: false,
@@ -77,23 +87,47 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         showShell: false
       })
     }
+
+    if (this.isSameList(nextProps) && (this.props.nbStrides < nextProps.nbStrides)) {
+         this.setState(({ currentPage }) => ({
+           currentPage : currentPage + 1
+         }))
+    }
   }
 
-  // Store selectors + update queries params + fetch
-  handleSelectorChange ({ name, id }) {
-    let selectors = this.props.selectors.set(name, id)
+  isSameList (nextProps) {
+    return this.props.strides.size && nextProps.strides.size &&
+        // Same list detection
+       (this.props.strides.get(0).get(0).date === nextProps.strides.get(0).get(0).date)
+  }
 
+  handleSelectorChange ({ name, id }) {
     this.setState({
       refresh: true,
-      loading: true
+      loading: true,
+      currentPage: 0
     })
+
+    let selectors = this.props.selectors.set(name, id)
 
     this.props.validateQueryParams(selectors.toJS())
     this.props.request(loadStrides, this.props.selectors.toJS())
+
+    window.scrollTo(0,0)
   }
 
   handlePagination () {
+    if ((this.state.currentPage + 1) < this.props.pages) {
+      this.setState({
+        loading: true,
+        refresh: false
+      })
 
+      this.props.request(
+        loadStrides,
+        Object.assign({}, this.props.selectors.toJS(), { page: this.state.currentPage + 1 })
+      )
+    }
   }
 
   handleStrideSelect (stride) {
@@ -132,7 +166,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
             strides={this.props.strides}
             onStrideSelect={this.handleStrideSelect}
             onPagination={this.handlePagination}
-            loading={this.state.loading && !this.state.refresh}
+            end={this.state.currentPage + 1 === this.props.pages}
           />
         }
 
@@ -146,12 +180,17 @@ Search.propTypes = {
   validateQueryParams: PropTypes.func.isRequired,
   selectors: PropTypes.object.isRequired,
   strides: PropTypes.instanceOf(List).isRequired,
-  loading: PropTypes.bool.isRequired
+  nbStrides: PropTypes.number.isRequired,
+  pages: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
+  minLoadingTime: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
   selectors: makeSelectSelectors(),
   strides: makeSelectStrides(),
+  nbStrides: makeSelectNbStrides(),
+  pages: makeSelectNbPages(),
   loading: makeSelectFeching(),
   minLoadingTime: makeSelectMinLoadingTime()
 });
