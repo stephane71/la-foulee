@@ -4,17 +4,21 @@
  *
  */
 
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
+import StrideRecord from 'records/StrideRecord';
+
 import {
-  DEFAULT_ACTION,
+  SET_STRIDE
 } from './constants';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  data: new StrideRecord()
+});
 
 function strideReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case SET_STRIDE:
+      return state.set('data', new StrideRecord(action.stride))
     default:
       return state;
   }

@@ -5,11 +5,21 @@
  */
 
 import {
-  DEFAULT_ACTION,
+  LOAD_STRIDE,
+  SET_STRIDE
 } from './constants';
 
-export function defaultAction() {
+export function loadStride(api, id) {
   return {
-    type: DEFAULT_ACTION,
+    type: LOAD_STRIDE,
+    api,
+    id
+  };
+}
+
+export function setStride(stride) {
+  return {
+    type: SET_STRIDE,
+    stride
   };
 }

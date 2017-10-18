@@ -16,7 +16,7 @@ const selectStrideDomain = (state) => state.get('stride');
 
 const makeSelectStride = () => createSelector(
   selectStrideDomain,
-  (substate) => substate.toJS()
+  (state) => state.get('data')
 );
 
 export default makeSelectStride;
