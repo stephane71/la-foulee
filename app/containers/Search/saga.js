@@ -24,10 +24,10 @@ function* loadStrides ({ api, selectors }) {
   let res = yield Promise.resolve({ data: mock })
   console.log(res);
 
-  yield put({ type: SET_NB_PAGES, pages: res.data.pages })
+  yield put({ type: SET_NB_PAGES, pages: res.data ? res.data.pages : 0 })
   yield put({
     type: SET_STRIDES,
-    strides: res.data.strides,
+    strides: res.data ? res.data.strides : [],
     refresh: !page
   })
 

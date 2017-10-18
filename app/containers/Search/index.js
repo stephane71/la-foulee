@@ -119,7 +119,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     let selectors = this.props.selectors.set(name, id)
 
     this.props.validateQueryParams(selectors.toJS())
-    this.props.request(loadStrides, this.props.selectors.toJS())
+    this.props.request(loadStrides, selectors.toJS())
 
     window.scrollTo(0,0)
   }
