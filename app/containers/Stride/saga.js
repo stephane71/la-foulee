@@ -1,6 +1,17 @@
-// import { take, call, put, select } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
-// Individual exports for testing
+import { FETCHING_START, FETCHING_END } from 'containers/App/constants';
+import { LOAD_STRIDE } from './constants';
+
+function* loadStride ({ api, id }) {
+  yield put({ type: FETCHING_START })
+
+  
+
+  yield put({ type: FETCHING_END })
+}
+
+
 export default function* defaultSaga() {
-  // See example in containers/HomePage/saga.js
+  yield takeLatest(LOAD_STRIDE, loadStride)
 }

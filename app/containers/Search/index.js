@@ -46,7 +46,7 @@ const SearchWrapper = styled.div`
   min-height: 100%;
 `
 
-const RefreshLoader = styled.div`
+const Overlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -146,7 +146,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     if (this.props.desktop)
       Object.assign(location, { search: this.props.location.search })
 
-    this.props.history.push(location, { stride })
+    this.props.history.push(location, { stride: stride.toJS() })
   }
 
   render() {
@@ -161,7 +161,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         />
 
         {this.state.loading && this.state.refresh &&
-          <RefreshLoader />
+          <Overlay />
         }
 
         {this.state.loading && this.state.showShell ?
@@ -183,6 +183,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   validateQueryParams: PropTypes.func.isRequired,
+  request: PropTypes.func.isRequired,
   selectors: PropTypes.object.isRequired,
   strides: PropTypes.instanceOf(List).isRequired,
   nbStrides: PropTypes.number.isRequired,
