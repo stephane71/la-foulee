@@ -13,7 +13,7 @@ import { injectIntl } from 'react-intl';
 function HelmetIntl({ intl, title, content }) {
   return (
     <Helmet>
-      <title>{intl.formatMessage(title)}</title>
+      <title>{intl.formatMessage(title, title.values)}</title>
       <meta name={`description`} content={intl.formatMessage(content)} />
     </Helmet>
   );

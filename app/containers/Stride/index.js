@@ -17,7 +17,9 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { dominant } from 'colors';
 
+import HelmetIntl from 'components/HelmetIntl';
 import StridePage from 'components/StridePage';
+import ScrollToTopOnMount from 'components/ScrollToTopOnMount';
 
 import makeSelectStride from './selectors';
 import reducer from './reducer';
@@ -49,13 +51,14 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
 
   render() {
     let stride = this.props.location.state && this.props.location.state.stride || this.props.stride
+    let title = Object.assign({}, messages.headerTitle, { values: { race: stride.title }})
 
     return (
       <StrideWrapper>
-        <Helmet>
-          <title>{`Foulée`}</title>
-          <meta name={`description`} content={`Description of a Stride`} />
-        </Helmet>
+        <HelmetIntl title={title} content={messages.headerContent} />
+
+        <ScrollToTopOnMount />
+
         {this.state.loading ?
           <span>{`Loading...`}</span>
         :

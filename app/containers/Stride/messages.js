@@ -6,8 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.containers.Stride.header',
-    defaultMessage: 'This is Stride container !',
+  headerTitle: {
+    id: 'app.containers.Stride.title',
+    defaultMessage: '{race}'
+  },
+  headerContent: {
+    id: 'app.containers.Stride.content',
+    defaultMessage: 'Description de la course'
   }
 });
