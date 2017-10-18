@@ -9,37 +9,37 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import qs from 'query-string'
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { List } from 'immutable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { MONTHS, DEPARTEMENTS } from 'utils/enums';
 
+import HelmetIntl from 'components/HelmetIntl';
 import Selectors from 'components/Selectors';
 import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
-import { getColor } from 'colors';
 
 import {
   makeSelectFeching,
   makeSelectMinLoadingTime
 } from 'containers/App/selectors';
 
+import reducer from './reducer';
+import saga from './saga';
+import messages from './messages';
+import checkParams from './checkParams';
+import {
+  updateSelectors,
+  loadStrides
+} from './actions';
 import {
   makeSelectSelectors,
   makeSelectStrides,
   makeSelectNbStrides,
   makeSelectNbPages
 } from './selectors';
-import reducer from './reducer';
-import saga from './saga';
-import messages from './messages';
-import { updateSelectors, loadStrides } from './actions';
-import checkParams from './checkParams';
 
 const SearchWrapper = styled.div`
   position: relative;
@@ -55,7 +55,6 @@ const RefreshLoader = styled.div`
   background-color: rgba(255, 255, 255, 0.80);
   z-index: 20;
 `
-const MIN_LOADING_TIME = 1000
 
 export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -75,8 +74,17 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillMount () {
-    this.props.validateQueryParams(this.props.selectors.toJS())
-    this.props.request(loadStrides, this.props.selectors.toJS())
+    // Selectors are empty = the app has been refresh || first visit in this page
+    if (this.props.selectors.isEmpty()) {
+      let selectors = qs.parse(window.location.search)
+      this.props.validateQueryParams(selectors)
+      this.props.request(loadStrides, selectors)
+    } else {
+      this.setState({
+        loading: false,
+        showShell: false
+      })
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -144,10 +152,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   render() {
     return (
       <SearchWrapper>
-        <Helmet>
-          <title>{`Recherche`}</title>
-          <meta name={`description`} content={`Description of Search`} />
-        </Helmet>
+        <HelmetIntl title={messages.headerTitle} content={messages.headerContent} />
 
         <Selectors
           defaultSelectors={this.props.selectors.toJS()}

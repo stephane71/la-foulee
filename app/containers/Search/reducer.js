@@ -17,8 +17,8 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  selectors: Map(qs.parse(window.location.search)),
-  strides: List([]),
+  selectors: Map(),
+  strides: List(),
   nbStrides: 0,
   pages: 0
 });

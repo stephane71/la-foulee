@@ -47,7 +47,7 @@ function AppHeader(props) {
           <ArrowBackWrapper show={match} >
             <ArrowBack
               style={{ fill: white }}
-              onClick={() => history.push(`/search`)} />
+              onClick={() => history.goBack()} />
           </ArrowBackWrapper>
         }/>
         <LaFouleeSVG

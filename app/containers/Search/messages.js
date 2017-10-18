@@ -6,8 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.containers.Search.header',
-    defaultMessage: 'This is Search container !',
+  headerTitle: {
+    id: 'app.containers.Search.title',
+    defaultMessage: 'Rechercher une course'
   },
+  headerContent: {
+    id: 'app.containers.Search.content',
+    defaultMessage: 'Quelle est ta prochaine course ?'
+  }
 });

@@ -48,7 +48,7 @@ const AppHomeLoaderRoute = ({ component: Component, request, ...rest }) =>
 function App(props) {
   return (
     <AppWrapper>
-      <Helmet defaultTitle={`La Foulée`} titleTemplate="La Foulée | %s">
+      <Helmet defaultTitle={`La Foulée`} titleTemplate={`La Foulée - %s`}>
         <meta name={`description`} content={`Quelle est ta prochaine course ?`} />
       </Helmet>
 
