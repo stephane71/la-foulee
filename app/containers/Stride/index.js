@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -25,44 +24,78 @@ import makeSelectStride from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import { setStride, loadStride } from './actions';
 
 const StrideWrapper = styled.div`
+  position: relative;
   height: 100%;
+`
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.80);
+  z-index: 20;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export class Stride extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   state = {
-    loading: true,
+    loading: true
   }
 
   componentWillMount () {
-    console.log('Stride: componentWillMount', this.props.location.state);
+    if (!this.props.desktop) {
+      let strideInRoute = this.props.location.state && this.props.location.state.stride
+      this.setStride(strideInRoute, this.props.match.params.strideID)
+    }
+  }
 
-    let isEmpty = !(this.props.location.state && this.props.location.state.stride)
-    // if (isEmpty)
-    //   this.loadStride(this.props.location.pathname.split('/')[2])
-    this.setState({
-      loading: isEmpty
-    })
+  componentWillReceiveProps (nextProps) {
+    if (this.props.stride.title !== nextProps.stride.title) {
+      this.setState({
+        loading: false
+      })
+    }
+    if (this.props.desktop && (this.props.location !== nextProps.location)) {
+      let strideInRoute = nextProps.location.state && nextProps.location.state.stride
+      this.setStride(strideInRoute, nextProps.match.params.strideID)
+    }
+  }
 
-    setTimeout(() => this.setState({ loading: false }), 2000)
+  setStride (stride, strideID = null) {
+    if (stride) {
+      this.props.setStride(stride)
+      return
+    }
+    this.props.request(loadStride, { id: strideID })
   }
 
   render() {
-    let stride = this.props.location.state && this.props.location.state.stride || this.props.stride
-    let title = Object.assign({}, messages.headerTitle, { values: { race: stride.title }})
+    let title = Object.assign({}, messages.headerTitle, {
+      values: {
+        race: this.props.stride.title
+      }})
 
     return (
       <StrideWrapper>
-        <HelmetIntl title={title} content={messages.headerContent} />
-
         <ScrollToTopOnMount />
 
+        {this.props.stride.title &&
+          <HelmetIntl title={title} content={messages.headerContent} />
+        }
+
         {this.state.loading ?
-          <span>{`Loading...`}</span>
+          <Overlay>{`Chargement des données...`}</Overlay>
         :
-          <StridePage stride={stride} />
+          <StridePage stride={this.props.stride} />
         }
       </StrideWrapper>
     );
@@ -71,6 +104,9 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
 
 Stride.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  setStride: PropTypes.func.isRequired,
+  request: PropTypes.func.isRequired,
+  stride: PropTypes.object.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -80,6 +116,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    setStride: (stride) => dispatch(setStride(stride))
   };
 }
 

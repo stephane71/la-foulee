@@ -23,8 +23,6 @@ function appReducer(state = initialState, action) {
       return state.set('fetching', true)
     case FETCHING_END:
       return state.set('fetching', false)
-    case MIN_LOADING_TIME:
-      return state.set('minLoadingTime', !state.get('minLoadingTime'))
     default:
       return state
   }

@@ -66,7 +66,7 @@ function App(props) {
               <Redirect to={`/foulee/${match.params.strideID}`} />
             }/>
 
-            <AppHomeLoaderRoute path={'/foulee/:strideID'} component={Stride} />
+            <AppHomeLoaderRoute path={'/foulee/:strideID'} component={Stride} request={props.request} />
 
             <Route component={NotFoundPage} />
           </Switch>

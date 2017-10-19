@@ -22,8 +22,7 @@ import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
 
 import {
-  makeSelectFeching,
-  makeSelectMinLoadingTime
+  makeSelectFeching
 } from 'containers/App/selectors';
 
 import reducer from './reducer';
@@ -46,7 +45,7 @@ const SearchWrapper = styled.div`
   min-height: 100%;
 `
 
-const RefreshLoader = styled.div`
+const Overlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -88,12 +87,20 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.state.loading && !nextProps.loading && !nextProps.minLoadingTime) {
+    if (this.state.loading && !nextProps.loading) {
       this.setState({
         loading: false,
         refresh: false,
         showShell: false
       })
+      if (this.props.desktop && !this.props.match.params.strideID && nextProps.strides.size) {
+        let stride = nextProps.strides.get(0).get(0)
+        this.props.history.replace({
+          pathname: `/search/${stride.id}`,
+          search: this.props.location.search,
+          stride: stride.toJS()
+        })
+      }
     }
 
     if (this.isSameList(nextProps) && (this.props.nbStrides < nextProps.nbStrides)) {
@@ -146,7 +153,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     if (this.props.desktop)
       Object.assign(location, { search: this.props.location.search })
 
-    this.props.history.push(location, { stride })
+    this.props.history.push(location, { stride: stride.toJS() })
   }
 
   render() {
@@ -161,7 +168,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         />
 
         {this.state.loading && this.state.refresh &&
-          <RefreshLoader />
+          <Overlay />
         }
 
         {this.state.loading && this.state.showShell ?
@@ -172,6 +179,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
             onStrideSelect={this.handleStrideSelect}
             onPagination={this.handlePagination}
             end={this.state.currentPage + 1 === this.props.pages}
+            desktop={this.props.desktop}
           />
         }
 
@@ -183,12 +191,12 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   validateQueryParams: PropTypes.func.isRequired,
+  request: PropTypes.func.isRequired,
   selectors: PropTypes.object.isRequired,
   strides: PropTypes.instanceOf(List).isRequired,
   nbStrides: PropTypes.number.isRequired,
   pages: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired,
-  minLoadingTime: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -196,14 +204,13 @@ const mapStateToProps = createStructuredSelector({
   strides: makeSelectStrides(),
   nbStrides: makeSelectNbStrides(),
   pages: makeSelectNbPages(),
-  loading: makeSelectFeching(),
-  minLoadingTime: makeSelectMinLoadingTime()
+  loading: makeSelectFeching()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    updateSelectors: (selectors) => dispatch(updateSelectors(selectors))
+    updateSelectors: selectors => dispatch(updateSelectors(selectors))
   };
 }
 
