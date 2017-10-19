@@ -9,11 +9,11 @@ import {
   SET_STRIDE
 } from './constants';
 
-export function loadStride(api, id) {
+export function loadStride(api, data) {
   return {
     type: LOAD_STRIDE,
     api,
-    id
+    data
   };
 }
 

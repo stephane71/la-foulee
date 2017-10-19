@@ -54,7 +54,6 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
   componentWillMount () {
     if (!this.props.desktop) {
       let strideInRoute = this.props.location.state && this.props.location.state.stride
-      console.log('Stride:componentWillMount', strideInRoute, this.props.match.params);
       this.setStride(strideInRoute, this.props.match.params.strideID)
     }
   }
@@ -76,8 +75,7 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
       this.props.setStride(stride)
       return
     }
-    console.log('Stride:setStride => API request', strideID);
-    // this.props.request(loadStride, { id: this.props.location.pathname.split('/')[2] })
+    this.props.request(loadStride, { id: strideID })
   }
 
   render() {

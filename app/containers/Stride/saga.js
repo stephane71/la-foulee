@@ -1,14 +1,16 @@
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 
-import { FETCHING_START, FETCHING_END } from 'containers/App/constants';
 import { LOAD_STRIDE } from './constants';
 import { setStride } from './actions';
 
-function* loadStride ({ api, id }) {
-  // yield put({ type: FETCHING_START })
-  // yield put({ type: FETCHING_END })
-  console.log('Stride:saga:loadStride');
-  yield put(setStride({ title: 'stride de test', date: 1508405826, type: 'route', dep: '71' }))
+const mock = {"date":1509490800,"distances":[{"value":18000,"descriptor":{"d":"18","unit":"km"}},{"value":10000,"descriptor":{"d":"10","unit":"km"}}],"datedep":"1509490800-78","id":"162746cd9b2e71b4ffd5fb8782c9d6d6238551bb","title":"trail'oween","type":"trail","dep":"78"}
+
+function* loadStride ({ api, data }) {
+  const res = yield Promise.resolve({ data: mock })
+  // const res = yield call(api.strideStrideIDGet, { strideID: data.id })
+
+  console.log(res.data);
+  yield put(setStride(res.data))
 }
 
 
