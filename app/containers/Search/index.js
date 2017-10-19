@@ -22,8 +22,7 @@ import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
 
 import {
-  makeSelectFeching,
-  makeSelectMinLoadingTime
+  makeSelectFeching
 } from 'containers/App/selectors';
 
 import reducer from './reducer';
@@ -88,7 +87,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.state.loading && !nextProps.loading && !nextProps.minLoadingTime) {
+    if (this.state.loading && !nextProps.loading) {
       this.setState({
         loading: false,
         refresh: false,
@@ -197,8 +196,7 @@ Search.propTypes = {
   strides: PropTypes.instanceOf(List).isRequired,
   nbStrides: PropTypes.number.isRequired,
   pages: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired,
-  minLoadingTime: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -206,8 +204,7 @@ const mapStateToProps = createStructuredSelector({
   strides: makeSelectStrides(),
   nbStrides: makeSelectNbStrides(),
   pages: makeSelectNbPages(),
-  loading: makeSelectFeching(),
-  minLoadingTime: makeSelectMinLoadingTime()
+  loading: makeSelectFeching()
 });
 
 function mapDispatchToProps(dispatch) {

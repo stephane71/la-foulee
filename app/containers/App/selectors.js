@@ -34,14 +34,8 @@ const makeSelectUserCredentials = () => createSelector(
    (appState) => appState.get('fetching')
  );
 
- const makeSelectMinLoadingTime = () => createSelector(
-   selectApp,
-   (appState) => appState.get('minLoadingTime')
- );
-
 export {
   makeSelectLocation,
   makeSelectUserCredentials,
-  makeSelectFeching,
-  makeSelectMinLoadingTime
+  makeSelectFeching
 };
