@@ -31,14 +31,15 @@ const ScrollBase = styled.div`
   bottom: 0;
 `
 
+let sideBlockWidth = 35
 const SearchSide = styled(ScrollBase)`
-  width: 30%;
+  width: ${sideBlockWidth}%;
   border-right: 1px solid ${getColor('extraLight')};
 `
 
 const StrideSelected = styled(ScrollBase)`
-  width: 70%;
-  left: 30%;
+  width: ${100 - sideBlockWidth}%;
+  left: ${sideBlockWidth}%;
 `
 
 export class SearchDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
