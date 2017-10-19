@@ -94,6 +94,14 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         refresh: false,
         showShell: false
       })
+      if (this.props.desktop && !this.props.match.params.strideID) {
+        let stride = nextProps.strides.get(0).get(0)
+        this.props.history.replace({
+          pathname: `/search/${stride.id}`,
+          search: this.props.location.search,
+          stride: stride.toJS()
+        })
+      }
     }
 
     if (this.isSameList(nextProps) && (this.props.nbStrides < nextProps.nbStrides)) {
@@ -205,7 +213,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    updateSelectors: (selectors) => dispatch(updateSelectors(selectors))
+    updateSelectors: selectors => dispatch(updateSelectors(selectors))
   };
 }
 

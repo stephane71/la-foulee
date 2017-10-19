@@ -15,7 +15,6 @@ import { getColor } from 'colors';
 import Search from 'containers/Search';
 import Stride from 'containers/Stride';
 
-
 const SearchDesktopWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -45,16 +44,12 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
   render() {
     return (
       <SearchDesktopWrapper>
-        <Helmet>
-          <title>{`Recherche`}</title>
-          <meta name={`description`} content={`Description of Search`} />
-        </Helmet>
 
         <SearchSide>
           <Search {...this.props} desktop />
         </SearchSide>
         <StrideSelected>
-          <Stride {...this.props} />
+          <Stride {...this.props} desktop />
         </StrideSelected>
 
       </SearchDesktopWrapper>
@@ -63,9 +58,8 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
 }
 
 SearchDesktop.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
-
 
 function mapDispatchToProps(dispatch) {
   return {
