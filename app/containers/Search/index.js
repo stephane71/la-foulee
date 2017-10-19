@@ -94,7 +94,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         refresh: false,
         showShell: false
       })
-      if (this.props.desktop && !this.props.match.params.strideID) {
+      if (this.props.desktop && !this.props.match.params.strideID && nextProps.strides.size) {
         let stride = nextProps.strides.get(0).get(0)
         this.props.history.replace({
           pathname: `/search/${stride.id}`,
