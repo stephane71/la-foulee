@@ -24,7 +24,7 @@ const WrapperStrideList = styled.div`
 
 const StrideItemDate = styled.div`
   position: sticky;
-  top: ${HEIGHT_APPBAR + HEIGHT_SELECTORS}px;
+  top: ${({ top }) => top}px;
   color: ${white};
   background-color: ${dominant};
   padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
@@ -50,7 +50,7 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
       <WrapperStrideList>
         {this.props.strides.map((strideList, i) =>
           <div key={i}>
-            <StrideItemDate>
+            <StrideItemDate top={this.props.desktop ? HEIGHT_SELECTORS : HEIGHT_APPBAR + HEIGHT_SELECTORS}>
               {moment.unix(strideList.get(0).date).format(DATE_FORMAT)}
             </StrideItemDate>
             {strideList.map((stride, j) =>
@@ -84,7 +84,8 @@ StrideList.propTypes = {
   strides: PropTypes.instanceOf(List).isRequired,
   onStrideSelect: PropTypes.func.isRequired,
   onPagination: PropTypes.func.isRequired,
-  end: PropTypes.bool.isRequired
+  end: PropTypes.bool.isRequired,
+  desktop: PropTypes.bool
 };
 
 export default StrideList;

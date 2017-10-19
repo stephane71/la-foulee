@@ -172,6 +172,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
             onStrideSelect={this.handleStrideSelect}
             onPagination={this.handlePagination}
             end={this.state.currentPage + 1 === this.props.pages}
+            desktop={this.props.desktop}
           />
         }
 
