@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
 import { getColor } from 'colors';
+import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import Search from 'containers/Search';
 import Stride from 'containers/Stride';
@@ -21,15 +22,23 @@ const SearchDesktopWrapper = styled.div`
   height: 100vh;
 `
 
-const SearchSide = styled.div`
-  width: 30%;
-  border-right: 1px solid ${getColor('extraLight')};
+const ScrollBase = styled.div`
   overflow-y: auto;
+  position: absolute;
+  top: ${HEIGHT_APPBAR}px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `
 
-const StrideSelected = styled.div`
+const SearchSide = styled(ScrollBase)`
+  width: 30%;
+  border-right: 1px solid ${getColor('extraLight')};
+`
+
+const StrideSelected = styled(ScrollBase)`
   width: 70%;
-  overflow-y: auto;
+  left: 30%;
 `
 
 export class SearchDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
