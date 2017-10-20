@@ -6,7 +6,8 @@
 
 import {
   UPDATE_SELECTORS,
-  LOAD_STRIDES
+  LOAD_STRIDES,
+  SET_CURRENT_PAGE
 } from './constants';
 
 export function updateSelectors(selectors) {
@@ -21,5 +22,12 @@ export function loadStrides(api, selectors) {
     type: LOAD_STRIDES,
     api,
     selectors
+  };
+}
+
+export function setCurrentPage(currentPage) {
+  return {
+    type: SET_CURRENT_PAGE,
+    currentPage
   };
 }

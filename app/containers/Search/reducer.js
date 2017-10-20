@@ -13,14 +13,16 @@ import StrideRecord from 'records/StrideRecord'
 import {
   UPDATE_SELECTORS,
   SET_NB_PAGES,
-  SET_STRIDES
+  SET_STRIDES,
+  SET_CURRENT_PAGE
 } from './constants';
 
 const initialState = fromJS({
   selectors: Map(),
   strides: List(),
   nbStrides: 0,
-  pages: 0
+  pages: 0,
+  currentPage: 0
 });
 
 function getMergedStrideList (currentList, newList) {
@@ -30,15 +32,18 @@ function getMergedStrideList (currentList, newList) {
 function searchReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_SELECTORS:
-      return state.set('selectors', action.selectors)
+      return state
+        .set('selectors', action.selectors)
+        .set('currentPage', 0)
     case SET_NB_PAGES:
       return state.set('pages', action.pages)
+    case SET_CURRENT_PAGE:
+      return state.set('currentPage', action.currentPage)
     case SET_STRIDES:
       let strides = List(action.strides.map(strideList => makeRecordsList(StrideRecord, strideList)))
       if (!action.refresh) {
         strides = getMergedStrideList(state.get('strides'), strides)
       }
-
       return state
         .set('strides', strides)
         .set('nbStrides', strides.reduce((n, nextList) => n += nextList.size, 0))

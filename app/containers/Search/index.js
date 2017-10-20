@@ -31,13 +31,15 @@ import messages from './messages';
 import checkParams from './checkParams';
 import {
   updateSelectors,
-  loadStrides
+  loadStrides,
+  setCurrentPage
 } from './actions';
 import {
   makeSelectSelectors,
   makeSelectStrides,
   makeSelectNbStrides,
-  makeSelectNbPages
+  makeSelectNbPages,
+  makeSelectCurrentPage
 } from './selectors';
 
 const SearchWrapper = styled.div`
@@ -68,16 +70,13 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   state = {
     refresh: false,
     loading: true,
-    showShell: true,
-    currentPage: 0
+    showShell: true
   }
 
   componentWillMount () {
     // Selectors are empty = the app has been refresh || first visit in this page
     if (this.props.selectors.isEmpty()) {
-      let selectors = qs.parse(window.location.search)
-      this.props.validateQueryParams(selectors)
-      this.props.request(loadStrides, selectors)
+      this.props.validateQueryParams(qs.parse(window.location.search))
     } else {
       this.setState({
         loading: false,
@@ -87,6 +86,17 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillReceiveProps (nextProps) {
+    if (this.props.selectors !== nextProps.selectors) {
+      this.props.request(loadStrides, nextProps.selectors.toJS())
+    }
+
+    if ((this.props.currentPage !== nextProps.currentPage) && (this.props.selectors === nextProps.selectors)) {
+      this.props.request(
+        loadStrides,
+        nextProps.selectors.set('page', nextProps.currentPage).toJS()
+      )
+    }
+
     if (this.state.loading && !nextProps.loading) {
       this.setState({
         loading: false,
@@ -103,12 +113,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         })
       }
     }
-
-    if (this.isSameList(nextProps) && (this.props.nbStrides < nextProps.nbStrides)) {
-         this.setState(({ currentPage }) => ({
-           currentPage : currentPage + 1
-         }))
-    }
   }
 
   isSameList (nextProps) {
@@ -119,30 +123,23 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
   handleSelectorChange ({ name, id }) {
     this.setState({
-      refresh: true,
       loading: true,
-      currentPage: 0
+      refresh: true
     })
 
     let selectors = this.props.selectors.set(name, id)
 
     this.props.validateQueryParams(selectors.toJS())
-    this.props.request(loadStrides, selectors.toJS())
-
     this.props.desktop ? this.props.scrollToTop() : window.scrollTo(0,0)
   }
 
   handlePagination () {
-    if ((this.state.currentPage + 1) < this.props.pages) {
+    if ((this.props.currentPage + 1) < this.props.pages) {
       this.setState({
         loading: true,
         refresh: false
       })
-
-      this.props.request(
-        loadStrides,
-        Object.assign({}, this.props.selectors.toJS(), { page: this.state.currentPage + 1 })
-      )
+      this.props.setCurrentPage(this.props.currentPage + 1)
     }
   }
 
@@ -179,7 +176,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
             strides={this.props.strides}
             onStrideSelect={this.handleStrideSelect}
             onPagination={this.handlePagination}
-            end={this.state.currentPage + 1 === this.props.pages}
+            end={this.props.currentPage + 1 === this.props.pages}
             desktop={this.props.desktop}
           />
         }
@@ -193,10 +190,12 @@ Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   validateQueryParams: PropTypes.func.isRequired,
   request: PropTypes.func.isRequired,
+  scrollToTop: PropTypes.func,
   selectors: PropTypes.object.isRequired,
   strides: PropTypes.instanceOf(List).isRequired,
   nbStrides: PropTypes.number.isRequired,
   pages: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired
 };
 
@@ -205,13 +204,15 @@ const mapStateToProps = createStructuredSelector({
   strides: makeSelectStrides(),
   nbStrides: makeSelectNbStrides(),
   pages: makeSelectNbPages(),
+  currentPage: makeSelectCurrentPage(),
   loading: makeSelectFeching()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    updateSelectors: selectors => dispatch(updateSelectors(selectors))
+    updateSelectors: selectors => dispatch(updateSelectors(selectors)),
+    setCurrentPage: currentPage => dispatch(setCurrentPage(currentPage))
   };
 }
 
