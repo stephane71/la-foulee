@@ -34,7 +34,6 @@ function* loadStrides ({ api, selectors }) {
     refresh: !page
   })
 
-  yield delay(1000)
   yield put({ type: FETCHING_END })
 }
 
