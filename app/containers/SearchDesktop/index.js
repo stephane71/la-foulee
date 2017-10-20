@@ -55,8 +55,8 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
     return (
       <SearchDesktopWrapper>
 
-        <SearchSide>
-          <Search {...this.props} desktop />
+        <SearchSide innerRef={searchSide => { this.searchSide = searchSide; }}>
+          <Search {...this.props} desktop scrollToTop={() => this.searchSide.scrollTo(0,0)}/>
         </SearchSide>
         <StrideSelected>
           <Stride {...this.props} desktop />

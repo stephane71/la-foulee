@@ -93,6 +93,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         refresh: false,
         showShell: false
       })
+
       if (this.props.desktop && !this.props.match.params.strideID && nextProps.strides.size) {
         let stride = nextProps.strides.get(0).get(0)
         this.props.history.replace({
@@ -128,7 +129,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     this.props.validateQueryParams(selectors.toJS())
     this.props.request(loadStrides, selectors.toJS())
 
-    window.scrollTo(0,0)
+    this.props.desktop ? this.props.scrollToTop() : window.scrollTo(0,0)
   }
 
   handlePagination () {
