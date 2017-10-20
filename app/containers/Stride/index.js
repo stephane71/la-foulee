@@ -64,7 +64,7 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
         loading: false
       })
     }
-    if (this.props.desktop && (this.props.location !== nextProps.location)) {
+    if (this.props.desktop && (this.props.match.params.strideID !== nextProps.match.params.strideID)) {
       let strideInRoute = nextProps.location.state && nextProps.location.state.stride
       this.setStride(strideInRoute, nextProps.match.params.strideID)
     }
