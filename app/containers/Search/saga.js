@@ -23,9 +23,10 @@ function* loadStrides ({ api, selectors }) {
     Object.assign(params, { dep })
   }
 
-  let res = yield call(api[fct], params)
-  // let res = yield Promise.resolve({ data: mock })
-  // console.log('Search:saga -> mock data is running', res)
+  // let res = yield call(api[fct], params)
+  let res = yield Promise.resolve({ data: mock })
+  console.log(selectors);
+  console.log('Search:saga -> mock data is running', res)
 
   yield put({ type: SET_NB_PAGES, pages: res.data ? res.data.pages : 0 })
   yield put({

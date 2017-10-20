@@ -8,6 +8,7 @@ const mock = {"date":1509490800,"distances":[{"value":18000,"descriptor":{"d":"1
 function* loadStride ({ api, data }) {
   // const res = yield call(api.strideStrideIDGet, { strideID: data.id })
   const res = yield Promise.resolve({ data: mock })
+  console.log(data);
   console.log('Stride:saga -> mock data is running', res);
 
   console.log(res.data);
