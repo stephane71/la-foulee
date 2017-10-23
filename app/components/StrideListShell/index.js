@@ -20,6 +20,8 @@ function StrideListShell() {
     items.push(<StrideItemShell key={i} />)
   }
 
+  window.scrollTo(0, 0)
+
   return (
     <StrideListShellWrapper>
       {items}
