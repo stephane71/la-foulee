@@ -1,11 +1,13 @@
 import moment from 'moment';
 
-import { MONTHS, DEPARTEMENTS } from 'utils/enums';
+import { MONTH_LIST, DEPARTEMENTS } from 'utils/enums';
+
+let currentMonth = `${moment().month()}-${moment().year()}`
 
 function searchValidators ({ dep, month }) {
   let qs
-  if (!MONTHS.find(m => m.id === month))
-    month = String(moment().month())
+  if (!MONTH_LIST.find(m => m.id === month))
+    month = currentMonth
 
   qs = { month }
   if (!dep || !DEPARTEMENTS.find(d => d.id === dep))

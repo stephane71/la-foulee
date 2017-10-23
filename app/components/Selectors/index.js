@@ -5,12 +5,13 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
 import { getColor, white } from 'colors';
 
-import { MONTHS, DEPARTEMENTS, SELECTORS } from 'utils/enums';
+import { MONTH_LIST, DEPARTEMENTS, SELECTORS } from 'utils/enums';
 import ArrowDropDown from 'images/background-images/ic_arrow_drop_down_black_24px.svg';
 
 const SelectorsWrapper = styled.div`
@@ -67,7 +68,7 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
   render () {
     let [ month, dep ] = SELECTORS
     let selectors = [
-      { name: month, values: MONTHS, borderRight: true },
+      { name: month, values: MONTH_LIST, borderRight: true },
       { name: dep, values: DEPARTEMENTS }
     ]
 
@@ -80,7 +81,7 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
               onChange={this.handleSelectorChange}
               value={this.state[name]}
             >
-              <option key={''} value={''}>{'Tous les départements'}</option>
+              {!borderRight && <option key={''} value={''}>{'Tous les départements'}</option>}
               {values.map(({ id, value }, j) =>
                 <option key={j} value={id}>{value}</option>
               )}
@@ -93,7 +94,12 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
 }
 
 Selectors.propTypes = {
-
+  onSelectorChange: PropTypes.func.isRequired,
+  defaultSelectors: PropTypes.shape({
+    dep: PropTypes.string,
+    month: PropTypes.string
+  }).isRequired,
+  desktop: PropTypes.bool
 };
 
 // HEIGHT = 2 * spacing 's' + base line height

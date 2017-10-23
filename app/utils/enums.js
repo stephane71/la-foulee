@@ -1,5 +1,8 @@
+import {
+  getNextYearMonthList,
+  getCurrentYearMonthList
+} from 'utils/momentUtils'
 
-const months = [`Janvier`, `Février`, `Mars`, `Avril`, `Mai`, `Juin`, `Juillet`, `Août`, `Septembre`, `Octobre`, `Novembre`, `Décembre`]
 const departements = {
   "01":	"Ain",
   "02":	"Aisne",
@@ -104,15 +107,13 @@ const departements = {
   "976": "Mayotte"
 }
 
-export const MONTHS = months.map((month, i) => ({
-  id: String(i),
-  value: month
-}))
+let currentYearMonthList = getCurrentYearMonthList()
+let nextYearMonthList = getNextYearMonthList(currentYearMonthList.length)
+
+export const MONTH_LIST = currentYearMonthList.concat(nextYearMonthList)
 export const DEPARTEMENTS = Reflect.ownKeys(departements).sort().map(depNum =>({
   id: depNum,
   value: `${depNum} ${departements[depNum]}`
 }))
-
 export const SELECTORS = [`month`, `dep`]
-
 export const DATE_FORMAT = `D MMMM`
