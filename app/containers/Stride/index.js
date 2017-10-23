@@ -71,9 +71,12 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
   }
 
   setStride (stride, strideID = null) {
-    if (stride)
+    if (stride) {
       this.props.setStride(stride)
-    else if (strideID)
+      this.setState({
+        loading: false
+      })
+    } else if (strideID)
       this.props.request(loadStride, { id: strideID })
   }
 
