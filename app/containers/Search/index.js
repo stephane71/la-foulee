@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { List } from 'immutable';
+import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,10 +21,10 @@ import HelmetIntl from 'components/HelmetIntl';
 import Selectors from 'components/Selectors';
 import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
+import Loader from 'components/Loader';
+import AppNoScroll from 'components/AppNoScroll';
 
-import {
-  makeSelectFeching
-} from 'containers/App/selectors';
+import { makeSelectFeching } from 'containers/App/selectors';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -44,17 +45,20 @@ import {
 
 const SearchWrapper = styled.div`
   position: relative;
-  min-height: 100%;
 `
 
 const Overlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
+  height: calc(100vh - ${HEIGHT_APPBAR}px);
   width: 100%;
   background-color: rgba(255, 255, 255, 0.80);
   z-index: 20;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -104,6 +108,9 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         showShell: false
       })
 
+      if (this.props.desktop)
+        this.props.isUpdating(false)
+
       if (this.props.desktop && !this.props.match.params.strideID && nextProps.strides.size) {
         let stride = nextProps.strides.get(0).get(0)
         this.props.history.replace({
@@ -130,7 +137,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     let selectors = this.props.selectors.set(name, id)
 
     this.props.validateQueryParams(selectors.toJS())
-    this.props.desktop ? this.props.scrollToTop() : window.scrollTo(0,0)
+    this.props.desktop ? this.props.isUpdating(true) : window.scrollTo(0,0)
   }
 
   handlePagination () {
@@ -166,7 +173,10 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         />
 
         {this.state.loading && this.state.refresh &&
-          <Overlay />
+          <Overlay>
+            <AppNoScroll />
+            <Loader />
+          </Overlay>
         }
 
         {this.state.loading && this.state.showShell ?
@@ -190,7 +200,7 @@ Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
   validateQueryParams: PropTypes.func.isRequired,
   request: PropTypes.func.isRequired,
-  scrollToTop: PropTypes.func,
+  isUpdating: PropTypes.func,
   selectors: PropTypes.object.isRequired,
   strides: PropTypes.instanceOf(List).isRequired,
   nbStrides: PropTypes.number.isRequired,

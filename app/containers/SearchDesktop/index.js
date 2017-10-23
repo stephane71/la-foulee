@@ -13,6 +13,8 @@ import { compose } from 'redux';
 import { getColor } from 'colors';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
 
+import AppNoScroll from 'components/AppNoScroll';
+
 import Search from 'containers/Search';
 import Stride from 'containers/Stride';
 
@@ -32,6 +34,7 @@ const ScrollBase = styled.div`
 `
 
 let sideBlockWidth = 35
+
 const SearchSide = styled(ScrollBase)`
   width: ${sideBlockWidth}%;
   border-right: 1px solid ${getColor('extraLight')};
@@ -43,20 +46,24 @@ const StrideSelected = styled(ScrollBase)`
 `
 
 export class SearchDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  componentWillMount () {
-    document.getElementById(`app`).classList.add('no-scroll')
-  }
 
-  componentWillUnmount() {
-    document.getElementById(`app`).classList.remove('no-scroll')
+  onSearchUpdating (started) {
+    if (started) {
+      this.searchSide.scrollTo(0,0)
+      this.searchSide.classList.add('no-scroll')
+    } else {
+      this.searchSide.classList.remove('no-scroll')
+    }
   }
 
   render() {
     return (
       <SearchDesktopWrapper>
 
+        <AppNoScroll />
+
         <SearchSide innerRef={searchSide => { this.searchSide = searchSide; }}>
-          <Search {...this.props} desktop scrollToTop={() => this.searchSide.scrollTo(0,0)}/>
+          <Search {...this.props} desktop isUpdating={(started) => this.onSearchUpdating(started)} />
         </SearchSide>
         <StrideSelected>
           <Stride {...this.props} desktop />

@@ -17,6 +17,7 @@ import { DATE_FORMAT } from 'utils/enums';
 import { HEIGHT_SELECTORS } from 'components/Selectors';
 
 import StrideItem from 'components/StrideItem';
+import Loader from 'components/Loader';
 
 const WrapperStrideList = styled.div`
 
@@ -74,7 +75,7 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
           {this.props.end ?
             <span>{`Fin de la liste !`}</span>
           :
-            <span>{`Chargement des évennements...`}</span>
+            <Loader />
           }
         </StrideListEndMessage>
       </WrapperStrideList>

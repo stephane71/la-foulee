@@ -19,6 +19,7 @@ import { dominant } from 'colors';
 import HelmetIntl from 'components/HelmetIntl';
 import StridePage from 'components/StridePage';
 import ScrollToTopOnMount from 'components/ScrollToTopOnMount';
+import Loader from 'components/Loader';
 
 import makeSelectStride from './selectors';
 import reducer from './reducer';
@@ -95,7 +96,9 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
         }
 
         {this.state.loading ?
-          <Overlay>{`Chargement des données...`}</Overlay>
+          <Overlay>
+            <Loader />
+          </Overlay>
         :
           <StridePage stride={this.props.stride} />
         }
