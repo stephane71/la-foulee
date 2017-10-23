@@ -176,7 +176,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
             strides={this.props.strides}
             onStrideSelect={this.handleStrideSelect}
             onPagination={this.handlePagination}
-            end={this.props.currentPage + 1 === this.props.pages}
+            end={!this.props.loading && this.props.currentPage + 1 === this.props.pages}
             desktop={this.props.desktop}
           />
         }

@@ -1,6 +1,5 @@
 import isEmpty from 'lodash.isempty'
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga';
 import { LOAD_STRIDES, SET_NB_PAGES, SET_STRIDES } from './constants'
 import { FETCHING_START, FETCHING_END } from 'containers/App/constants'
 
