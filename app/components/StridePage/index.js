@@ -87,7 +87,7 @@ function StridePage(props) {
         {props.stride.distances.map(({ value }, i) =>
           <InfomationItem key={i}>
             <Schedule /><InformationContent>{'NC'}</InformationContent>
-            <Flag /><InformationContent>{value}</InformationContent>
+            <Flag /><InformationContent>{`${value/1000}km`}</InformationContent>
           </InfomationItem>
         )}
       </InformationList>

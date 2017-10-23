@@ -28,7 +28,7 @@ function StrideItem(props) {
       <ContentBlock>
         <ContentBlockStride>
           <Title>{title}</Title>
-          <Races>{'liste... TODO'}</Races>
+          <Races>{distances.map(d => `${d.value/1000}km`).join(', ')}</Races>
         </ContentBlockStride>
         <ArrowRightBlack />
       </ContentBlock>
