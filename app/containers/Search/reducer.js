@@ -26,6 +26,13 @@ const initialState = fromJS({
 });
 
 function getMergedStrideList (currentList, newList) {
+  let lastDayCurrentList = currentList.last()
+  let firstDayNewList = newList.first()
+  if (lastDayCurrentList.get(0).get('date') === firstDayNewList.get(0).get('date')) {
+    let mergeDayList = lastDayCurrentList.concat(firstDayNewList)
+    currentList = currentList.set(-1, mergeDayList)
+    newList = newList.shift()
+  }
   return currentList.concat(newList)
 }
 
@@ -41,9 +48,8 @@ function searchReducer(state = initialState, action) {
       return state.set('currentPage', action.currentPage)
     case SET_STRIDES:
       let strides = List(action.strides.map(strideList => makeRecordsList(StrideRecord, strideList)))
-      if (!action.refresh) {
+      if (!action.refresh)
         strides = getMergedStrideList(state.get('strides'), strides)
-      }
       return state
         .set('strides', strides)
         .set('nbStrides', strides.reduce((n, nextList) => n += nextList.size, 0))
