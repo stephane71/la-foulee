@@ -22,7 +22,7 @@ import { HEIGHT_APPBAR } from 'global-styles-variables';
 import injectSaga from 'utils/injectSaga';
 
 import AppHeader from 'components/AppHeader';
-import AppHomeLoader from 'components/AppHomeLoader';
+// import AppHomeLoader from 'components/AppHomeLoader';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Search from 'containers/Search';

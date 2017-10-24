@@ -34,8 +34,15 @@ const makeSelectUserCredentials = () => createSelector(
    (appState) => appState.get('fetching')
  );
 
+ const makeSelectCptLocation = () => createSelector(
+   selectApp,
+   (appState) => appState.get('cptLocation')
+ );
+
+
 export {
   makeSelectLocation,
   makeSelectUserCredentials,
-  makeSelectFeching
+  makeSelectFeching,
+  makeSelectCptLocation
 };

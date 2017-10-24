@@ -7,11 +7,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
 import { dominant, tonic, white } from 'colors';
 
 import LaFouleeSVG from 'components/LaFouleeSVG';
 import ArrowBack from 'images/ic_arrow_back_white_24px.svg';
+
+import { makeSelectCptLocation } from 'containers/App/selectors';
 
 const HEIGHT_LOGO_APP_HEADER = HEIGHT_APPBAR - getSpacing(`s`) * 2
 
@@ -47,7 +53,7 @@ function AppHeader(props) {
           <ArrowBackWrapper show={match} >
             <ArrowBack
               style={{ fill: white }}
-              onClick={() => history.goBack()} />
+              onClick={() => props.cptHistory < 2 ? history.push('/search') : history.goBack()} />
           </ArrowBackWrapper>
         }/>
         <LaFouleeSVG
@@ -61,5 +67,18 @@ function AppHeader(props) {
 AppHeader.propTypes = {
 
 };
+const mapStateToProps = createStructuredSelector({
+  cptLocation: makeSelectCptLocation()
+});
 
-export default AppHeader;
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch
+  };
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(
+  withConnect
+)(AppHeader);
