@@ -10,6 +10,7 @@ export const Type = styled.div`
 `
 
 export const Title = styled.div`
+  font-weight: bold;
   &:first-letter {
     text-transform: Uppercase;
   }

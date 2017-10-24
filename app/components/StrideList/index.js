@@ -10,6 +10,8 @@ import styled from 'styled-components';
 import VisibilitySensor from 'react-visibility-sensor';
 import moment from 'moment';
 import { List } from 'immutable';
+import { FormattedMessage } from 'react-intl';
+
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
 import { getColor, dominant, white } from 'colors';
 
@@ -18,6 +20,14 @@ import { HEIGHT_SELECTORS } from 'components/Selectors';
 
 import StrideItem from 'components/StrideItem';
 import Loader from 'components/Loader';
+
+import messages from './messages';
+
+const WrapperStrideListEmpty = styled.div`
+  text-align: center;
+  border-top: 1px solid ${getColor('extraLight')};
+  padding: ${getSpacing('m')}px;
+`
 
 const WrapperStrideList = styled.div`
 
@@ -45,7 +55,11 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
 
   render() {
     if (!this.props.strides.size)
-      return <span>{`Pas de résultats pour cette sélection !`}</span>
+      return (
+        <WrapperStrideListEmpty>
+          <FormattedMessage {...messages.emptyList} />
+        </WrapperStrideListEmpty>
+      )
 
     return (
       <WrapperStrideList>
