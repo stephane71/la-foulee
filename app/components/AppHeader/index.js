@@ -6,7 +6,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -53,7 +53,8 @@ function AppHeader(props) {
           <ArrowBackWrapper show={match} >
             <ArrowBack
               style={{ fill: white }}
-              onClick={() => props.cptHistory < 2 ? history.push('/search') : history.goBack()} />
+              onClick={() => props.cptHistory < 2 ? history.push('/search') : history.goBack()}
+            />
           </ArrowBackWrapper>
         }/>
         <LaFouleeSVG
@@ -80,5 +81,6 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
+  withRouter,
   withConnect
 )(AppHeader);
