@@ -9,6 +9,7 @@ import qs from 'query-string'
 
 import makeRecordsList from 'utils/makeRecordsList'
 import StrideRecord from 'records/StrideRecord'
+import SelectorRecord from 'records/SelectorRecord'
 
 import {
   UPDATE_SELECTORS,
@@ -18,7 +19,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  selectors: Map(),
+  selectors: new SelectorRecord(),
   strides: List(),
   nbStrides: 0,
   pages: 0,
@@ -40,7 +41,7 @@ function searchReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_SELECTORS:
       return state
-        .set('selectors', action.selectors)
+        .set('selectors', new SelectorRecord(action.selectors))
         .set('currentPage', 0)
     case SET_NB_PAGES:
       return state.set('pages', action.pages)

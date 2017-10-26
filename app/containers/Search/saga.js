@@ -1,4 +1,3 @@
-import isEmpty from 'lodash.isempty'
 import { takeLatest, call, put } from 'redux-saga/effects'
 import { LOAD_STRIDES, SET_NB_PAGES, SET_STRIDES } from './constants'
 import { FETCHING_START, FETCHING_END } from 'containers/App/constants'
@@ -17,15 +16,15 @@ function* loadStrides ({ api, selectors }) {
     page
   }
 
-  if (!isEmpty(dep)) {
+  if (dep) {
     fct = 'stridesMonthDepGet'
     Object.assign(params, { dep })
   }
 
-  // let res = yield call(api[fct], params)
-  let res = yield Promise.resolve({ data: mock })
-  console.log(selectors);
-  console.log('Search:saga -> mock data is running', res)
+  let res = yield call(api[fct], params)
+  // let res = yield Promise.resolve({ data: mock })
+  // console.log(selectors);
+  // console.log('Search:saga -> mock data is running', res)
 
   yield put({ type: SET_NB_PAGES, pages: res.data ? res.data.pages : 0 })
   yield put({

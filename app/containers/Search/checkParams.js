@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 
 import getValidator from 'utils/queryParamsValidators';
 
-export default ({ key, action }) => (WrappedComponent) => {
+export default ({ key }) => (WrappedComponent) => {
   class ParamsValidator extends React.Component {
     static WrappedComponent = WrappedComponent;
     static contextTypes = {
@@ -14,20 +14,40 @@ export default ({ key, action }) => (WrappedComponent) => {
     };
     static displayName = `checkParams(${(WrappedComponent.displayName || WrappedComponent.name || 'Component')})`;
 
-    validateQueryParams (selectors) {
-      let validatorFct = getValidator(key)
-      selectors = validatorFct(selectors)
+    getValidParams () {
+      let params = qs.parse(window.location.search)
+      return getValidator(key)(params)
+    }
 
-      this.props.history.replace({
-        search: `?${qs.stringify(selectors)}`,
+    replaceCurrentLocationSearch () {
+      let params = this.getValidParams()
+      let search = `?${qs.stringify(params)}`
+
+      if (search !== window.location.search) {
+        this.props.history.replace({
+          search,
+          state: this.props.location.state
+        })
+      }
+      return params
+    }
+
+    pushLocationSearch (params) {
+      params = getValidator(key)(params)
+      let search = `?${qs.stringify(params)}`
+      this.props.history.push({
+        search,
         state: this.props.location.state
       })
-
-      this.props.dispatch(action(Map(selectors)))
     }
 
     render() {
-      return <WrappedComponent validateQueryParams={this.validateQueryParams.bind(this)} {...this.props} />;
+      return <WrappedComponent
+        getValidParams={this.getValidParams.bind(this)}
+        pushLocationSearch={this.pushLocationSearch.bind(this)}
+        replaceCurrentLocationSearch={this.replaceCurrentLocationSearch.bind(this)}
+        {...this.props}
+      />
     }
   }
 

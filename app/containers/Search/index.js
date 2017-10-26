@@ -7,7 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import qs from 'query-string'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -16,6 +15,7 @@ import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import SelectorRecord from 'records/SelectorRecord'
 
 import HelmetIntl from 'components/HelmetIntl';
 import Selectors from 'components/Selectors';
@@ -80,7 +80,12 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   componentWillMount () {
     // Selectors are empty = the app has been refresh || first visit in this page
     if (this.props.selectors.isEmpty()) {
-      this.props.validateQueryParams(qs.parse(window.location.search))
+      let selectors = this.props.replaceCurrentLocationSearch()
+      // In the case that the url is ok, there is no history.replace
+      // So selectors has to be set to trigger the api request
+      // But when the url has been change (replace) updateSelectors will be triggered too
+      //  when the location change is detected
+      this.props.updateSelectors(selectors)
     } else {
       this.setState({
         loading: false,
@@ -90,18 +95,31 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillReceiveProps (nextProps) {
+    if (this.props.location !== nextProps.location) {
+      let selectors = this.props.getValidParams()
+      this.props.updateSelectors(selectors)
+    }
+
     if (this.props.selectors !== nextProps.selectors) {
+      this.setState({
+        loading: true,
+        refresh: true
+      })
       this.props.request(loadStrides, nextProps.selectors.toJS())
     }
 
     if ((this.props.currentPage !== nextProps.currentPage) && (this.props.selectors === nextProps.selectors)) {
+      this.setState({
+        loading: true,
+        refresh: false
+      })
       this.props.request(
         loadStrides,
         nextProps.selectors.set('page', nextProps.currentPage).toJS()
       )
     }
 
-    if (this.state.loading && !nextProps.loading) {
+    if (this.state.loading && this.props.loading && !nextProps.loading) {
       this.setState({
         loading: false,
         refresh: false,
@@ -122,32 +140,16 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     }
   }
 
-  isSameList (nextProps) {
-    return this.props.strides.size && nextProps.strides.size &&
-        // Same list detection
-       (this.props.strides.get(0).get(0).date === nextProps.strides.get(0).get(0).date)
-  }
-
   handleSelectorChange ({ name, id }) {
-    this.setState({
-      loading: true,
-      refresh: true
-    })
-
     let selectors = this.props.selectors.set(name, id)
+    this.props.pushLocationSearch(selectors.toJS())
 
-    this.props.validateQueryParams(selectors.toJS())
     this.props.desktop ? this.props.isUpdating(true) : window.scrollTo(0,0)
   }
 
   handlePagination () {
-    if ((this.props.currentPage + 1) < this.props.pages) {
-      this.setState({
-        loading: true,
-        refresh: false
-      })
+    if ((this.props.currentPage + 1) < this.props.pages)
       this.props.setCurrentPage(this.props.currentPage + 1)
-    }
   }
 
   handleStrideSelect (stride) {
@@ -167,7 +169,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
         <HelmetIntl title={messages.headerTitle} content={messages.headerContent} />
 
         <Selectors
-          defaultSelectors={this.props.selectors.toJS()}
+          defaultSelectors={this.props.selectors}
           onSelectorChange={this.handleSelectorChange}
           desktop={this.props.desktop}
         />
@@ -198,10 +200,11 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
 Search.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  validateQueryParams: PropTypes.func.isRequired,
+  pushLocationSearch: PropTypes.func.isRequired,
+  replaceCurrentLocationSearch: PropTypes.func.isRequired,
   request: PropTypes.func.isRequired,
   isUpdating: PropTypes.func,
-  selectors: PropTypes.object.isRequired,
+  selectors: PropTypes.instanceOf(SelectorRecord).isRequired,
   strides: PropTypes.instanceOf(List).isRequired,
   nbStrides: PropTypes.number.isRequired,
   pages: PropTypes.number.isRequired,
@@ -231,7 +234,7 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'search', reducer });
 const withSaga = injectSaga({ key: 'search', saga });
 
-const withCheckParams = checkParams({ key: 'search', action: updateSelectors });
+const withCheckParams = checkParams({ key: 'search' });
 
 export default compose(
   withReducer,

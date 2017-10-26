@@ -11,8 +11,9 @@ import styled from 'styled-components';
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
 import { getColor, white } from 'colors';
 
-import { MONTH_LIST, DEPARTEMENTS, SELECTORS } from 'utils/enums';
-import ArrowDropDown from 'images/background-images/ic_arrow_drop_down_black_24px.svg';
+import { MONTH_LIST, DEPARTEMENTS, SELECTORS } from 'utils/enums'
+import SelectorRecord from 'records/SelectorRecord'
+import ArrowDropDown from 'images/background-images/ic_arrow_drop_down_black_24px.svg'
 
 const SelectorsWrapper = styled.div`
   position: sticky;
@@ -45,23 +46,26 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
     super(props)
 
     this.handleSelectorChange = this.handleSelectorChange.bind(this)
-    let [ month, dep ] = SELECTORS
     this.state = {
-      [month]: this.props.defaultSelectors[month],
-      [dep]: this.props.defaultSelectors[dep]
+      selectors: this.props.defaultSelectors
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.defaultSelectors !== nextProps.defaultSelectors)
-      this.setState(nextProps.defaultSelectors)
+    if (!nextProps.defaultSelectors.equals(this.state.selectors)) {
+      this.setState({
+        selectors: nextProps.defaultSelectors
+      })
+    }
   }
 
   handleSelectorChange (event) {
     event.preventDefault()
     let { name, value } = event.target
 
-    this.setState({ [name]: value })
+    this.setState({
+      selectors: this.state.selectors.set(name, value)
+    })
     this.props.onSelectorChange({ name, id: value })
   }
 
@@ -79,7 +83,7 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
             <Select
               name={name}
               onChange={this.handleSelectorChange}
-              value={this.state[name]}
+              value={this.state.selectors.get(name)}
             >
               {!borderRight && <option key={''} value={''}>{'Tous les départements'}</option>}
               {values.map(({ id, value }, j) =>
@@ -95,10 +99,7 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
 
 Selectors.propTypes = {
   onSelectorChange: PropTypes.func.isRequired,
-  defaultSelectors: PropTypes.shape({
-    dep: PropTypes.string,
-    month: PropTypes.string
-  }).isRequired,
+  defaultSelectors: PropTypes.instanceOf(SelectorRecord).isRequired,
   desktop: PropTypes.bool
 };
 
