@@ -115,7 +115,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       })
       this.props.request(
         loadStrides,
-        nextProps.selectors.set('page', nextProps.currentPage).toJS()
+        Object.assign(nextProps.selectors.toJS(), { page: nextProps.currentPage })
       )
     }
 
