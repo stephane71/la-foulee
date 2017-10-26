@@ -19,7 +19,7 @@ import ArrowBack from 'images/ic_arrow_back_white_24px.svg';
 
 import { makeSelectCptLocation } from 'containers/App/selectors';
 
-const HEIGHT_LOGO_APP_HEADER = HEIGHT_APPBAR - getSpacing(`s`) * 2
+const HEIGHT_LOGO_APP_HEADER = HEIGHT_APPBAR - 8
 
 const AppHeaderWrapper = styled.header`
   position: fixed;
@@ -28,10 +28,12 @@ const AppHeaderWrapper = styled.header`
   z-index: 10;
   width: 100%;
   max-width: 100vw;
+  height: ${HEIGHT_APPBAR}px;
 `
 
 const AppHeaderContent = styled.div`
-  padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
+  padding: 0 ${getSpacing(`m`)}px;
+  padding-top: 3px;
   background-color: ${dominant};
   height: 100%;
   display: flex;
