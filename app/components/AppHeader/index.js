@@ -55,7 +55,7 @@ function AppHeader(props) {
           <ArrowBackWrapper show={match} >
             <ArrowBack
               style={{ fill: white }}
-              onClick={() => props.cptHistory < 2 ? history.push('/search') : history.goBack()}
+              onClick={() => props.cptLocation < 2 ? history.push('/search') : history.goBack()}
             />
           </ArrowBackWrapper>
         }/>
