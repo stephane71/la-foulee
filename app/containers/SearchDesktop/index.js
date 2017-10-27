@@ -19,6 +19,11 @@ import Search from 'containers/Search';
 import Stride from 'containers/Stride';
 
 const SearchDesktopWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
   display: flex;
   flex-direction: row;
   height: 100vh;

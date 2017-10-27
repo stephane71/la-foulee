@@ -28,9 +28,7 @@ const StridePageWrapper = styled.div`
 
 const HEADER = css`
   padding: 0 ${getSpacing('m')}px;
-  &:first-letter {
-    text-transform: Uppercase;
-  }
+  text-transform: capitalize;
 `
 const H1 = styled.h1`${HEADER}`
 const H2 = styled.h2`${HEADER}`

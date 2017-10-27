@@ -15,6 +15,9 @@ import { MONTH_LIST, DEPARTEMENTS, SELECTORS } from 'utils/enums'
 import SelectorRecord from 'records/SelectorRecord'
 import ArrowDropDown from 'images/background-images/ic_arrow_drop_down_black_24px.svg'
 
+const getSelectBackgroundPosition = ({ borderRight }) =>
+  borderRight ? `calc(100% - ${getSpacing('s')}px)` : `calc(100% - ${getSpacing('m')}px)`
+
 const SelectorsWrapper = styled.div`
   position: sticky;
   top: ${({ top }) => top}px;
@@ -29,16 +32,16 @@ const SelectWrapper = styled.div`
   width: 50%;
 `
 
-let PADDING_RIGHT_SELECT = 35
 const Select = styled.select`
   appearance: none;
   outline: 0;
   padding: ${getSpacing('s')}px;
-  padding-right: ${PADDING_RIGHT_SELECT}px;
+  padding-left: ${({ borderRight }) => borderRight ? getSpacing('m') : getSpacing('s')}px;
+  padding-right: ${2 * getSpacing('m')}px;
   text-decoration: none;
   width: 100%;
   background-image: url(${ArrowDropDown});
-  background-position: calc(100% - ${getSpacing('m')}px) center;
+  background-position: ${getSelectBackgroundPosition};
 `
 
 class Selectors extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -84,8 +87,13 @@ class Selectors extends React.PureComponent { // eslint-disable-line react/prefe
               name={name}
               onChange={this.handleSelectorChange}
               value={this.state.selectors.get(name)}
+              borderRight={borderRight}
             >
-              {!borderRight && <option key={''} value={''}>{'Tous les départements'}</option>}
+              {!borderRight &&
+                <option key={''} value={''}>
+                  {'Tous les départements'}
+                </option>
+              }
               {values.map(({ id, value }, j) =>
                 <option key={j} value={id}>{value}</option>
               )}
