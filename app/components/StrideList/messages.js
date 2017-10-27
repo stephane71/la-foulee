@@ -9,5 +9,9 @@ export default defineMessages({
   emptyList: {
     id: 'app.components.StrideList.emptyList',
     defaultMessage: `Aucune course n'est programmées !`
+  },
+  listEnd: {
+    id: 'app.components.StrideList.listEnd',
+    defaultMessage: `Fin de la liste !`
   }
 });

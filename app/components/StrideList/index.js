@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import VisibilitySensor from 'react-visibility-sensor';
 import moment from 'moment';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { FormattedMessage } from 'react-intl';
 
@@ -20,6 +22,13 @@ import { HEIGHT_SELECTORS } from 'components/Selectors';
 
 import StrideItem from 'components/StrideItem';
 import Loader from 'components/Loader';
+import { setCurrentPage } from 'containers/Search/actions';
+import {
+  makeSelectStrides,
+  makeSelectCurrentPage,
+  makeSelectNbPages
+} from 'containers/Search/selectors';
+import { makeSelectFeching } from 'containers/App/selectors';
 
 import messages from './messages';
 
@@ -50,7 +59,15 @@ const StrideListEndMessage = styled.div`
 class StrideList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   onReachStrideListEnd () {
-    this.props.onPagination()
+    if ((this.props.currentPage + 1) < this.props.pages)
+      this.props.setCurrentPage(this.props.currentPage + 1)
+  }
+
+  shouldComponentUpdate (nextProps, nextStates) {
+    if (nextProps.lock) {
+      return false
+    }
+    return true
   }
 
   render() {
@@ -61,6 +78,8 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
         </WrapperStrideListEmpty>
       )
 
+    let end = this.props.currentPage + 1 === this.props.pages
+
     return (
       <WrapperStrideList>
         {this.props.strides.map((strideList, i) =>
@@ -68,7 +87,7 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
             {i + 1 === this.props.strides.size &&
               <VisibilitySensor
                 onChange={isVisible => isVisible && this.onReachStrideListEnd()}
-                active={!this.props.end}
+                active={!end && !this.props.loading}
               />
             }
             <StrideItemDate top={this.props.desktop ? HEIGHT_SELECTORS : HEIGHT_APPBAR + HEIGHT_SELECTORS}>
@@ -86,8 +105,8 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
         )}
 
         <StrideListEndMessage>
-          {this.props.end ?
-            <span>{`Fin de la liste !`}</span>
+          {end && !this.props.loading ?
+            <FormattedMessage {...messages.listEnd} />
           :
             <Loader />
           }
@@ -100,9 +119,26 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
 StrideList.propTypes = {
   strides: PropTypes.instanceOf(List).isRequired,
   onStrideSelect: PropTypes.func.isRequired,
-  onPagination: PropTypes.func.isRequired,
-  end: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  pages: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
   desktop: PropTypes.bool
 };
 
-export default StrideList;
+const mapStateToProps = createStructuredSelector({
+  strides: makeSelectStrides(),
+  currentPage: makeSelectCurrentPage(),
+  pages: makeSelectNbPages(),
+  loading: makeSelectFeching()
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setCurrentPage: currentPage => dispatch(setCurrentPage(currentPage))
+  };
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default withConnect(StrideList);
+// export default StrideList;

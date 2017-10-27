@@ -32,14 +32,12 @@ import messages from './messages';
 import checkParams from './checkParams';
 import {
   updateSelectors,
-  loadStrides,
-  setCurrentPage
+  loadStrides
 } from './actions';
 import {
   makeSelectSelectors,
   makeSelectStrides,
   makeSelectNbStrides,
-  makeSelectNbPages,
   makeSelectCurrentPage
 } from './selectors';
 
@@ -68,12 +66,10 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
     this.handleSelectorChange = this.handleSelectorChange.bind(this)
     this.handleStrideSelect = this.handleStrideSelect.bind(this)
-    this.handlePagination = this.handlePagination.bind(this)
   }
 
   state = {
     refresh: false,
-    loading: true,
     showShell: true
   }
 
@@ -88,7 +84,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       this.props.updateSelectors(selectors)
     } else {
       this.setState({
-        loading: false,
         showShell: false
       })
     }
@@ -102,15 +97,13 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 
     if (this.props.selectors !== nextProps.selectors) {
       this.setState({
-        loading: true,
         refresh: true
       })
       this.props.request(loadStrides, nextProps.selectors.toJS())
     }
 
-    if ((this.props.currentPage !== nextProps.currentPage) && (this.props.selectors === nextProps.selectors)) {
+    if ((this.props.currentPage !== nextProps.currentPage) && nextProps.currentPage > 0) {
       this.setState({
-        loading: true,
         refresh: false
       })
       this.props.request(
@@ -119,9 +112,8 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       )
     }
 
-    if (this.state.loading && this.props.loading && !nextProps.loading) {
+    if (this.props.loading && !nextProps.loading) {
       this.setState({
-        loading: false,
         refresh: false,
         showShell: false
       })
@@ -147,11 +139,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     this.props.desktop ? this.props.isUpdating(true) : window.scrollTo(0,0)
   }
 
-  handlePagination () {
-    if ((this.props.currentPage + 1) < this.props.pages)
-      this.props.setCurrentPage(this.props.currentPage + 1)
-  }
-
   handleStrideSelect (stride) {
     let route = this.props.desktop ? `/search` : `/foulee`
     let location = {
@@ -174,21 +161,19 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
           desktop={this.props.desktop}
         />
 
-        {this.state.loading && this.state.refresh &&
+        {this.props.loading && this.state.refresh &&
           <Overlay>
             <AppNoScroll />
             <Loader />
           </Overlay>
         }
 
-        {this.state.loading && this.state.showShell ?
+        {this.props.loading && this.state.showShell ?
           <StrideListShell />
         :
           <StrideList
-            strides={this.props.strides}
             onStrideSelect={this.handleStrideSelect}
-            onPagination={this.handlePagination}
-            end={!this.props.loading && this.props.currentPage + 1 === this.props.pages}
+            lock={this.state.refresh}
             desktop={this.props.desktop}
           />
         }
@@ -199,7 +184,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 }
 
 Search.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   pushLocationSearch: PropTypes.func.isRequired,
   replaceCurrentLocationSearch: PropTypes.func.isRequired,
   request: PropTypes.func.isRequired,
@@ -207,7 +191,6 @@ Search.propTypes = {
   selectors: PropTypes.instanceOf(SelectorRecord).isRequired,
   strides: PropTypes.instanceOf(List).isRequired,
   nbStrides: PropTypes.number.isRequired,
-  pages: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired
 };
@@ -216,16 +199,13 @@ const mapStateToProps = createStructuredSelector({
   selectors: makeSelectSelectors(),
   strides: makeSelectStrides(),
   nbStrides: makeSelectNbStrides(),
-  pages: makeSelectNbPages(),
   currentPage: makeSelectCurrentPage(),
   loading: makeSelectFeching()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
-    updateSelectors: selectors => dispatch(updateSelectors(selectors)),
-    setCurrentPage: currentPage => dispatch(setCurrentPage(currentPage))
+    updateSelectors: selectors => dispatch(updateSelectors(selectors))
   };
 }
 
