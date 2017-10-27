@@ -11,9 +11,7 @@ export const Type = styled.div`
 
 export const Title = styled.div`
   font-weight: 500;
-  &:first-letter {
-    text-transform: Uppercase;
-  }
+  text-transform: capitalize;
 `
 
 export const Races = styled.div`
