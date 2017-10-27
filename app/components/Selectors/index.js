@@ -38,7 +38,7 @@ const Select = styled.select`
   text-decoration: none;
   width: 100%;
   background-image: url(${ArrowDropDown});
-  background-position: calc(100% - ${getSpacing('s')}px) center;
+  background-position: calc(100% - ${getSpacing('m')}px) center;
 `
 
 class Selectors extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function

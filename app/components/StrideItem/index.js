@@ -30,7 +30,7 @@ function StrideItem(props) {
           <Title>{title}</Title>
           <Races>{distances.map(d => `${d.value/1000}km`).join(', ')}</Races>
         </ContentBlockStride>
-        <ArrowRightBlack />
+        <ArrowRightBlack style={{ fill: '#A0A7BD' }} />
       </ContentBlock>
 
     </WrapperStrideItem>

@@ -70,6 +70,7 @@ function AppHeader(props) {
 AppHeader.propTypes = {
 
 };
+
 const mapStateToProps = createStructuredSelector({
   cptLocation: makeSelectCptLocation()
 });

@@ -68,7 +68,7 @@ export const H2 = {
 
 export const H1 = {
   lineHeight: (BaseLineHeight * 2) - Base,
-  fontSize: H2.fontSize * (BaseRatio ^ 3), // 40,39
+  fontSize: H2.fontSize * Math.pow(BaseRatio, 4), // 40,39
   marginBottom: LSpacing,
   marginTop: BaseSpacing
 }

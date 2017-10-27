@@ -16,7 +16,7 @@ import Agenda from 'images/ic_event_white_24px.svg';
 import Location from 'images/ic_location_on_white_24px.svg';
 import Schedule from 'images/ic_schedule_white_24px.svg';
 import Flag from 'images/ic_flag_white_24px.svg';
-import { DEPARTEMENTS } from 'utils/enums';
+import { DEPARTEMENTS, DATE_FORMAT } from 'utils/enums';
 
 import messages from './messages';
 import StridePageEmptyState from './StridePageEmptyState';
@@ -56,7 +56,7 @@ const InformationContent = styled.span`
 
 function getStrideDataFormated(stride) {
   let type = stride.type[0].toUpperCase() + stride.type.slice(1);
-  let date = moment.unix(stride.date).format('DD MMMM YYYY');
+  let date = moment.unix(stride.date).format(DATE_FORMAT);
   let dep = DEPARTEMENTS.find(depObj => depObj.id === stride.dep);
   return [
     { description: type, Icon: Runner },

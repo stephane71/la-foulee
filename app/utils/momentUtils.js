@@ -20,7 +20,7 @@ function getCurrentYearMonthList () {
     .filter((m, i) => i >= currentMonth)
     .map((m, i) => ({
       id: `${currentMonth + i}-${currentYear}`,
-      value: `${m} ${currentYear}`
+      value: `${m}`
     }))
 }
 
