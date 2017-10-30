@@ -1,9 +1,10 @@
 export const dominant = '#264A43'
 export const tonic = '#DDFF31'
 export const white= '#fff';
+export const black= '#000';
 
 const themeDominant = {
-  dark: '#132531',
+  dark: '#132521',
   medium: '#4A7069',
   light: '#7DA196',
   extraLight: '#B9CBC6'
