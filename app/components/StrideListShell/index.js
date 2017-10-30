@@ -11,7 +11,6 @@ import { getColor } from 'colors';
 import StrideItemShell from './StrideItemShell';
 
 const StrideListShellWrapper = styled.div`
-  border-top: 1px solid ${getColor(`extraLight`)};
 `
 
 function StrideListShell() {
