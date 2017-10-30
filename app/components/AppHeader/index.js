@@ -43,8 +43,9 @@ const AppHeaderContent = styled.div`
 
 const ArrowBackWrapper = styled.div`
   position: absolute;
-  left: ${getSpacing(`m`)}px;
-  display: ${({ show }) => show ? `block` : `none`}
+  left: ${getSpacing(`s`)}px;
+  display: ${({ show }) => show ? `block` : `none`};
+  padding: ${getSpacing('s')}px;
 `
 
 function AppHeader(props) {
@@ -52,11 +53,10 @@ function AppHeader(props) {
     <AppHeaderWrapper>
       <AppHeaderContent>
         <Route path={'/foulee/:strideID'} children={({ match, history }) =>
-          <ArrowBackWrapper show={match} >
-            <ArrowBack
-              style={{ fill: white }}
-              onClick={() => props.cptLocation < 2 ? history.push('/search') : history.goBack()}
-            />
+          <ArrowBackWrapper
+            show={match}
+            onClick={() => props.cptLocation < 2 ? history.push('/search') : history.goBack()} >
+              <ArrowBack style={{ fill: white }} />
           </ArrowBackWrapper>
         }/>
         <LaFouleeSVG
