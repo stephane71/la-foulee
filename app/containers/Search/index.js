@@ -12,6 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { List } from 'immutable';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
+import { dominant } from 'colors';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -43,6 +44,8 @@ import {
 
 const SearchWrapper = styled.div`
   position: relative;
+  min-height: 100%;
+  background-color: ${dominant};
 `
 
 const Overlay = styled.div`

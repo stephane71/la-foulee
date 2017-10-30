@@ -32,10 +32,10 @@ import { makeSelectFeching } from 'containers/App/selectors';
 
 import messages from './messages';
 
-const WrapperStrideListEmpty = styled.div`
+const MessageWrapper = styled.div`
   text-align: center;
-  border-top: 1px solid ${getColor('extraLight')};
   padding: ${getSpacing('m')}px;
+  color: ${getColor('mediumGrey', 'tonic')};
 `
 
 const WrapperStrideList = styled.div`
@@ -48,12 +48,6 @@ const StrideItemDate = styled.div`
   color: ${white};
   background-color: ${dominant};
   padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
-`
-
-const StrideListEndMessage = styled.div`
-  border-top: 1px solid ${getColor('extraLight')};
-  padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
-  text-align: center;
 `
 
 class StrideList extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -73,9 +67,9 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
   render() {
     if (!this.props.strides.size)
       return (
-        <WrapperStrideListEmpty>
+        <MessageWrapper>
           <FormattedMessage {...messages.emptyList} />
-        </WrapperStrideListEmpty>
+        </MessageWrapper>
       )
 
     let end = this.props.currentPage + 1 === this.props.pages
@@ -104,13 +98,13 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
           </div>
         )}
 
-        <StrideListEndMessage>
+        <MessageWrapper>
           {end && !this.props.loading ?
             <FormattedMessage {...messages.listEnd} />
           :
             <Loader />
           }
-        </StrideListEndMessage>
+        </MessageWrapper>
       </WrapperStrideList>
     );
   }
