@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
-import { getColor, white } from 'colors';
+import { getColor, black } from 'colors';
 
 import { MONTH_LIST, DEPARTEMENTS, SELECTORS } from 'utils/enums'
 import SelectorRecord from 'records/SelectorRecord'
-import ArrowDropDown from 'images/background-images/ic_arrow_drop_down_black_24px.svg'
+import ArrowDropDown from 'images/background-images/ic_arrow_drop_down_24px.svg'
 
 const getSelectBackgroundPosition = ({ borderRight }) =>
   borderRight ? `calc(100% - ${getSpacing('s')}px)` : `calc(100% - ${getSpacing('m')}px)`
@@ -23,12 +23,13 @@ const SelectorsWrapper = styled.div`
   top: ${({ top }) => top}px;
   z-index: 10;
   display: flex;
-  background-color: ${white};
+  background-color: ${black};
+  color: ${getColor('darkGrey', 'tonic')};
 `
 
 const SelectWrapper = styled.div`
   position: relative;
-  border-right: ${props => props.borderRight ? `1px solid ${getColor(`extraLight`)}` : ``};
+  border-right: ${props => props.borderRight ? `1px solid ${getColor('darkGrey', 'tonic')}` : ``};
   width: 50%;
 `
 

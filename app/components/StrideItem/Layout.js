@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { getSpacing } from 'global-styles-variables'
-import { white, getColor } from 'colors'
+import { white, black, getColor } from 'colors'
 
 export let LEFT_BLOCK_WIDTH= 64
 
@@ -9,8 +9,9 @@ export const WrapperStrideItem = styled.div`
   padding: ${getSpacing('s')}px;
   display: flex;
   align-items: center;
-  background-color: ${white};
-  border-bottom: ${({ borderBottom }) => borderBottom ? `1px solid ${getColor('extraLight')}` : `0` };
+  background-color: ${getColor('dark')};
+  color: ${white};
+  border-bottom: ${({ borderBottom }) => borderBottom ? `1px solid ${black}` : `0` };
 `;
 
 export const Block = styled.div`
