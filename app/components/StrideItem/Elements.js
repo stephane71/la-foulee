@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { white, getColor } from 'colors'
+import { getColor } from 'colors'
 
 export const Dep = styled.div`
 
@@ -15,5 +15,5 @@ export const Title = styled.div`
 `
 
 export const Races = styled.div`
-  color: ${getColor('darkGrey', 'tonic')}
+  color: ${getColor('darkGrey', 'tonic')};
 `

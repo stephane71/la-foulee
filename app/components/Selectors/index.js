@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
-import { getColor, white } from 'colors';
+import { getColor, white, listBorderColor } from 'colors';
 
 import { MONTH_LIST, DEPARTEMENTS, SELECTORS } from 'utils/enums'
 import SelectorRecord from 'records/SelectorRecord'
@@ -24,11 +24,12 @@ const SelectorsWrapper = styled.div`
   z-index: 10;
   display: flex;
   background-color: ${white};
+  border-bottom: 1px solid ${listBorderColor};
 `
 
 const SelectWrapper = styled.div`
   position: relative;
-  border-right: ${props => props.borderRight ? `1px solid ${getColor(`extraLight`)}` : ``};
+  border-right: ${props => props.borderRight ? `1px solid ${listBorderColor}` : ``};
   width: 50%;
 `
 

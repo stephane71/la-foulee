@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
-import { getColor } from 'colors';
+import { listBorderColor } from 'colors';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import AppNoScroll from 'components/AppNoScroll';
@@ -42,7 +42,7 @@ let sideBlockWidth = 35
 
 const SearchSide = styled(ScrollBase)`
   width: ${sideBlockWidth}%;
-  border-right: 1px solid ${getColor('extraLight')};
+  border-right: 1px solid ${listBorderColor};
 `
 
 const StrideSelected = styled(ScrollBase)`

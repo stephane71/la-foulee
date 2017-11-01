@@ -15,7 +15,7 @@ import { List } from 'immutable';
 import { FormattedMessage } from 'react-intl';
 
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
-import { getColor, dominant, white } from 'colors';
+import { getColor, dominant, white, listBorderColor } from 'colors';
 
 import { DATE_FORMAT } from 'utils/enums';
 import { HEIGHT_SELECTORS } from 'components/Selectors';
@@ -41,12 +41,14 @@ const WrapperStrideListEmpty = styled.div`
 const WrapperStrideList = styled.div`
 
 `
-
+let itemDateBGColor = '#F4F5F7'
 const StrideItemDate = styled.div`
   position: sticky;
   top: ${({ top }) => top}px;
-  background-color: ${getColor('lightGrey', 'tonic')};
+  background-color: ${itemDateBGColor};
   padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
+  font-weight: 500;
+  border-bottom: 1px solid ${listBorderColor};
 `
 
 const StrideListEndMessage = styled.div`

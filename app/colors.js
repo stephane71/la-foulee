@@ -1,6 +1,7 @@
 export const dominant = '#264A43'
 export const tonic = '#DDFF31'
 export const white= '#fff';
+export const listBorderColor = '#E7E8EA'
 
 const themeDominant = {
   dark: '#132531',

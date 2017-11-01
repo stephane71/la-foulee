@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { getSpacing } from 'global-styles-variables'
-import { white, getColor } from 'colors'
+import { white, listBorderColor } from 'colors'
 
 export let LEFT_BLOCK_WIDTH= 64
 
@@ -10,7 +10,7 @@ export const WrapperStrideItem = styled.div`
   display: flex;
   align-items: center;
   background-color: ${white};
-  border-bottom: ${({ borderBottom }) => borderBottom ? `1px solid ${getColor('extraLight')}` : `0` };
+  border-bottom: 1px solid ${listBorderColor};
 `;
 
 export const Block = styled.div`
@@ -26,7 +26,7 @@ export const LeftBlock = styled(Block)`
 `
 
 export const ContentBlock = styled(Block)`
-  border-left: 1px solid ${getColor('extraLight')};
+  border-left: 1px solid ${listBorderColor};
   flex: 1;
   display: flex;
   justify-content: space-between;
