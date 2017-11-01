@@ -24,6 +24,7 @@ import StridePageEmptyState from './StridePageEmptyState';
 const StridePageWrapper = styled.div`
   height: 100%;
   padding: 0;
+  overflow: auto;
 `
 
 const HEADER = css`
