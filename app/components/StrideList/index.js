@@ -45,8 +45,7 @@ const WrapperStrideList = styled.div`
 const StrideItemDate = styled.div`
   position: sticky;
   top: ${({ top }) => top}px;
-  color: ${white};
-  background-color: ${dominant};
+  background-color: ${getColor('lightGrey', 'tonic')};
   padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
 `
 
