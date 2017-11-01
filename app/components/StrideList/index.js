@@ -52,7 +52,6 @@ const StrideItemDate = styled.div`
 `
 
 const StrideListEndMessage = styled.div`
-  border-top: 1px solid ${getColor('extraLight')};
   padding: ${getSpacing(`s`)}px ${getSpacing(`m`)}px;
   text-align: center;
 `
