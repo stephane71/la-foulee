@@ -92,7 +92,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   componentWillReceiveProps (nextProps) {
     if (this.props.location !== nextProps.location) {
       let selectors = this.props.getValidParams()
-      // Danger on Desktop: locaction change because of a Foulee select not qs
+      // Danger on Desktop: location change because of a Foulee select not qs
       if (!this.props.selectors.equals(new SelectorRecord(selectors)))
         this.props.updateSelectors(selectors)
     }

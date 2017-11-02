@@ -4,8 +4,7 @@
  *
  */
 
-import { fromJS, Map, List } from 'immutable'
-import qs from 'query-string'
+import { fromJS, List } from 'immutable'
 
 import makeRecordsList from 'utils/makeRecordsList'
 import StrideRecord from 'records/StrideRecord'
