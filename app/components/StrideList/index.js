@@ -34,7 +34,6 @@ import messages from './messages';
 
 const WrapperStrideListEmpty = styled.div`
   text-align: center;
-  border-top: 1px solid ${getColor('extraLight')};
   padding: ${getSpacing('m')}px;
 `
 

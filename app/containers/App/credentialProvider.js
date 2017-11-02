@@ -31,7 +31,7 @@ export default (WrappedComponent) => {
 
     componentWillMount () {
       if (!this.props.credentials)
-        this.props.dispatch(initCredentials())
+        this.props.initCredentials()
     }
 
     componentWillReceiveProps (nextProps) {
@@ -61,7 +61,7 @@ export default (WrappedComponent) => {
       }
 
       if (this.props.credentials.needsRefresh()) {
-        this.dispatch(updateCredentials(this.props.credentials))
+        this.props.updateCredentials(this.props.credentials)
         this.pendingRequests.push({ action, data })
         return
       }
@@ -88,8 +88,9 @@ export default (WrappedComponent) => {
 
   function mapDispatchToProps(dispatch) {
     return {
-      dispatch,
-      requestAPI: (api, action, data) => dispatch(requestAPI(api, action, data))
+      initCredentials: () => dispatch(initCredentials()),
+      requestAPI: (api, action, data) => dispatch(requestAPI(api, action, data)),
+      updateCredentials: (credentials) => dispatch(updateCredentials(credentials))
     };
   }
 

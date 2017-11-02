@@ -9,7 +9,7 @@ import {
 
 import asyncGetCredentials from 'utils/asyncGetCredentials';
 
-function* fetchCredentials(session, currentCredentials) {
+function* fetchCredentials(currentCredentials, session) {
   try {
     let credentials = yield asyncGetCredentials(session, currentCredentials)
     yield put({ type: SET_CREDENTIALS, credentials })
@@ -23,8 +23,8 @@ function* initCredentials () {
   yield fetchCredentials()
 }
 
-function* updateCredentials () {
-  yield fetchCredentials()
+function* updateCredentials ({ credentials }) {
+  yield fetchCredentials(credentials)
 }
 
 function* requestAPI ({ api, action, data }) {
