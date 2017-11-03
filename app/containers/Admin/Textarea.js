@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { getSpacing } from 'global-styles-variables';
 import { getColor } from 'colors';
 
-const Input = styled.input`
+const Textarea = styled.textarea`
   display: inline-block;
   padding: ${getSpacing(`s`)}px;
   vertical-align: middle;
@@ -19,4 +19,4 @@ const Input = styled.input`
   }
 `;
 
-export default Input;
+export default Textarea;

@@ -12,15 +12,19 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { List } from 'immutable';
+import { reducer as formReducer } from 'redux-form/immutable';
+
+import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
+import { white } from 'colors';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { MONTH_LIST, DATE_FORMAT } from 'utils/enums';
-import { getSpacing } from 'global-styles-variables';
+import { DATE_FORMAT } from 'utils/enums';
+
+import AppNoScroll from 'components/AppNoScroll';
 
 import StrideRead from './StrideRead';
 import StrideEdition from './StrideEdition';
-
 
 import makeSelectAdmin from './selectors';
 import saga from './saga';
@@ -41,6 +45,21 @@ const CellButtonEditon = styled.div`
     border-right: 1px solid black;
 `
 
+const StrideEditionContainer = styled.div`
+  z-index: 1000;
+  background-color: ${white};
+  position: fixed;
+  top: ${HEIGHT_APPBAR}px;
+  left: 0;
+  height: calc(100vh - ${HEIGHT_APPBAR}px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: ${getSpacing(`s`)}px;
+  overflow-y: auto;
+`
+
 export class Admin extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   state = {
@@ -48,13 +67,15 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
   }
 
   componentDidMount () {
-    // console.log(MONTH_LIST)
-    console.log('loadStrides');
     this.props.request(loadStrides, { month: '10-2017' })
   }
 
-  onToggleStrideEdit (rowID) {
-    this.setState(({ strideEditing }) => ({ strideEditing: strideEditing === rowID ? null : rowID }))
+  onToggleStrideEdit (stride) {
+    this.setState({ strideEditing: stride })
+  }
+
+  cancelEdition () {
+    this.setState({ strideEditing: null })
   }
 
   render() {
@@ -69,19 +90,21 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
               {strideList.map((stride, j) =>
                 <RowStride key={j}>
                   <CellButtonEditon>
-                    <button onClick={() => this.onToggleStrideEdit(stride.id)}>
+                    <button onClick={() => this.onToggleStrideEdit(stride)}>
                       {`Edit`}
                     </button>
                   </CellButtonEditon>
-                  {this.state.strideEditing === stride.id ?
-                    <StrideEdition stride={stride} />
-                  :
-                    <StrideRead stride={stride} />
-                  }
+                  <StrideRead stride={stride} />
                 </RowStride>
               )}
             </div>
           )}
+          {this.state.strideEditing && <AppNoScroll /> }
+          {this.state.strideEditing &&
+            <StrideEditionContainer>
+              <StrideEdition stride={this.state.strideEditing} onCancel={() => this.cancelEdition()}/>
+            </StrideEditionContainer>
+          }
         </div>
       </AdminWrapper>
     );
@@ -105,10 +128,13 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'admin', reducer });
+const withReducerReduxForm = injectReducer({ key: 'form', reducer: formReducer });
+
 const withSaga = injectSaga({ key: 'search', saga });
 
 export default compose(
   withReducer,
+  withReducerReduxForm,
   withSaga,
-  withConnect,
+  withConnect
 )(Admin);
