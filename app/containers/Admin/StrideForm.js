@@ -51,6 +51,7 @@ const renderActivities = ({ fields }) => (
       {fields.map((activity, i) => (
         <li key={i}>
           <ActivityWrapper>
+            <Field name={`${activity}.offsetDay`} component={renderInput} style={{ marginRight: `${getSpacing(`s`)}px` }} placeholder={`Offset départ`} />
             <Field name={`${activity}.time`} component={renderInput} style={{ marginRight: `${getSpacing(`s`)}px` }} placeholder={`Heure de départ`} />
             <Field name={`${activity}.distance`} component={renderInput} placeholder={`Distance`} />
           </ActivityWrapper>
@@ -62,7 +63,6 @@ const renderActivities = ({ fields }) => (
     </Button>
   </ActivitiesWrapper>
 )
-
 
 let StrideForm = props => {
   const { handleSubmit, pristine } = props
@@ -109,14 +109,14 @@ let StrideForm = props => {
 
       <h4>{`Organisateur`}</h4>
       <div>
-        <Field name={`urlOrganizer`} component={renderInput} placeholder={`Site orga`} />
-      </div>
-      <div>
-        <Field name={`organizer`} component={renderInput} placeholder={`Orga/Contact`} />
+        <Field name={`organizer.name`} component={renderInput} placeholder={`Nom`} />
+        <Field name={`organizer.email`} component={renderInput} placeholder={`Email`} />
+        <Field name={`organizer.phone`} component={renderInput} placeholder={`Téléphone`} />
+        <Field name={`organizer.url`} component={renderInput} placeholder={`Site Internet`} />
       </div>
 
       {/*
-        Pas de status ni de validation pour tant que je suis le seul à update la data
+        Pas de status ni de validation tant que je suis le seul à update la data
       */}
       {/* <h4>{`Status de l'évennement`}</h4>
       <div>

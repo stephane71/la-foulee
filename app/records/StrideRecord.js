@@ -6,13 +6,34 @@ class StrideRecord extends Record({
 
   title: null,
 
+  keyword: null,
+
   date: null,
 
   dep: null,
 
+  city: null,
+
   type: null,
 
-  distances: []
+  // Should be remove
+  distances: [],
+
+  activities: [],
+
+  infos: null,
+
+  organizer: {
+    name: null,
+    email: null,
+    phone: null,
+    url: null
+  },
+
+  lastUpdate: {
+    date: null,
+    user: null
+  }
 
 }) {}
 
