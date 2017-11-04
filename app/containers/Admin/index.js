@@ -27,7 +27,7 @@ import StrideEdition from './StrideEdition';
 import makeSelectAdmin from './selectors';
 import saga from './saga';
 import reducer from './reducer';
-import { loadStrides } from './actions';
+import { loadStrides, patchStride } from './actions';
 
 const AdminWrapper = styled.div`
   padding: ${getSpacing(`m`)}px;
@@ -61,6 +61,10 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
     this.setState({ strideEditing: null })
   }
 
+  patchStride (data) {
+    this.props.request(patchStride, data)
+  }
+
   render() {
     let strides = []
     return (
@@ -82,7 +86,11 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
         )}
 
         {this.state.strideEditing &&
-          <StrideEdition stride={this.state.strideEditing} onCancel={() => this.cancelEdition()}/>
+          <StrideEdition
+            stride={this.state.strideEditing}
+            onCancel={() => this.cancelEdition()}
+            onPatchStride={data => this.patchStride(data)}
+          />
         }
       </AdminWrapper>
     );

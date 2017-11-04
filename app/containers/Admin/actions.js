@@ -6,7 +6,7 @@
 
 import {
   LOAD_STRIDES,
-  SET_STRIDES
+  PATCH_STRIDE
 } from './constants';
 
 export function loadStrides(api, selectors) {
@@ -15,4 +15,12 @@ export function loadStrides(api, selectors) {
     api,
     selectors
   };
+}
+
+export function patchStride (api, data) {
+  return {
+    type: PATCH_STRIDE,
+    api,
+    data
+  }
 }

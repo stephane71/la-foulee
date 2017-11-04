@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
+import { Map } from 'immutable'
 
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables'
 import { white } from 'colors'
@@ -38,8 +39,38 @@ class StrideEdition extends React.Component {
     })
   }
 
+  getPatchedData (data) {
+    let patch = {}
+    let { title, url, day, month, year, date, dep, city, type, activities, infos, organizer } = this.state
+
+    if (data.title !== title) patch.title = data.title
+    if (data.url !== url) patch.url = data.url
+    if (data.dep !== dep) patch.dep = data.dep
+    if (data.city !== city) patch.city = data.city
+    if (data.type !== type) patch.type = data.type
+    if (data.infos !== infos) patch.infos = data.infos
+    if (!Map(data.organizer).equals(Map(organizer))) patch.organizer = data.organizer
+    if (data.day !== day || data.month !== month || data.month !== month)
+      patch.date = moment(`${data.day}-${data.month}-${data.year}`, `D-MMMM-YYYY`).unix()
+    // !!!! Always patch activities !!!! be carefull
+    if (data.activities.length)
+      patch.activities = data.activities
+
+    if (patch.dep || patch.date)
+      patch.datedep = `${patch.date ? patch.date : date}-${patch.dep ? patch.dep : dep}`
+
+    // !!!! Dernière modif !!!!
+    patch.lastUpdate = {
+      date: moment().unix(),
+      user: 'stef'
+    }
+
+    return patch
+  }
+
   submit = (values) => {
-    console.log(values.toJS())
+    let data = this.getPatchedData(values.toJS())
+    this.props.onPatchStride(data)
   }
 
   render () {
@@ -47,7 +78,11 @@ class StrideEdition extends React.Component {
       <StrideEditionWrapper>
         <AppNoScroll />
         <div>
-          <StrideForm onSubmit={this.submit} initialValues={this.state} onCancel={() => this.props.onCancel()} />
+          <StrideForm
+            initialValues={this.state}
+            onSubmit={this.submit}
+            onCancel={() => this.props.onCancel()}
+          />
         </div>
       </StrideEditionWrapper>
     );

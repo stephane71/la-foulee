@@ -45,13 +45,15 @@ const renderInput = props => <Input style={{...props.style}} {...props.input} pl
 
 const renderSelect = props => <Select style={{...props.style}} {...props.input} />
 
+const renderTextarea = props => <Textarea style={{...props.style}} {...props.input} placeholder={props.placeholder} />
+
 const renderActivities = ({ fields }) => (
   <ActivitiesWrapper>
     <ul>
       {fields.map((activity, i) => (
         <li key={i}>
           <ActivityWrapper>
-            <Field name={`${activity}.offsetDay`} component={renderInput} style={{ marginRight: `${getSpacing(`s`)}px` }} placeholder={`Offset départ`} />
+            <Field name={`${activity}.offsetDay`} component={renderInput} style={{ marginRight: `${getSpacing(`s`)}px` }} placeholder={`Offset jour de départ`} />
             <Field name={`${activity}.time`} component={renderInput} style={{ marginRight: `${getSpacing(`s`)}px` }} placeholder={`Heure de départ`} />
             <Field name={`${activity}.distance`} component={renderInput} placeholder={`Distance`} />
           </ActivityWrapper>
@@ -104,7 +106,7 @@ let StrideForm = props => {
 
       <h4>{`Décrivez votre évennement !`}</h4>
       <div>
-        <Field name={`infos`} component={Textarea} placeholder={`Infos`} />
+        <Field name={`infos`} component={renderTextarea} placeholder={`Infos`} />
       </div>
 
       <h4>{`Organisateur`}</h4>
