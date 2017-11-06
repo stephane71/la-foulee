@@ -1,9 +1,16 @@
 
 import {
+  SET_USER_ADMIN,
   INIT_CREDENTIALS,
   UPDATE_CREDENTIALS,
   REQUEST_API
 } from './constants'
+
+export function setUserAdmin () {
+  return {
+    type: SET_USER_ADMIN
+  }
+}
 
 export function initCredentials () {
   return {
