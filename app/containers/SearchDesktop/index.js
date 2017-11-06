@@ -15,8 +15,9 @@ import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import AppNoScroll from 'components/AppNoScroll';
 
-import Search from 'containers/Search';
-import Stride from 'containers/Stride';
+import Search from 'containers/Search'
+import Stride from 'containers/Stride'
+import StrideEdition from 'containers/Admin/StrideEdition'
 
 const SearchDesktopWrapper = styled.div`
   position: fixed;
@@ -71,7 +72,11 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
           <Search {...this.props} desktop isUpdating={(started) => this.onSearchUpdating(started)} />
         </SearchSide>
         <StrideSelected>
-          <Stride {...this.props} desktop />
+          {this.props.userAdmin ?
+            <StrideEdition {...this.props} />
+          :
+            <Stride {...this.props} desktop />
+          }
         </StrideSelected>
 
       </SearchDesktopWrapper>
@@ -83,13 +88,19 @@ SearchDesktop.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
+const mapStateToProps = (state) => {
+  return {
+    userAdmin: state.getIn(['user','admin'])
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
   };
 }
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,

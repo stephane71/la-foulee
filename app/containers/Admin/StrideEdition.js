@@ -2,21 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import { Map } from 'immutable'
+import { reducer as formReducer } from 'redux-form/immutable';
+import { compose } from 'redux';
 
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables'
 import { white } from 'colors'
+
+import injectReducer from 'utils/injectReducer';
 
 import AppNoScroll from 'components/AppNoScroll';
 
 import StrideForm from './StrideForm'
 
 const StrideEditionWrapper = styled.div`
-  z-index: 1000;
-  background-color: ${white};
-  position: fixed;
-  top: ${HEIGHT_APPBAR}px;
-  left: 0;
-  height: calc(100vh - ${HEIGHT_APPBAR}px);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -27,16 +25,21 @@ const StrideEditionWrapper = styled.div`
 
 class StrideEdition extends React.Component {
 
-  constructor (props) {
-    super(props)
-
-    let momentDate = moment.unix(this.props.stride.date)
-    this.state = Object.assign({}, this.props.stride, {
+  getInitialFormValues (stride) {
+    let momentDate = moment.unix(stride.date)
+    return Object.assign({}, stride, {
       day: momentDate.format('D'),
       month: momentDate.format('MMMM'),
       year: momentDate.format('YYYY'),
       daysInMonth: momentDate.daysInMonth()
     })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.location !== nextProps.location) {
+      if (nextProps.location.state)
+        this.setState(this.getInitialFormValues(nextProps.location.state.stride))
+    }
   }
 
   getPatchedData (data) {
@@ -81,6 +84,7 @@ class StrideEdition extends React.Component {
         <div>
           <StrideForm
             initialValues={this.state}
+            enableReinitialize={true}
             onSubmit={this.submit}
             onCancel={() => this.props.onCancel()}
           />
@@ -90,4 +94,8 @@ class StrideEdition extends React.Component {
   }
 }
 
-export default StrideEdition;
+const withReducerReduxForm = injectReducer({ key: 'form', reducer: formReducer });
+
+export default compose(
+  withReducerReduxForm
+)(StrideEdition);

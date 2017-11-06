@@ -77,6 +77,8 @@ function App(props) {
               <Redirect to={`/search`} />
             }/>
 
+            <AppHomeLoaderRoute exact path={'/admin'} component={Admin} />
+
             <AppHomeLoaderRoute exact path={'/search'} component={SearchDesktop} request={props.request} />
             <AppHomeLoaderRoute path={'/search/:strideID'} component={SearchDesktop} request={props.request} />
 
@@ -84,7 +86,6 @@ function App(props) {
               <Redirect to={`/search/${match.params.strideID}${location.search}`} />
             }/>
 
-            <AppHomeLoaderRoute exact path={'/admin'} component={Admin} request={props.request} />
             <Route component={NotFoundPage} />
           </Switch>
         }

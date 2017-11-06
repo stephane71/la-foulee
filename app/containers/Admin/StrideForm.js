@@ -43,9 +43,9 @@ const ActivityWrapper = styled.div`
 
 const renderInput = props => <Input style={{...props.style}} {...props.input} placeholder={props.placeholder} />
 
-const renderSelect = props => <Select style={{...props.style}} {...props.input} />
-
 const renderTextarea = props => <Textarea style={{...props.style}} {...props.input} placeholder={props.placeholder} />
+
+const renderSelect = props => <Select style={{...props.style}} {...props.input} />
 
 const renderActivities = ({ fields }) => (
   <ActivitiesWrapper>
