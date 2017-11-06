@@ -17,10 +17,11 @@ export function loadStrides(api, selectors) {
   };
 }
 
-export function patchStride (api, data) {
+export function patchStride (api, { strideID, data }) {
   return {
     type: PATCH_STRIDE,
     api,
+    strideID,
     data
   }
 }

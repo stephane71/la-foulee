@@ -61,8 +61,8 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
     this.setState({ strideEditing: null })
   }
 
-  patchStride (data) {
-    this.props.request(patchStride, data)
+  patchStride (strideID, data) {
+    this.props.request(patchStride, { strideID, data })
   }
 
   render() {
@@ -89,7 +89,7 @@ export class Admin extends React.Component { // eslint-disable-line react/prefer
           <StrideEdition
             stride={this.state.strideEditing}
             onCancel={() => this.cancelEdition()}
-            onPatchStride={data => this.patchStride(data)}
+            onPatchStride={(strideID, data) => this.patchStride(strideID, data)}
           />
         }
       </AdminWrapper>

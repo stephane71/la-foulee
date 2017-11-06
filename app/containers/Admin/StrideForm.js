@@ -78,8 +78,8 @@ let StrideForm = props => {
           <Field name={`title`} component={renderInput} type={`text`} />
         </FieldWrapper>
         <FieldWrapper style={{ marginRight: 0 }}>
-          <label htmlFor={`url`}>{`Url`}</label>
-          <Field name={`url`} component={renderInput} type={`text`} />
+          <label htmlFor={`keyword`}>{`Keyword`}</label>
+          <Field name={`keyword`} component={renderInput} type={`text`} />
         </FieldWrapper>
       </div>
       <div>
@@ -109,12 +109,17 @@ let StrideForm = props => {
         <Field name={`infos`} component={renderTextarea} placeholder={`Infos`} />
       </div>
 
+      <h4>{`Inscription`}</h4>
+      <div>
+        <Field name={`inscription`} component={renderInput} />
+      </div>
+
       <h4>{`Organisateur`}</h4>
       <div>
         <Field name={`organizer.name`} component={renderInput} placeholder={`Nom`} />
         <Field name={`organizer.email`} component={renderInput} placeholder={`Email`} />
         <Field name={`organizer.phone`} component={renderInput} placeholder={`Téléphone`} />
-        <Field name={`organizer.url`} component={renderInput} placeholder={`Site Internet`} />
+        <Field name={`organizer.website`} component={renderInput} placeholder={`Site Internet`} />
       </div>
 
       {/*

@@ -41,14 +41,15 @@ class StrideEdition extends React.Component {
 
   getPatchedData (data) {
     let patch = {}
-    let { title, url, day, month, year, date, dep, city, type, activities, infos, organizer } = this.state
+    let { title, keyword, day, month, year, date, dep, city, type, activities, infos, organizer, inscription } = this.state
 
     if (data.title !== title) patch.title = data.title
-    if (data.url !== url) patch.url = data.url
+    if (data.keyword !== keyword) patch.keyword = data.keyword
     if (data.dep !== dep) patch.dep = data.dep
     if (data.city !== city) patch.city = data.city
     if (data.type !== type) patch.type = data.type
     if (data.infos !== infos) patch.infos = data.infos
+    if (data.inscription !== inscription) patch.inscription = data.inscription
     if (!Map(data.organizer).equals(Map(organizer))) patch.organizer = data.organizer
     if (data.day !== day || data.month !== month || data.month !== month)
       patch.date = moment(`${data.day}-${data.month}-${data.year}`, `D-MMMM-YYYY`).unix()
@@ -70,7 +71,7 @@ class StrideEdition extends React.Component {
 
   submit = (values) => {
     let data = this.getPatchedData(values.toJS())
-    this.props.onPatchStride(data)
+    this.props.onPatchStride(this.props.stride.id, data)
   }
 
   render () {

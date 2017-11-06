@@ -23,11 +23,13 @@ class StrideRecord extends Record({
 
   infos: null,
 
+  inscription: null,
+
   organizer: {
     name: null,
     email: null,
     phone: null,
-    url: null
+    website: null
   },
 
   lastUpdate: {

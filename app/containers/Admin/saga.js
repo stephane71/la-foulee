@@ -33,8 +33,8 @@ function* loadStrides ({ api, selectors }) {
   yield put({ type: FETCHING_END })
 }
 
-function* patchStride ({ api, data }) {
-  console.log('patch stride', data);
+function* patchStride ({ api, strideID, data }) {
+  let res = yield call(api.strideStrideIDPatch, { strideID }, data)
 }
 
 export default function* defaultSaga() {
