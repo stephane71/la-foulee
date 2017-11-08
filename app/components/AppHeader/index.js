@@ -20,6 +20,14 @@ import ArrowBack from 'images/ic_arrow_back_white_24px.svg';
 import { makeSelectCptLocation } from 'containers/App/selectors';
 
 const HEIGHT_LOGO_APP_HEADER = HEIGHT_APPBAR - 8
+const ICONS_WIDTH = 24
+/*
+ * This calculation is based on this pattern:
+ *  | Icon | Logo | Icon |
+ * Each Icon: 24 px + 12px padding (right & left)
+ * Content padding: 12 px (right & left)
+ */
+const WIDTH_DIFF_CENTER_LOGO_WRAPPER = ICONS_WIDTH * 2 + getSpacing(`s`) * 4 + getSpacing(`s`) * 2
 
 const AppHeaderWrapper = styled.header`
   position: fixed;
@@ -32,20 +40,22 @@ const AppHeaderWrapper = styled.header`
 `
 
 const AppHeaderContent = styled.div`
-  padding: 0 ${getSpacing(`m`)}px;
-  padding-top: 3px;
+  padding: 0 ${getSpacing(`s`)}px;
   background-color: ${dominant};
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `
 
 const ArrowBackWrapper = styled.div`
-  position: absolute;
-  left: ${getSpacing(`s`)}px;
-  display: ${({ show }) => show ? `block` : `none`};
+  visibility: ${({ show }) => show ? `visible` : `hidden`};
   padding: ${getSpacing('s')}px;
+`
+
+const LaFouleeSVGWrapper = styled.div`
+  width: calc(100% - ${WIDTH_DIFF_CENTER_LOGO_WRAPPER}px);
+  text-align: center;
 `
 
 function AppHeader(props) {
@@ -59,9 +69,11 @@ function AppHeader(props) {
               <ArrowBack style={{ fill: white }} />
           </ArrowBackWrapper>
         }/>
-        <LaFouleeSVG
-          height={`${HEIGHT_LOGO_APP_HEADER}px`}
-        />
+        <LaFouleeSVGWrapper>
+          <LaFouleeSVG
+            height={`${HEIGHT_LOGO_APP_HEADER}px`}
+          />
+        </LaFouleeSVGWrapper>
       </AppHeaderContent>
     </AppHeaderWrapper>
   );
