@@ -10,6 +10,8 @@ class StrideRecord extends Record({
 
   date: null,
 
+  address: '',
+
   dep: null,
 
   city: null,
