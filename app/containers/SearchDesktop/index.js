@@ -7,11 +7,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { compose } from 'redux';
 import { listBorderColor } from 'colors';
-import { HEIGHT_APPBAR } from 'global-styles-variables';
+import { HEIGHT_APPBAR, getSpacing } from 'global-styles-variables';
 
 import AppNoScroll from 'components/AppNoScroll';
 
@@ -51,7 +48,17 @@ const StrideSelected = styled(ScrollBase)`
   left: ${sideBlockWidth}%;
 `
 
+const EditButton = styled.button`
+  position: fixed;
+  top: ${HEIGHT_APPBAR + getSpacing(`s`)}px;
+  right: ${getSpacing(`s`)}px;
+`
+
 export class SearchDesktop extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+  state = {
+    edit: false
+  }
 
   onSearchUpdating (started) {
     if (started) {
@@ -62,21 +69,26 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
     }
   }
 
+  onToggleEdit () {
+    this.setState(({ edit }) => ({ edit: !edit}))
+  }
+
   render() {
     return (
       <SearchDesktopWrapper>
 
         <AppNoScroll />
 
-        <SearchSide innerRef={searchSide => { this.searchSide = searchSide; }}>
+        <SearchSide innerRef={searchSide => { this.searchSide = searchSide }}>
           <Search {...this.props} desktop isUpdating={(started) => this.onSearchUpdating(started)} />
         </SearchSide>
         <StrideSelected>
-          {this.props.userAdmin ?
-            <StrideEdition {...this.props} />
+          {this.state.edit ?
+            <StrideEdition {...this.props} stride={this.props.location.state.stride} />
           :
             <Stride {...this.props} desktop />
           }
+          <EditButton onClick={() => this.onToggleEdit()}>{this.state.edit ? `Mode Lecture` : `Mode Edition`}</EditButton>
         </StrideSelected>
 
       </SearchDesktopWrapper>
@@ -85,23 +97,7 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
 }
 
 SearchDesktop.propTypes = {
-  dispatch: PropTypes.func.isRequired
+
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userAdmin: state.getIn(['user','admin'])
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default compose(
-  withConnect,
-)(SearchDesktop);
+export default SearchDesktop

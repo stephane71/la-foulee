@@ -82,23 +82,32 @@ let StrideForm = props => {
           <Field name={`keyword`} component={renderInput} type={`text`} />
         </FieldWrapper>
       </div>
+
+      {/*  DATE */}
       <div>
         <Field name={`day`} component={renderSelect} style={{ marginRight: `${getSpacing(`s`)}px` }} />
         <Field name={`month`} component={renderSelect} style={{ marginRight: `${getSpacing(`s`)}px` }} />
         <Field name={`year`} component={renderSelect} style={{}}/>
       </div>
-      <div>
-        <FieldWrapper>
-          <Field name={`dep`} component={renderSelect} />
-        </FieldWrapper>
-        <FieldWrapper style={{ marginRight: 0 }}>
-          <Field name={`city`} component={renderInput} type={`text`} placeholder={'Ville'} />
-        </FieldWrapper>
-      </div>
+
+      {/*  TYPE  */}
       <div>
         <Field name={`type`} component={renderSelect} />
       </div>
 
+      {/*  LOCATION */}
+      <h4>{`Adresse de l'événement`}</h4>
+      <div>
+        <Field name={`address`} component={renderInput} type={`text`} placeholder={'Adresse'} />
+      </div>
+      <div>
+        <Field name={`city`} component={renderInput} type={`text`} placeholder={'Ville'} />
+      </div>
+      <div>
+        <Field name={`dep`} component={renderSelect} />
+      </div>
+
+      {/*  ACTIVITIES */}
       <h4>{`Les différentes épreuves`}</h4>
       <div>
         <FieldArray name={`activities`} component={renderActivities} />
@@ -106,7 +115,7 @@ let StrideForm = props => {
 
       <h4>{`Décrivez votre évennement !`}</h4>
       <div>
-        <Field name={`infos`} component={renderTextarea} placeholder={`Infos`} />
+        <Field name={`infos`} component={renderTextarea} placeholder={`Présentation des courses, remise des dossards, ...`} />
       </div>
 
       <h4>{`Inscription`}</h4>
@@ -116,10 +125,14 @@ let StrideForm = props => {
 
       <h4>{`Organisateur`}</h4>
       <div>
-        <Field name={`organizer.name`} component={renderInput} placeholder={`Nom`} />
-        <Field name={`organizer.email`} component={renderInput} placeholder={`Email`} />
-        <Field name={`organizer.phone`} component={renderInput} placeholder={`Téléphone`} />
-        <Field name={`organizer.website`} component={renderInput} placeholder={`Site Internet`} />
+        <FieldWrapper>
+          <Field name={`organizer.name`} component={renderInput} placeholder={`Nom`} style={{ marginBottom: `${getSpacing('s')}px` }} />
+          <Field name={`organizer.phone`} component={renderInput} placeholder={`Téléphone`} />
+        </FieldWrapper>
+        <FieldWrapper style={{ marginRight: 0 }}>
+          <Field name={`organizer.email`} component={renderInput} placeholder={`Email`} style={{ marginBottom: `${getSpacing('s')}px` }} />
+          <Field name={`organizer.website`} component={renderInput} placeholder={`Site Internet`} />
+        </FieldWrapper>
       </div>
 
       {/*

@@ -28,7 +28,6 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Search from 'containers/Search';
 import Stride from 'containers/Stride';
 import SearchDesktop from 'containers/SearchDesktop';
-import Admin from 'containers/Admin';
 
 import saga from './saga';
 import credentialProvider from './credentialProvider';
@@ -76,8 +75,6 @@ function App(props) {
             <Route exact path={`/`} component={() =>
               <Redirect to={`/search`} />
             }/>
-
-            <AppHomeLoaderRoute exact path={'/admin'} component={Admin} />
 
             <AppHomeLoaderRoute exact path={'/search'} component={SearchDesktop} request={props.request} />
             <AppHomeLoaderRoute path={'/search/:strideID'} component={SearchDesktop} request={props.request} />
