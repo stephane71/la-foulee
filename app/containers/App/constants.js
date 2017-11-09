@@ -10,7 +10,6 @@
  */
 
 export const DEFAULT_LOCALE = 'en'
-export const SET_USER_ADMIN = 'app/App/SET_USER_ADMIN'
 export const SET_CREDENTIALS = 'app/App/SET_CREDENTIALS'
 export const INIT_CREDENTIALS = 'app/App/INIT_CREDENTIALS'
 export const UPDATE_CREDENTIALS = 'app/App/UPDATE_CREDENTIALS'

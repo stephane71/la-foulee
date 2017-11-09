@@ -7,8 +7,7 @@
 import { fromJS } from 'immutable';
 
 import {
-  SET_CREDENTIALS,
-  SET_USER_ADMIN
+  SET_CREDENTIALS
 } from './constants';
 
 const initialState = fromJS({
@@ -18,8 +17,6 @@ const initialState = fromJS({
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER_ADMIN:
-      return state.set('admin', true)
     case SET_CREDENTIALS:
       return state.set('credentials', action.credentials)
     default:
