@@ -8,7 +8,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   emptyList: {
     id: 'app.components.StrideList.emptyList',
-    defaultMessage: `Aucune course n'est programmées !`
+    defaultMessage: `Aucune course n'est programmée !`
   },
   listEnd: {
     id: 'app.components.StrideList.listEnd',
