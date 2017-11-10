@@ -34,59 +34,83 @@ const StrideEditionWrapper = styled.div`
   overflow-y: auto;
 `
 
-export class StrideEdition extends React.Component { // eslint-disable-line react/prefer-stateless-function
+function getPatchData (values, initialValues) {
+  let patch = {}
+  let attributes = ['title', 'keyword', 'date', 'type', 'address', 'city', 'dep', 'infos', 'inscription']
+  let immutableAttributes = ['activities', 'organizer']
 
-  getPatchData (values, initialValues) {
-    // TRIM des input text !!!!!
-    let patch = {}
-    let attributes = ['title', 'keyword', 'date', 'type', 'address', 'city', 'dep', 'infos', 'inscription']
-    let immutableAttributes = ['activities', 'organizer']
+  attributes.forEach(attr => {
+    if (values.get(attr) !== initialValues.get(attr))
+      patch[attr] = values.get(attr)
+  })
 
-    attributes.forEach(attr => {
-      if (values.get(attr) !== initialValues.get(attr))
-        patch[attr] = values.get(attr)
-    })
-
-    immutableAttributes.forEach(attr => {
-      if (!values.get(attr).equals(initialValues.get(attr))) {
-        patch[attr] = values.get(attr).toJS()
-      }
-    })
-
-    patch.lastUpdate = {
-      date: moment().unix(),
-      user: 'stef'
+  immutableAttributes.forEach(attr => {
+    if (!values.get(attr).equals(initialValues.get(attr))) {
+      patch[attr] = values.get(attr).toJS()
     }
-    return patch
+  })
+
+  patch.lastUpdate = {
+    date: moment().unix(),
+    user: 'stef'
+  }
+  return patch
+}
+
+function sanitizePatchData (data) {
+  let patch = Object.assign({}, data)
+
+  // In DynamoDB you can't submit an empty string: We have to delete empty properties
+  // "String and Binary type attributes must have lengths greater than zero."
+  // see: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#putItem-property
+  if (patch.organizer) {
+    if (!patch.organizer.name) delete patch.organizer.name
+    if (!patch.organizer.phone) delete patch.organizer.phone
+    if (!patch.organizer.email) delete patch.organizer.email
+    if (!patch.organizer.website) delete patch.organizer.website
   }
 
-  sanitizePatchData (data) {
-    let patch = Object.assign({}, data)
+  return patch
+}
 
-    // In DynamoDB you can't submit an empty string: We have to delete empty properties
-    // "String and Binary type attributes must have lengths greater than zero."
-    // see: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#putItem-property
-    if (patch.organizer) {
-      if (!patch.organizer.name) delete patch.organizer.name
-      if (!patch.organizer.phone) delete patch.organizer.phone
-      if (!patch.organizer.email) delete patch.organizer.email
-      if (!patch.organizer.website) delete patch.organizer.website
+export class StrideEdition extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      stride: Object.assign({}, this.props.stride),
+      currentChanges: {}
     }
+  }
 
-    return patch
+  componentWillReceiveProps (nextProps) {
+    if (this.props.strideEdition.strideUpdating === true && !nextProps.strideEdition.strideUpdating) {
+      this.setState({
+        stride: Object.assign({}, this.props.stride, this.state.currentChanges),
+        currentChanges: {}
+      })
+    }
+    if (this.props.stride.id !== nextProps.stride.id) {
+      this.setState({
+        stride: Object.assign({}, nextProps.stride),
+        currentChanges: {}
+      })
+    }
   }
 
   submit = (values, initialValues) => {
-    let data = this.getPatchData(values, initialValues)
-    data = this.sanitizePatchData(data)
+    let strideID = this.state.stride.id
 
-    let strideID = this.props.location.state.stride.id
-    console.log('Patch stride:', strideID, data)
+    let data = getPatchData(values, initialValues)
+    data = sanitizePatchData(data)
+
     this.props.request(patchStride, { strideID, data })
+    this.setState({ 'currentChanges': data })
   }
 
   render () {
-    if (!this.props.stride.title)
+    if (!this.state.stride.title)
       return (
         <h5>{`Please select a stride`}</h5>
       )
@@ -95,7 +119,7 @@ export class StrideEdition extends React.Component { // eslint-disable-line reac
       <StrideEditionWrapper>
         <div>
           <StrideForm
-            initialValues={this.props.stride}
+            initialValues={this.state.stride}
             enableReinitialize={true}
             onSubmit={(values, dispatch, { initialValues }) => this.submit(values, initialValues)}
             onCancel={() => this.props.onCancel()}
