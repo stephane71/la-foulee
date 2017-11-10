@@ -14,7 +14,7 @@ import AppNoScroll from 'components/AppNoScroll';
 
 import Search from 'containers/Search'
 import Stride from 'containers/Stride'
-import StrideEdition from 'containers/Admin/StrideEdition'
+import StrideEdition from 'containers/StrideEdition'
 
 const SearchDesktopWrapper = styled.div`
   position: fixed;

@@ -14,7 +14,8 @@ import {
   UPDATE_SELECTORS,
   SET_NB_PAGES,
   SET_STRIDES,
-  SET_CURRENT_PAGE
+  SET_CURRENT_PAGE,
+  UPDATE_STRIDE
 } from './constants';
 
 const initialState = fromJS({
@@ -42,10 +43,13 @@ function searchReducer(state = initialState, action) {
       return state
         .set('selectors', new SelectorRecord(action.selectors))
         .set('currentPage', 0)
+
     case SET_NB_PAGES:
       return state.set('pages', action.pages)
+
     case SET_CURRENT_PAGE:
       return state.set('currentPage', action.currentPage)
+
     case SET_STRIDES:
       let strides = List(action.strides.map(strideList => makeRecordsList(StrideRecord, strideList)))
       if (!action.refresh)
@@ -53,6 +57,17 @@ function searchReducer(state = initialState, action) {
       return state
         .set('strides', strides)
         .set('nbStrides', strides.reduce((n, nextList) => n += nextList.size, 0))
+
+    case UPDATE_STRIDE:
+      let updatedStrides = state.get('strides').map(strideListDay =>
+        strideListDay.map(stride => {
+          if (stride.id === action.strideID)
+            stride = new StrideRecord(Object.assign({}, stride.toJS(), action.data))
+          return stride
+        }))
+      return state
+        .set('strides', updatedStrides)
+        .set('strideUpdating', false)
     default:
       return state;
   }
