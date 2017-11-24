@@ -16,6 +16,8 @@ function getCurrentYearMonthList () {
   let currentMonth = moment().month()
   let currentYear = moment().year()
   let indexes = []
+  if (currentYear === 2017)
+    return []
   return MONTHS
     .filter((m, i) => i >= currentMonth)
     .map((m, i) => ({
@@ -24,7 +26,7 @@ function getCurrentYearMonthList () {
     }))
 }
 
-const currentMonth = moment().month()
+const currentMonth = moment().year() === 2017 ? `0-2018` : `${moment().month()}-${moment().year()}`
 
 export {
   getNextYearMonthList,
