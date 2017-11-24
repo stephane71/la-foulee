@@ -14,7 +14,6 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { dominant } from 'colors';
 
 import HelmetIntl from 'components/HelmetIntl';
 import StridePage from 'components/StridePage';
@@ -53,9 +52,9 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillMount () {
-    if (this.props.match.params.strideID) {
+    if (this.props.match.params.strideKeyword) {
       let strideInRoute = this.props.location.state && this.props.location.state.stride
-      this.setStride(strideInRoute, this.props.match.params.strideID)
+      this.setStride(strideInRoute, this.props.match.params.strideKeyword)
     }
   }
 
@@ -65,20 +64,20 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
         loading: false
       })
     }
-    if (this.props.desktop && (this.props.match.params.strideID !== nextProps.match.params.strideID)) {
+    if (this.props.desktop && (this.props.match.params.strideKeyword !== nextProps.match.params.strideKeyword)) {
       let strideInRoute = nextProps.location.state && nextProps.location.state.stride
-      this.setStride(strideInRoute, nextProps.match.params.strideID)
+      this.setStride(strideInRoute, nextProps.match.params.strideKeyword)
     }
   }
 
-  setStride (stride, strideID = null) {
+  setStride (stride, strideKeyword = null) {
     if (stride) {
       this.props.setStride(stride)
       this.setState({
         loading: false
       })
-    } else if (strideID)
-      this.props.request(loadStride, { id: strideID })
+    } else if (strideKeyword)
+      this.props.request(loadStride, { id: strideKeyword })
   }
 
   render() {
@@ -115,7 +114,7 @@ Stride.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  stride: makeSelectStride(),
+  stride: makeSelectStride()
 });
 
 function mapDispatchToProps(dispatch) {

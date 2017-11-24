@@ -1,6 +1,7 @@
 import {
   getNextYearMonthList,
-  getCurrentYearMonthList
+  getCurrentYearMonthList,
+  currentMonth
 } from 'utils/momentUtils'
 
 const departements = {
@@ -110,6 +111,7 @@ const departements = {
 let currentYearMonthList = getCurrentYearMonthList()
 let nextYearMonthList = getNextYearMonthList(currentYearMonthList.length)
 
+export const CURRENT_MONTH = currentMonth
 export const MONTH_LIST = currentYearMonthList.concat(nextYearMonthList)
 export const DEPARTEMENTS = Reflect.ownKeys(departements).sort().map(depNum =>({
   id: depNum,

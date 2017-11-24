@@ -24,7 +24,10 @@ function getCurrentYearMonthList () {
     }))
 }
 
+const currentMonth = moment().month()
+
 export {
   getNextYearMonthList,
-  getCurrentYearMonthList
+  getCurrentYearMonthList,
+  currentMonth
 }

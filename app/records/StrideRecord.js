@@ -12,7 +12,9 @@ class StrideRecord extends Record({
 
   type: null,
 
-  distances: []
+  distances: [],
+
+  keyword: null
 
 }) {}
 
