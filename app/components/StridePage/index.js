@@ -53,6 +53,11 @@ const InformationContent = styled.span`
   margin-right: ${getSpacing('m')}px;
 `
 
+const OrganizerWrapper = styled.div`
+  padding: ${getSpacing('s')}px;
+  padding-left: ${getSpacing('m')}px;
+`
+
 function getStrideDataFormated(stride) {
   let type = stride.type[0].toUpperCase() + stride.type.slice(1);
   let date = moment.unix(stride.date).format(DATE_FORMAT);
@@ -60,8 +65,15 @@ function getStrideDataFormated(stride) {
   return [
     { description: type, Icon: Runner },
     { description: date, Icon: Agenda },
-    { description: dep.value, Icon: Location }
+    { description: `${stride.city || ``} - ${dep.value}`, Icon: Location }
   ]
+}
+
+function getFormatedDistance (distance, value) {
+  if (value < 1000)
+    return distance
+
+  return `${value/1000}km`
 }
 
 function StridePage(props) {
@@ -83,13 +95,30 @@ function StridePage(props) {
       </InformationList>
 
       <InformationList>
-        {props.stride.distances.map(({ value }, i) =>
-          <InfomationItem key={i}>
-            <Schedule /><InformationContent>{'NC'}</InformationContent>
-            <Flag /><InformationContent>{`${value/1000}km`}</InformationContent>
-          </InfomationItem>
-        )}
+        {props.stride.activities
+          .sort((activityA, activityB) => activityB.value - activityA.value)
+          .map(({ distance, infos, time, title, value }, i) =>
+            <InfomationItem key={i}>
+              <Schedule /><InformationContent>{time}</InformationContent>
+              <Flag /><InformationContent>{getFormatedDistance(distance, value)}</InformationContent>
+            </InfomationItem>
+          )}
       </InformationList>
+
+      <OrganizerWrapper>
+        {props.stride.inscriptions &&
+          <div>
+            <h3>{`Inscriptions`}</h3>
+            <a href={props.stride.inscriptions}>{props.stride.inscriptions}</a>
+          </div>
+        }
+
+        <h3>{`Organisateur`}</h3>
+        <div style={{ textTransform: `capitalize` }}>{props.stride.organizer.name}</div>
+        <div><a href={props.stride.organizer.website}>{props.stride.organizer.website}</a></div>
+        <div>{props.stride.organizer.infos}</div>
+        <div><a href={`mailto:${props.stride.organizer.email}`}>{props.stride.organizer.email}</a></div>
+      </OrganizerWrapper>
 
     </StridePageWrapper>
   );

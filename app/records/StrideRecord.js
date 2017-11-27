@@ -8,13 +8,23 @@ class StrideRecord extends Record({
 
   date: null,
 
+  dateEnd: null,
+
   dep: null,
 
   type: null,
 
+  city: null,
+
+  activities: [],
+
   distances: [],
 
-  keyword: null
+  organizer: {},
+
+  keyword: null,
+
+  inscriptions: null
 
 }) {}
 
