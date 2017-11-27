@@ -18,7 +18,7 @@ import injectReducer from 'utils/injectReducer';
 import HelmetIntl from 'components/HelmetIntl';
 import StridePage from 'components/StridePage';
 import ScrollToTopOnMount from 'components/ScrollToTopOnMount';
-import Loader from 'components/Loader';
+import OverlayLoader from 'components/OverlayLoader';
 
 import makeSelectStride from './selectors';
 import reducer from './reducer';
@@ -29,20 +29,6 @@ import { setStride, loadStride } from './actions';
 const StrideWrapper = styled.div`
   position: relative;
   height: 100%;
-`
-
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.80);
-  z-index: 20;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 
 export class Stride extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -95,9 +81,7 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
         }
 
         {this.state.loading ?
-          <Overlay>
-            <Loader />
-          </Overlay>
+          <OverlayLoader />
         :
           <StridePage stride={this.props.stride} />
         }
