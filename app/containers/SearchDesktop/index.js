@@ -7,13 +7,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { compose } from 'redux';
 import { listBorderColor } from 'colors';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
-
-import AppNoScroll from 'components/AppNoScroll';
 
 import Search from 'containers/Search';
 import Stride from 'containers/Stride';
@@ -65,8 +60,6 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
     return (
       <SearchDesktopWrapper>
 
-        <AppNoScroll />
-
         <SearchSide innerRef={searchSide => { this.searchSide = searchSide; }}>
           <Search {...this.props} desktop isUpdating={(started) => this.onSearchUpdating(started)} />
         </SearchSide>
@@ -80,17 +73,7 @@ export class SearchDesktop extends React.Component { // eslint-disable-line reac
 }
 
 SearchDesktop.propTypes = {
-  dispatch: PropTypes.func.isRequired
+
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(null, mapDispatchToProps);
-
-export default compose(
-  withConnect,
-)(SearchDesktop);
+export default SearchDesktop;
