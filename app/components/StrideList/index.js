@@ -83,14 +83,14 @@ class StrideList extends React.PureComponent { // eslint-disable-line react/pref
       <WrapperStrideList>
         {this.props.strides.map((strideList, i) =>
           <div key={i}>
-            {i + 1 === this.props.strides.size &&
-              <VisibilitySensor
-                onChange={isVisible => isVisible && this.onReachStrideListEnd()}
-                active={!end && !this.props.loading}
-              />
-            }
             <StrideItemDate top={this.props.desktop ? HEIGHT_SELECTORS : HEIGHT_APPBAR + HEIGHT_SELECTORS}>
               {moment.unix(strideList.get(0).date).format(DATE_FORMAT)}
+              {i + 1 === this.props.strides.size &&
+                <VisibilitySensor
+                  onChange={isVisible => isVisible && this.onReachStrideListEnd()}
+                  active={!end && !this.props.loading}
+                />
+              }
             </StrideItemDate>
             {strideList.map((stride, j) =>
               <StrideItem
