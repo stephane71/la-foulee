@@ -20,6 +20,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import injectSaga from 'utils/injectSaga';
+import { ROUTE_MAP } from 'utils/enums';
 
 import AppHeader from 'components/AppHeader';
 // import AppHomeLoader from 'components/AppHomeLoader';
@@ -58,13 +59,13 @@ function App(props) {
         {matches => matches ?
           <Switch>
             <AppHomeLoaderRoute exact path={`/`} component={Search} request={props.request}/>
-            <AppHomeLoaderRoute path={'/event/:strideKeyword'} component={Stride} request={props.request} />
+            <AppHomeLoaderRoute path={ROUTE_MAP.stride} component={Stride} request={props.request} />
             <Route component={NotFoundPage} />
           </Switch>
         :
           <Switch>
             <AppHomeLoaderRoute exact path={'/'} component={SearchDesktop} request={props.request} />
-            <AppHomeLoaderRoute path={'/event/:strideKeyword'} component={SearchDesktop} request={props.request} />
+            <AppHomeLoaderRoute path={ROUTE_MAP.stride} component={SearchDesktop} request={props.request} />
             <Route component={NotFoundPage} />
           </Switch>
         }

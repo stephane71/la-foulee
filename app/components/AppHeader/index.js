@@ -13,6 +13,7 @@ import { compose } from 'redux';
 
 import { getSpacing, HEIGHT_APPBAR } from 'global-styles-variables';
 import { dominant, tonic, white } from 'colors';
+import { ROUTE_MAP } from 'utils/enums';
 
 import LaFouleeSVG from 'components/LaFouleeSVG';
 import ArrowBack from 'images/ic_arrow_back_white_24px.svg';
@@ -62,10 +63,10 @@ function AppHeader(props) {
   return (
     <AppHeaderWrapper>
       <AppHeaderContent>
-        <Route path={'/foulee/:strideID'} children={({ match, history }) =>
+        <Route path={ROUTE_MAP.stride} children={({ match, history }) =>
           <ArrowBackWrapper
             show={match}
-            onClick={() => props.cptLocation < 2 ? history.push('/search') : history.goBack()} >
+            onClick={() => props.cptLocation < 2 ? history.push(ROUTE_MAP.search) : history.goBack()} >
               <ArrowBack style={{ fill: white }} />
           </ArrowBackWrapper>
         }/>
