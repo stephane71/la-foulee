@@ -58,9 +58,13 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentDidMount () {
-    this.props.updateSelectors(new SelectorRecord({
-      month: CURRENT_MONTH
-    }))
+    if (this.props.selectors.isEmpty()) {
+      this.props.updateSelectors(new SelectorRecord({
+        month: CURRENT_MONTH
+      }))
+    } else {
+      this.setState({ showShell: false })
+    }
   }
 
   componentWillReceiveProps (nextProps) {
