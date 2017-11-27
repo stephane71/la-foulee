@@ -118,7 +118,7 @@ export const DEPARTEMENTS = Reflect.ownKeys(departements).sort().map(depNum =>({
   value: `${depNum} ${departements[depNum]}`
 }))
 export const SELECTORS = [`month`, `dep`]
-export const DATE_FORMAT = `D MMMM`
+export const DATE_FORMAT = `dddd D MMMM`
 
 export const ROUTE_MAP = {
   stride: '/event/:strideKeyword',
