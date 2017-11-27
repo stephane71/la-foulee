@@ -14,12 +14,11 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { dominant } from 'colors';
 
 import HelmetIntl from 'components/HelmetIntl';
 import StridePage from 'components/StridePage';
 import ScrollToTopOnMount from 'components/ScrollToTopOnMount';
-import Loader from 'components/Loader';
+import OverlayLoader from 'components/OverlayLoader';
 
 import makeSelectStride from './selectors';
 import reducer from './reducer';
@@ -32,20 +31,6 @@ const StrideWrapper = styled.div`
   height: 100%;
 `
 
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.80);
-  z-index: 20;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
 export class Stride extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   state = {
@@ -53,9 +38,9 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
   }
 
   componentWillMount () {
-    if (this.props.match.params.strideID) {
+    if (this.props.match.params.strideKeyword) {
       let strideInRoute = this.props.location.state && this.props.location.state.stride
-      this.setStride(strideInRoute, this.props.match.params.strideID)
+      this.setStride(strideInRoute, this.props.match.params.strideKeyword)
     }
   }
 
@@ -65,20 +50,20 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
         loading: false
       })
     }
-    if (this.props.desktop && (this.props.match.params.strideID !== nextProps.match.params.strideID)) {
+    if (this.props.desktop && (this.props.match.params.strideKeyword !== nextProps.match.params.strideKeyword)) {
       let strideInRoute = nextProps.location.state && nextProps.location.state.stride
-      this.setStride(strideInRoute, nextProps.match.params.strideID)
+      this.setStride(strideInRoute, nextProps.match.params.strideKeyword)
     }
   }
 
-  setStride (stride, strideID = null) {
+  setStride (stride, strideKeyword = null) {
     if (stride) {
       this.props.setStride(stride)
       this.setState({
         loading: false
       })
-    } else if (strideID)
-      this.props.request(loadStride, { id: strideID })
+    } else if (strideKeyword)
+      this.props.request(loadStride, { id: strideKeyword })
   }
 
   render() {
@@ -96,9 +81,7 @@ export class Stride extends React.Component { // eslint-disable-line react/prefe
         }
 
         {this.state.loading ?
-          <Overlay>
-            <Loader />
-          </Overlay>
+          <OverlayLoader />
         :
           <StridePage stride={this.props.stride} />
         }
@@ -115,7 +98,7 @@ Stride.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  stride: makeSelectStride(),
+  stride: makeSelectStride()
 });
 
 function mapDispatchToProps(dispatch) {

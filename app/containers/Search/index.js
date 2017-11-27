@@ -16,20 +16,18 @@ import { HEIGHT_APPBAR } from 'global-styles-variables';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import SelectorRecord from 'records/SelectorRecord'
+import { CURRENT_MONTH } from 'utils/enums'
 
 import HelmetIntl from 'components/HelmetIntl';
 import Selectors from 'components/Selectors';
 import StrideList from 'components/StrideList';
 import StrideListShell from 'components/StrideListShell';
-import Loader from 'components/Loader';
-import AppNoScroll from 'components/AppNoScroll';
-
+import OverlayLoader from 'components/OverlayLoader';
 import { makeSelectFeching } from 'containers/App/selectors';
 
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import checkParams from './checkParams';
 import {
   updateSelectors,
   loadStrides
@@ -43,20 +41,6 @@ import {
 
 const SearchWrapper = styled.div`
   position: relative;
-`
-
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: calc(100vh - ${HEIGHT_APPBAR}px);
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.80);
-  z-index: 20;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 
 export class Search extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -73,30 +57,13 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
     showShell: true
   }
 
-  componentWillMount () {
-    // Selectors are empty = the app has been refresh || first visit in this page
-    if (this.props.selectors.isEmpty()) {
-      let selectors = this.props.replaceCurrentLocationSearch()
-      // In the case that the url is ok, there is no history.replace
-      // So selectors has to be set to trigger the api request
-      // But when the url has been change (replace) updateSelectors will be triggered too
-      //  when the location change is detected
-      this.props.updateSelectors(selectors)
-    } else {
-      this.setState({
-        showShell: false
-      })
-    }
+  componentDidMount () {
+    this.props.updateSelectors(new SelectorRecord({
+      month: CURRENT_MONTH
+    }))
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.location !== nextProps.location) {
-      let selectors = this.props.getValidParams()
-      // Danger on Desktop: location change because of a Foulee select not qs
-      if (!this.props.selectors.equals(new SelectorRecord(selectors)))
-        this.props.updateSelectors(selectors)
-    }
-
     if (this.props.selectors !== nextProps.selectors) {
       this.setState({
         refresh: true
@@ -110,8 +77,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       })
       this.props.request(
         loadStrides,
-        Object.assign(nextProps.selectors.toJS(), { page: nextProps.currentPage })
-      )
+        Object.assign(nextProps.selectors.toJS(), { page: nextProps.currentPage }))
     }
 
     if (this.props.loading && !nextProps.loading) {
@@ -123,31 +89,29 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
       if (this.props.desktop)
         this.props.isUpdating(false)
 
-      if (this.props.desktop && !this.props.match.params.strideID && nextProps.strides.size) {
+      // What if it's an empty list ? :( => select all dep by default: should not be empty
+      if (this.props.desktop && !this.props.match.params.strideKeyword && nextProps.strides.size) {
         let stride = nextProps.strides.get(0).get(0)
-        this.props.history.replace({
-          pathname: `/search/${stride.id}`,
-          search: this.props.location.search,
-          stride: stride.toJS()
-        })
+        let location = {
+          pathname: `/event/${stride.keyword}`
+        }
+
+        this.props.history.replace(location, { stride: stride.toJS() })
       }
     }
   }
 
   handleSelectorChange ({ name, id }) {
     let selectors = this.props.selectors.set(name, id)
-    this.props.pushLocationSearch(selectors.toJS())
+    this.props.updateSelectors(selectors)
 
     this.props.desktop ? this.props.isUpdating(true) : window.scrollTo(0,0)
   }
 
   handleStrideSelect (stride) {
-    let route = this.props.desktop ? `/search` : `/foulee`
     let location = {
-      pathname: `${route}/${stride.id}`
+      pathname: `/event/${stride.keyword}`
     }
-    if (this.props.desktop)
-      Object.assign(location, { search: this.props.location.search })
 
     this.props.history.push(location, { stride: stride.toJS() })
   }
@@ -163,12 +127,7 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
           desktop={this.props.desktop}
         />
 
-        {this.state.refresh &&
-          <Overlay>
-            <AppNoScroll />
-            <Loader />
-          </Overlay>
-        }
+        {this.state.refresh && <OverlayLoader />}
 
         {this.state.showShell ?
           <StrideListShell />
@@ -186,8 +145,6 @@ export class Search extends React.Component { // eslint-disable-line react/prefe
 }
 
 Search.propTypes = {
-  pushLocationSearch: PropTypes.func.isRequired,
-  replaceCurrentLocationSearch: PropTypes.func.isRequired,
   request: PropTypes.func.isRequired,
   isUpdating: PropTypes.func,
   selectors: PropTypes.instanceOf(SelectorRecord).isRequired,
@@ -216,11 +173,8 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'search', reducer });
 const withSaga = injectSaga({ key: 'search', saga });
 
-const withCheckParams = checkParams({ key: 'search' });
-
 export default compose(
   withReducer,
   withSaga,
-  withConnect,
-  withCheckParams
+  withConnect
 )(Search);

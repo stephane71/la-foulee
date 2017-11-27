@@ -20,6 +20,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { HEIGHT_APPBAR } from 'global-styles-variables';
 
 import injectSaga from 'utils/injectSaga';
+import { ROUTE_MAP } from 'utils/enums';
 
 import AppHeader from 'components/AppHeader';
 // import AppHomeLoader from 'components/AppHomeLoader';
@@ -57,31 +58,14 @@ function App(props) {
       <Media query={`(max-width: 768px)`}>
         {matches => matches ?
           <Switch>
-            <Route exact path={`/`} component={() =>
-              <Redirect to={`/search`} />
-            }/>
-
-            <AppHomeLoaderRoute exact path={'/search'} component={Search} request={props.request} />
-            <Route path={'/search/:strideID'} component={({ match, location }) =>
-              <Redirect to={`/foulee/${match.params.strideID}`} />
-            }/>
-
-            <AppHomeLoaderRoute path={'/foulee/:strideID'} component={Stride} request={props.request} />
-
+            <AppHomeLoaderRoute exact path={`/`} component={Search} request={props.request}/>
+            <AppHomeLoaderRoute path={ROUTE_MAP.stride} component={Stride} request={props.request} />
             <Route component={NotFoundPage} />
           </Switch>
         :
           <Switch>
-            <Route exact path={`/`} component={() =>
-              <Redirect to={`/search`} />
-            }/>
-
-            <AppHomeLoaderRoute exact path={'/search'} component={SearchDesktop} request={props.request} />
-            <AppHomeLoaderRoute path={'/search/:strideID'} component={SearchDesktop} request={props.request} />
-
-            <Route path={'/foulee/:strideID'} component={({ match, location }) =>
-              <Redirect to={`/search/${match.params.strideID}${location.search}`} />
-            }/>
+            <AppHomeLoaderRoute exact path={'/'} component={SearchDesktop} request={props.request} />
+            <AppHomeLoaderRoute path={ROUTE_MAP.stride} component={SearchDesktop} request={props.request} />
             <Route component={NotFoundPage} />
           </Switch>
         }
