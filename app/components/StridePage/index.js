@@ -70,6 +70,9 @@ function getStrideDataFormated(stride) {
 }
 
 function getFormatedDistance (distance, value) {
+  if (!value)
+    return distance
+
   if (value < 1000)
     return distance
 
@@ -99,7 +102,7 @@ function StridePage(props) {
           .sort((activityA, activityB) => activityB.value - activityA.value)
           .map(({ distance, infos, time, title, value }, i) =>
             <InfomationItem key={i}>
-              <Schedule /><InformationContent>{time}</InformationContent>
+              <Schedule /><InformationContent>{time || 'NC'}</InformationContent>
               <Flag /><InformationContent>{getFormatedDistance(distance, value)}</InformationContent>
             </InfomationItem>
           )}

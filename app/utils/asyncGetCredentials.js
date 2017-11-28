@@ -1,6 +1,5 @@
 import {
-  IDENTITY_POOL_ID,
-  USER_POOL_ID
+  IDENTITY_POOL_ID
 } from 'config'
 
 export default function asyncGetCredentials (session, currentCredentials = null) {
