@@ -29,24 +29,10 @@ export default (WrappedComponent) => {
       this.pendingRequests = []
     }
 
-    componentWillMount () {
-      if (!this.props.credentials)
-        this.props.initCredentials()
-    }
-
     componentWillReceiveProps (nextProps) {
-      if (this.pendingRequests.length) {
-        if ((!this.props.credentials && nextProps.credentials) ||
-            this.credentialsHasBeenRefreshed(this.props.credentials, nextProps.credentials)) {
-          this.triggerPendingRequests(this.getApi(nextProps.credentials))
-        }
+      if (this.pendingRequests.length && nextProps.credentials && !nextProps.credentials.needsRefresh()) {
+        this.triggerPendingRequests(this.getApi(nextProps.credentials))
       }
-    }
-
-    credentialsHasBeenRefreshed(credentials, nextCredentials) {
-      return credentials && nextCredentials &&
-        credentials.needsRefresh() &&
-        !nextProps.credentials.needsRefresh()
     }
 
     getApi (credentials) {
@@ -55,14 +41,9 @@ export default (WrappedComponent) => {
     }
 
     request (action, data) {
-      if (!this.props.credentials) {
+      if (!this.props.credentials || this.props.credentials.needsRefresh()) {
         this.pendingRequests.push({ action, data })
-        return
-      }
-
-      if (this.props.credentials.needsRefresh()) {
-        this.props.updateCredentials(this.props.credentials)
-        this.pendingRequests.push({ action, data })
+        this.props.updateCredentials()
         return
       }
 

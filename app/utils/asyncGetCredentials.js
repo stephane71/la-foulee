@@ -5,15 +5,16 @@ import {
 
 export default function asyncGetCredentials (session, currentCredentials = null) {
   return new Promise((resolve, reject) => {
+    // !! Don't put an empty object for "Logins" -> the prop is test is exist not empty
+    // -> if "Logins" = {} -> cognitoIdentityCredentials can't load from cache
     let cognitoIdentityConf = {
-      IdentityPoolId: IDENTITY_POOL_ID,
-      Logins: {}
+      IdentityPoolId: IDENTITY_POOL_ID
     }
+    // if (session)
+    //   cognitoIdentityConf.Logins[USER_POOL_ID] = session.getIdToken().getJwtToken()
 
-    if (session)
-      cognitoIdentityConf.Logins[USER_POOL_ID] = session.getIdToken().getJwtToken()
-
-    let cognitoIdentityCredentials = currentCredentials ? currentCredentials : new AWS.CognitoIdentityCredentials(cognitoIdentityConf, { region: 'eu-west-1' })
+    // Allways create a new object => the store will not trigger the chnage in the app if not
+    let cognitoIdentityCredentials = new AWS.CognitoIdentityCredentials(cognitoIdentityConf, { region: 'eu-west-1' })
 
     cognitoIdentityCredentials.get((err) => {
       if (err) {
