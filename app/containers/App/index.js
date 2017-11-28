@@ -53,7 +53,9 @@ function App(props) {
         <meta name={`description`} content={`Quelle est ta prochaine course ?`} />
       </Helmet>
 
-      <AppHeader />
+      <Media query={`(max-width: 768px)`}>
+        {matches => <AppHeader hideArrow={matches} />}
+      </Media>
 
       <Media query={`(max-width: 768px)`}>
         {matches => matches ?

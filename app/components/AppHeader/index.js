@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -63,13 +64,15 @@ function AppHeader(props) {
   return (
     <AppHeaderWrapper>
       <AppHeaderContent>
-        <Route path={ROUTE_MAP.stride} children={({ match, history }) =>
-          <ArrowBackWrapper
-            show={match}
-            onClick={() => props.cptLocation < 2 ? history.push(ROUTE_MAP.search) : history.goBack()} >
-              <ArrowBack style={{ fill: white }} />
-          </ArrowBackWrapper>
-        }/>
+        {props.hideArrow &&
+          <Route path={ROUTE_MAP.stride} children={({ match, history }) =>
+            <ArrowBackWrapper
+              show={match}
+              onClick={() => props.cptLocation < 2 ? history.push(ROUTE_MAP.search) : history.goBack()} >
+                <ArrowBack style={{ fill: white }} />
+            </ArrowBackWrapper>
+          }/>
+        }
         <LaFouleeSVGWrapper>
           <LaFouleeSVG
             height={`${HEIGHT_LOGO_APP_HEADER}px`}
@@ -81,7 +84,7 @@ function AppHeader(props) {
 }
 
 AppHeader.propTypes = {
-
+  hideArrow: PropTypes.bool
 };
 
 const mapStateToProps = createStructuredSelector({
