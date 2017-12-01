@@ -99,6 +99,8 @@ module.exports = (options) => ({
     ],
   },
   plugins: options.plugins.concat([
+    new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /^\.\/(fr)$/),
+
     new webpack.ProvidePlugin({
       // make fetch available
       fetch: 'exports-loader?self.fetch!whatwg-fetch',
