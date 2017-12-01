@@ -36,6 +36,9 @@ export default (WrappedComponent) => {
     }
 
     getApi (credentials) {
+      if (credentials)
+        return getApiClient(credentials)
+
       this.api = this.api ? this.api : getApiClient(credentials)
       return this.api
     }
