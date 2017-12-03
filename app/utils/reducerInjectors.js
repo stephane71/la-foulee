@@ -1,7 +1,7 @@
 import invariant from 'invariant';
-import isEmpty from 'lodash/isEmpty';
-import isFunction from 'lodash/isFunction';
-import isString from 'lodash/isString';
+import isEmpty from 'lodash.isempty';
+import isFunction from 'lodash.isfunction';
+import isString from 'lodash.isstring';
 
 import checkStore from './checkStore';
 import createReducer from '../reducers';

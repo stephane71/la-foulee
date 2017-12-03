@@ -224,7 +224,11 @@
     "invariant": "2.2.2",
     "ip": "1.1.5",
     "lodash": "4.17.4",
+    "lodash.conformsto": "^4.15.0",
     "lodash.isempty": "^4.4.0",
+    "lodash.isfunction": "^3.0.8",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^4.0.1",
     "minimist": "1.2.0",
     "moment": "^2.18.1",
     "prop-types": "^15.6.0",
@@ -301,6 +305,7 @@
     "style-loader": "0.18.1",
     "url-loader": "0.5.8",
     "webpack": "3.5.5",
+    "webpack-bundle-analyzer": "^2.9.1",
     "webpack-dev-middleware": "1.11.0",
     "webpack-hot-middleware": "2.18.0"
   }
