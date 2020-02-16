@@ -8,14 +8,13 @@ function getParameters(slug) {
   return [{ slug }, "/{slug}", "GET", {}, {}];
 }
 
-const Event = ({ stars, place }) => {
+const Event = ({ place }) => {
   const router = useRouter();
   const { slug } = router.query;
 
   return (
     <div>
       <div>Event: {slug}</div>
-      <div>Next stars: {stars}</div>
       <Link href="/event/[slug]/[edition]" as={`/event/${slug}/2017`}>
         <a>Edition 2017</a>
       </Link>
