@@ -29,7 +29,7 @@ Event.getInitialProps = async () => {
     .invokeApi(...getParameters("paris_paris"))
     .then(res => res.data);
 
-  return { stars: json.stargazers_count, place };
+  return { place };
 };
 
 export default Event;
