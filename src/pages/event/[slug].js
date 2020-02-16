@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-import fetch from "isomorphic-unfetch";
 import Api from "../../api/Api";
 
 const apiSingleton = new Api();
@@ -26,9 +25,6 @@ const Event = ({ stars, place }) => {
 };
 
 Event.getInitialProps = async () => {
-  const res = await fetch("https://api.github.com/repos/zeit/next.js");
-  const json = await res.json();
-
   const api = await apiSingleton.getAPI("place");
   const place = await api
     .invokeApi(...getParameters("paris_paris"))
