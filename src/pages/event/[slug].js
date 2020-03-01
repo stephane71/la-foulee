@@ -18,7 +18,7 @@ const Event = ({ place }) => {
       <Link href="/event/[slug]/[edition]" as={`/event/${slug}/2017`}>
         <a>Edition 2017</a>
       </Link>
-      {JSON.stringify(place)}
+      <div>{JSON.stringify(place)}</div>
     </div>
   );
 };
