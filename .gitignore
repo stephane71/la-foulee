@@ -27,3 +27,7 @@ yarn-error.log*
 #OS files
 *.swp
 .idea
+
+# serverless
+/.serverless_nextjs/
+/.serverless/
