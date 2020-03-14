@@ -1,13 +1,10 @@
-import { useEffect } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 
-function Index({ foo, fooAction }) {
-  useEffect(() => {fooAction();});
+function Index({}) {
   return (
     <div>
       <h1>La Foulée</h1>
-      <div>{foo}</div>
       <div>
         <ul>
           <li>
@@ -21,12 +18,8 @@ function Index({ foo, fooAction }) {
   );
 }
 
-const mapStateToProps = state => ({
-  foo: state.foo
-});
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => ({
-  fooAction: () => dispatch({ type: "FOO", payload: "Hello le monde" })
-});
+const mapDispatchToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);
