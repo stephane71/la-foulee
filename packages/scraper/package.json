@@ -1,0 +1,11 @@
+{
+  "name": "scraper",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/stephane71/la-foulee",
+  "author": "stephane71 <stephane@un-bourguignon.com>",
+  "license": "MIT",
+  "dependencies": {
+    "slug": "^4.0.2"
+  }
+}
