@@ -13,6 +13,7 @@ export default async function getCredentials(credentials, clearCache = false) {
     }
     console.log(e);
   }
+  // Throw error if credentials can't be retrieves
 }
 
 async function asyncGetCredentials(clearCache = false) {

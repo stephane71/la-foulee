@@ -1,10 +1,17 @@
 import getCredentials, { isCredentialsNeedsRefresh } from "./getCredentials";
 import getAPIGatewayClient from "./getAPIGatewayClient";
 
+export async function getApi(name) {
+  // const credentials = await getCredentials();
+  // return getAPIGatewayClient(name, credentials);
+  return getAPIGatewayClient(name);
+}
+
 export default class Api {
   constructor() {
-    this.api = [];
+    this.api = {};
     this.awaitingCredentials = Promise.resolve(null);
+    this.credentials = {};
   }
 
   async getAPI(name) {
@@ -23,3 +30,5 @@ export default class Api {
     return this.api[name];
   }
 }
+
+

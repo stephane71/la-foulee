@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  foo: ""
+  api: {}
 };
 
 const reducer = (state = INITIAL_STATE, action) => {

@@ -10,7 +10,7 @@ export default function getAPIGatewayClient(apiName, credentials) {
     throw new Error(`The api: ${apiName} doesn't exist`);
   }
 
-  const { accessKeyId, secretAccessKey, sessionToken } = credentials;
+  // const { accessKeyId, secretAccessKey, sessionToken } = credentials;
   const { path } = api;
 
   return apigClientFactory.newClient({

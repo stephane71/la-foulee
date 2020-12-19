@@ -1,8 +1,10 @@
-import { useRouter } from "next/router";
 import Link from "next/link";
-import Api from "../../api/Api";
+import { useRouter } from "next/router";
+import { connect } from "react-redux";
 
-const apiSingleton = new Api();
+import { getApi } from "../../api/Api";
+
+const EVENT_EDITION_PATH = `/event/[slug]/[edition]`;
 
 function getParameters(slug) {
   return [{ slug }, "/{slug}", "GET", {}, {}];
@@ -15,7 +17,7 @@ const Event = ({ place }) => {
   return (
     <div>
       <div>Event: {slug}</div>
-      <Link href="/event/[slug]/[edition]" as={`/event/${slug}/2017`}>
+      <Link href={EVENT_EDITION_PATH} as={`/event/${slug}/2017`}>
         <a>Edition 2017</a>
       </Link>
       <div>{JSON.stringify(place)}</div>
@@ -24,12 +26,21 @@ const Event = ({ place }) => {
 };
 
 Event.getInitialProps = async () => {
-  const api = await apiSingleton.getAPI("place");
-  const place = await api
-    .invokeApi(...getParameters("paris_paris"))
-    .then(res => res.data);
+  const api = await getApi("place");
 
-  return { place };
+  try {
+    const params = getParameters("paris_paris");
+    const place = await api.invokeApi(...params).then(res => res.data);
+    return { place };
+  } catch (e) {
+    console.log(e);
+    // TODO handle errors
+    return { place: "No place found" };
+  }
 };
 
-export default Event;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Event);
