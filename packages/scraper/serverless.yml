@@ -1,0 +1,41 @@
+org: stephane71
+app: scraper
+service: ffa-scraper
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, "dev"}
+  region: eu-west-2
+  memorySize: 128
+
+  iamManagedPolicies:
+    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-read-s3-bucket
+    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-write-s3-bucket
+    - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  environment:
+    ACCESS_KEY_ID: ${ssm:/dev/aws/scraper/access_key_id~true}
+    SECRECT_ACCESS_KEY: ${ssm:/dev/aws/scraper/secret_access_key~true}
+
+functions:
+  download-sources:
+    handler: services/download-sources/index.handler
+    timeout: 30
+    environment:
+      S3_DESTINATION: ${env:S3_BUCKET_FFA_SCRAPER}
+    events:
+      - http:
+          path: /download-sources/{year}/{dep}
+          method: get
+          # Remove it to test => doesn't work in AWS API Gateway console: test
+          # authorizer: aws_iam
+          cors: true
+          request:
+            parameters:
+              paths:
+                year: true
+                dep: true
