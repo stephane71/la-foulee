@@ -8,23 +8,22 @@ module.exports = async function (year, dep) {
   if (!year || !dep) {
     throw {
       type: "MissingArguments",
-      message: "Error: missing (year || dep) arguments",
+      message:
+        "[La Foulée] downloadDepartmentPage | Error: missing (year || dep) arguments",
     };
   }
 
-  let data = null;
   const url = getSourceURL(dep, year);
 
-  console.log("[La Foulée] downloadDepartmentPage | dep", dep, "in", year);
-  console.log(url);
+  console.log(
+    "[La Foulée] downloadDepartmentPage | arguments: dep",
+    dep,
+    "year",
+    year,
+    "url",
+    url
+  );
 
-  try {
-    const req = await axios.get(url);
-    data = req.data;
-  } catch (e) {
-    console.error("[La Foulée] downloadDepartmentPage | Can not fetch file");
-    return;
-  }
-
-  return data;
+  const req = await axios.get(url);
+  return req.data;
 };
