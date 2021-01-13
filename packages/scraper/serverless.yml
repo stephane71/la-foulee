@@ -2,14 +2,20 @@ org: stephane71
 app: scraper
 service: ffa-scraper
 
+package:
+  exclude:
+    - node_modules/**
+
 plugins:
   - serverless-offline
+  - serverless-plugin-common-excludes
+  - serverless-plugin-include-dependencies
 
 provider:
   name: aws
   runtime: nodejs12.x
   stage: ${opt:stage, "dev"}
-  region: eu-west-2
+  region: eu-west-3
   memorySize: 128
 
   iamManagedPolicies:
