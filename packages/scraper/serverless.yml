@@ -2,6 +2,8 @@ org: stephane71
 app: scraper
 service: ffa-scraper
 
+useDotenv: true
+
 package:
   exclude:
     - node_modules/**
@@ -32,7 +34,7 @@ functions:
     handler: services/download-sources/index.handler
     timeout: 30
     environment:
-      S3_DESTINATION: ffa-scraper
+      S3_DESTINATION: ${env:S3_BUCKET_FFA_SCRAPER}
     events:
       - http:
           path: /download-sources/{year}/{dep}
