@@ -47,3 +47,11 @@ functions:
               paths:
                 year: true
                 dep: true
+  extract-events:
+    handler: services/extract-events/index.handler
+    timeout: 15
+    memorySize: 192
+    environment:
+      S3_DESTINATION: ${env:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
+    events:
+      - s3: ${env:S3_BUCKET_FFA_SCRAPER}
