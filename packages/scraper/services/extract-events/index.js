@@ -7,7 +7,7 @@ const extractEvents = require("./extractEvents");
 const { input: inputSchema } = require("./schemas");
 
 /**
- * Extract events from FFA html document
+ * Extract events from FFA html document stored in S3
  * @param {Object} event
  * @param {Object} event.Records
  *
