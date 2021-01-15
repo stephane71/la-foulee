@@ -30,7 +30,7 @@ functions:
     handler: services/download-sources/index.handler
     timeout: 30
     environment:
-      S3_DESTINATION: ${env:S3_BUCKET_FFA_SCRAPER}
+      S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER}
     events:
       - http:
           path: /download-sources/{year}/{dep}
@@ -49,6 +49,6 @@ functions:
     timeout: 15
     memorySize: 192
     environment:
-      S3_DESTINATION: ${env:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
+      S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
     events:
-      - s3: ${env:S3_BUCKET_FFA_SCRAPER}
+      - s3: ${param:S3_BUCKET_FFA_SCRAPER}
