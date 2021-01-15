@@ -16,7 +16,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: ${opt:stage, "dev"}
+  stage: dev
   region: eu-west-3
   memorySize: 128
 
@@ -24,10 +24,6 @@ provider:
     - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-read-s3-bucket
     - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-write-s3-bucket
     - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-
-  environment:
-    ACCESS_KEY_ID: ${ssm:/dev/aws/scraper/access_key_id~true}
-    SECRECT_ACCESS_KEY: ${ssm:/dev/aws/scraper/secret_access_key~true}
 
 functions:
   download-sources:
@@ -47,6 +43,7 @@ functions:
               paths:
                 year: true
                 dep: true
+
   extract-events:
     handler: services/extract-events/index.handler
     timeout: 15
