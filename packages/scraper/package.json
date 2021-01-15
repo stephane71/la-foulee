@@ -5,6 +5,9 @@
   "repository": "https://github.com/stephane71/la-foulee",
   "author": "stephane71 <stephane@un-bourguignon.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "@middy/core": "^1.5.0",
     "@middy/http-error-handler": "^1.5.0",
