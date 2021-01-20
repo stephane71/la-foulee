@@ -14,10 +14,12 @@
     "@middy/validator": "^1.5.0",
     "ajv": "^7.0.2",
     "ajv-keywords": "^4.0.0",
+    "aws-api-gateway-client": "^0.3.5",
     "aws-sdk": "^2.814.0",
     "axios": "^0.21.0",
     "cheerio": "^1.0.0-rc.3",
     "http-errors": "^1.8.0",
+    "latlon-geohash": "^2.0.0",
     "moment": "^2.29.1",
     "slug": "^4.0.2"
   },
