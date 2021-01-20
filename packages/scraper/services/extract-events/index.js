@@ -9,7 +9,10 @@ const { input: inputSchema } = require("./schemas");
 /**
  * Extract events from FFA html document stored in S3
  * @param {Object} event
- * @param {Object} event.Records
+ * @param {Object[]} event.Records
+ *
+ * More on S3 events structure
+ * https://docs.aws.amazon.com/AmazonS3/latest/userguide/notification-content-structure.html
  *
  */
 async function extractEventsFromHtmlDocument(event) {
