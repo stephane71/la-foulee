@@ -52,3 +52,12 @@ functions:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
     events:
       - s3: ${param:S3_BUCKET_FFA_SCRAPER}
+
+  update-event-location:
+    handler: services/update-event-location/index.handler
+    memorySize: 192
+    role: arn:aws:iam::514894570076:role/La-Foulee-Scraper-Execute-PlacesAPI
+    environment:
+      S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_LOCATION}
+    events:
+      - s3: ${param:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
