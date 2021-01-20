@@ -58,7 +58,7 @@ functions:
   update-event-location:
     handler: services/update-event-location/index.handler
     memorySize: 192
-    role: arn:aws:iam::514894570076:role/La-Foulee-Scraper-Execute-PlacesAPI
+    #role: arn:aws:iam::514894570076:role/La-Foulee-Scraper-Execute-PlacesAPI
     environment:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_LOCATION}
       PLACE_PROXY_API_URL: ${param:PLACE_PROXY_API_URL}
