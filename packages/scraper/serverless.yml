@@ -26,6 +26,10 @@ provider:
     - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
     - arn:aws:iam::514894570076:policy/La-Foulee-PlacesAPI-ExecuteAPI-dev
 
+  environment:
+    ACCESS_KEY_ID: ${ssm:/scraper/access_key_id~true}
+    SECRECT_ACCESS_KEY: ${ssm:/scraper/secret_access_key~true}
+
 functions:
   download-sources:
     handler: services/download-sources/index.handler
