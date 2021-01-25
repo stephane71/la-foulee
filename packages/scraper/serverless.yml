@@ -27,8 +27,8 @@ provider:
     - arn:aws:iam::514894570076:policy/La-Foulee-PlacesAPI-ExecuteAPI-dev
 
   environment:
-    ACCESS_KEY_ID: ${ssm:/scraper/access_key_id~true}
-    SECRECT_ACCESS_KEY: ${ssm:/scraper/secret_access_key~true}
+    ACCESS_KEY_ID: ${ssm:/scraper/ACCESS_KEY_ID~true}
+    SECRECT_ACCESS_KEY: ${ssm:/scraper/SECRET_ACCESS_KEY~true}
 
 functions:
   download-sources:
