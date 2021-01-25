@@ -1,7 +1,10 @@
 const apigClientFactory = require("aws-api-gateway-client").default;
 
 const api = apigClientFactory.newClient({
-  invokeUrl: `${process.env.PLACE_PROXY_API_URL}`,
+  invokeUrl: process.env.PLACE_PROXY_API_URL,
+  region: process.env.PLACE_PROXY_API_REGION,
+  accessKey: process.env.ACCESS_KEY_ID,
+  secretKey: process.env.SECRECT_ACCESS_KEY
 });
 
 module.exports = function getPlace(input) {
