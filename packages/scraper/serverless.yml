@@ -2,8 +2,6 @@ org: stephane71
 app: scraper
 service: ffa-scraper
 
-useDotenv: true
-
 package:
   exclude:
     - node_modules/**
