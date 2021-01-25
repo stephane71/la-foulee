@@ -65,6 +65,7 @@ functions:
     environment:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_LOCATION}
       PLACE_PROXY_API_URL: ${param:PLACE_PROXY_API_URL}
+      PLACE_PROXY_API_REGION: ${param:PLACE_PROXY_API_REGION}
     events:
       - s3:
           bucket: ${param:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
