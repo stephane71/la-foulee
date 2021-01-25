@@ -28,7 +28,7 @@ provider:
 
   environment:
     ACCESS_KEY_ID: ${ssm:/scraper/ACCESS_KEY_ID~true}
-    SECRECT_ACCESS_KEY: ${ssm:/scraper/SECRET_ACCESS_KEY~true}
+    SECRET_ACCESS_KEY: ${ssm:/scraper/SECRET_ACCESS_KEY~true}
 
 functions:
   download-sources:
