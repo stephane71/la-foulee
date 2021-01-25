@@ -4,8 +4,10 @@ const api = apigClientFactory.newClient({
   invokeUrl: process.env.PLACE_PROXY_API_URL,
   region: process.env.PLACE_PROXY_API_REGION,
   accessKey: process.env.ACCESS_KEY_ID,
-  secretKey: process.env.SECRECT_ACCESS_KEY
+  secretKey: process.env.SECRET_ACCESS_KEY,
 });
+
+console.log(process.env.ACCESS_KEY_ID, process.env.SECRET_ACCESS_KEY);
 
 module.exports = function getPlace(input) {
   console.log(
