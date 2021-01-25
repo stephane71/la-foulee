@@ -26,9 +26,9 @@ module.exports = async function getEventDepartment(event) {
   }
 
   // Get department details from La Foulée Places API
-  const res = await getPlace(dep.slug);
+  const res = await getPlace(department.slug);
   if (!res.data) {
-    const message = `updateEventDepartment | Can't find slug in La Foulée Places API: ${dep.slug}`;
+    const message = `updateEventDepartment | Can't find slug in La Foulée Places API: ${dep.department}`;
     console.error(message);
     // Throw message ?
     return null;
