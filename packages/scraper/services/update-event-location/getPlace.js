@@ -7,8 +7,6 @@ const api = apigClientFactory.newClient({
   secretKey: process.env.SECRET_ACCESS_KEY,
 });
 
-console.log(process.env.ACCESS_KEY_ID, process.env.SECRET_ACCESS_KEY);
-
 module.exports = function getPlace(input) {
   console.log(
     "[La Foulée] getPlace: Looked for",
