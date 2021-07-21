@@ -13,7 +13,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs14s.x
+  runtime: nodejs14.x
   stage: dev
   region: eu-west-3
   memorySize: 128
