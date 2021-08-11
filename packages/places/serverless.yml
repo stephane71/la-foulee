@@ -1,0 +1,110 @@
+org: stephane71
+app: api
+service: places
+
+plugins:
+  - serverless-plugin-common-excludes # Still needed ?
+  - serverless-plugin-include-dependencies # Still needed ?
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev # use variables
+  region: eu-west-3
+  memorySize: 128
+
+  ## API GATEWAY - API KEYS + USAGE PLAN ##
+  apiGateway:
+    apiKeys:
+      - free:
+          - myFreeKey
+      - paid:
+          - myPaidKey
+    usagePlan:
+      - free:
+          quota:
+            limit: 10000
+            offset: 0
+            period: MONTH
+          throttle:
+            burstLimit: 200
+            rateLimit: 100
+      - paid:
+          quota:
+            limit: 50000
+            offset: 1
+            period: MONTH
+          throttle:
+            burstLimit: 2000
+            rateLimit: 1000
+
+  ## IAM ROLE - ACCESS TO DYNAMODB TABLE ##
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:DeleteItem'
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+          Resources:
+            - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.tableName}
+
+functions:
+  get:
+    handler: services/get/index.handler
+    events:
+      - http:
+          path: /{slug}
+          method: get
+          cors: true
+          # private : true
+          request:
+            parameters:
+              paths:
+                slug: true
+#  put:
+#    handler: services/put/index.handler
+#    events:
+#      - http:
+#          path: /{slug}
+#          method: put
+#          cors: true
+#          # private : true
+#          request:
+#            parameters:
+#              paths:
+#                slug: true
+#  delete:
+#    handler: services/delete/index.handler
+#    events:
+#      - http:
+#          path: /{slug}
+#          method: delete
+#          cors: true
+#          # private : true
+#          request:
+#            parameters:
+#              paths:
+#                slug: true
+
+custom:
+  tableName: placesTable
+
+resources:
+  Resources:
+    placesTable:
+      Type: AWS::DynamoDB::Table
+      BillingMode: PAY_PER_REQUEST
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: nameSlug
+            AttributeType: S
+          - AttributeName: departementSlug
+            AttributeType: S
+        KeySchema:
+          - AttributeName: nameSlug
+            KeyType: HASH
+          - AttributeName: departementSlug
+            KeyType: RANGE
