@@ -95,9 +95,9 @@ resources:
   Resources:
     placesTable:
       Type: AWS::DynamoDB::Table
-      BillingMode: PAY_PER_REQUEST
       Properties:
         TableName: ${self:custom.tableName}
+        BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: nameSlug
             AttributeType: S
