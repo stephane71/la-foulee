@@ -63,18 +63,18 @@ functions:
             parameters:
               paths:
                 slug: true
-#  put:
-#    handler: services/put/index.handler
-#    events:
-#      - http:
-#          path: /{slug}
-#          method: put
-#          cors: true
-#          # private : true
-#          request:
-#            parameters:
-#              paths:
-#                slug: true
+  put:
+    handler: services/put/index.handler
+    events:
+      - http:
+          path: /{slug}
+          method: put
+          cors: true
+          # private : true
+          request:
+            parameters:
+              paths:
+                slug: true
 #  delete:
 #    handler: services/delete/index.handler
 #    events:
