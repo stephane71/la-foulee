@@ -1532,6 +1532,18 @@
   dependencies:
     http-errors "^1.6.3"
 
+"@middy/http-json-body-parser@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@middy/http-json-body-parser/-/http-json-body-parser-2.5.1.tgz#0cf6d6a9a6f71c48125f4f9adf54b2bef551a214"
+  integrity sha512-KPMtWS9wiD2kZu5fQBVRh0DBp2/lHttZBAKeE3sYZMm29MWcUuX6QibotXkwI2f20Rs5JigvzqY6CCMAEDHUPQ==
+  dependencies:
+    "@middy/util" "^2.5.1"
+
+"@middy/util@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@middy/util/-/util-2.5.1.tgz#35987a2217cfcefe018650b5f84e78dc4ccacbdc"
+  integrity sha512-Tpx97CpE2GlgDdaCav+IZzEV2dSmb4hJj57r1xIOiRctYyYYhS6o4jOjfLBWAcDxbWs0WZb/kvv58p0O+1hRqw==
+
 "@middy/validator@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@middy/validator/-/validator-1.5.0.tgz#f471f80bd0543d865ffee0e109cc8860f56bfcbb"
