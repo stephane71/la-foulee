@@ -31,6 +31,7 @@ module.exports = async function getEventCity(event) {
       console.warn(errorMessage);
     }
     console.error(e);
+    return event;
   }
 
   const { slug, location, name, postCode } = res.data;
