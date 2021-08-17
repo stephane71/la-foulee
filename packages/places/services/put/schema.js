@@ -1,6 +1,6 @@
 module.exports = {
   type: "object",
-  required: ["pathParameters"],
+  required: ["pathParameters", "body"],
   properties: {
     pathParameters: {
       type: "object",
@@ -9,5 +9,8 @@ module.exports = {
         slug: { type: "string" },
       },
     },
+    body: {
+      type: "object",
+    }
   },
 };
