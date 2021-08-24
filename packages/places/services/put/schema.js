@@ -11,6 +11,6 @@ module.exports = {
     },
     body: {
       type: "object",
-    }
+    },
   },
 };
