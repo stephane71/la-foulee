@@ -5,13 +5,12 @@ const validator = require("@middy/validator");
 // const createError = require("http-errors");
 const inputSchema = require("./schema");
 
-function put(event) {
-  const { body, pathParameters } = event;
-  const { slug } = pathParameters;
+async function put(event) {
+  const { body } = event;
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ body, slug }),
+    body: JSON.stringify(body),
     headers: { "Access-Control-Allow-Origin": "*" },
   };
 }
