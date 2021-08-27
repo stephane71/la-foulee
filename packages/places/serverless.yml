@@ -10,8 +10,14 @@ provider:
   name: aws
   runtime: nodejs14.x
   stage: dev # use variables
-  region: eu-west-3
+  region: ${self:custom.region}
   memorySize: 128
+
+  # Environment Variables
+  environment:
+    TABLE_NAME: ${self:custom.table.name}
+    TABLE_HASH_KEY: ${self:custom.table.hashKey}
+    REGION: ${self:custom.region}
 
   ## API GATEWAY - API KEYS + USAGE PLAN ##
   apiGateway:
@@ -48,7 +54,7 @@ provider:
             - 'dynamodb:GetItem'
             - 'dynamodb:PutItem'
           Resource:
-            - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.tableName}
+            - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.table.name}
 
 functions:
   get:
@@ -89,22 +95,21 @@ functions:
 #                slug: true
 
 custom:
-  tableName: placesTable
+  region: eu-west-3
+  table:
+    name: PlacesTable
+    hashKey: slug
 
 resources:
   Resources:
     placesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.tableName}
+        TableName: ${self:custom.table.name}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
-          - AttributeName: nameSlug
-            AttributeType: S
-          - AttributeName: departementSlug
+          - AttributeName: ${self:custom.table.hashKey}
             AttributeType: S
         KeySchema:
-          - AttributeName: nameSlug
+          - AttributeName: ${self:custom.table.hashKey}
             KeyType: HASH
-          - AttributeName: departementSlug
-            KeyType: RANGE
