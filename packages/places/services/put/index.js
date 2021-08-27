@@ -4,9 +4,15 @@ const httpJsonBodyParser = require("@middy/http-json-body-parser");
 const validator = require("@middy/validator");
 // const createError = require("http-errors");
 const inputSchema = require("./schema");
+const PlacesTable = require("../PlacesTable");
+
+const placesTable = new PlacesTable();
 
 async function put(event) {
-  const { body } = event;
+  const { body, pathParameters } = event;
+  const { slug } = pathParameters;
+
+  await placesTable.putPlace(slug, body);
 
   return {
     statusCode: 200,
