@@ -37,6 +37,15 @@ class DynamoDB {
 
     return this.request("put", params);
   }
+
+  deleteItem(key) {
+    const params = {
+      TableName: TABLE_NAME,
+      Key: key,
+    };
+
+    return this.request("delete", params).then(({ Item }) => Item);
+  }
 }
 
 module.exports = DynamoDB;
