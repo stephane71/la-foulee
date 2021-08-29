@@ -44,7 +44,7 @@ class DynamoDB {
       Key: key,
     };
 
-    return this.request("delete", params).then(({ Item }) => Item);
+    return this.request("delete", params);
   }
 }
 
