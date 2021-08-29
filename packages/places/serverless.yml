@@ -81,18 +81,18 @@ functions:
             parameters:
               paths:
                 slug: true
-#  delete:
-#    handler: services/delete/index.handler
-#    events:
-#      - http:
-#          path: /{slug}
-#          method: delete
-#          cors: true
-#          # private : true
-#          request:
-#            parameters:
-#              paths:
-#                slug: true
+  delete:
+    handler: services/delete/index.handler
+    events:
+      - http:
+          path: /{slug}
+          method: delete
+          cors: true
+          # private : true
+          request:
+            parameters:
+              paths:
+                slug: true
 
 custom:
   region: eu-west-3
