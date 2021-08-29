@@ -1,8 +1,7 @@
 const yargs = require("yargs");
-
-const apigClientFactory = require("aws-api-gateway-client").default;
 const fetch = require("node-fetch");
-const slug = require("slug");
+const slugIt = require("./slugIt");
+const putPlaces = require("./putPlaces");
 const types = require("./placesTypes.json");
 
 const argv = yargs
@@ -13,19 +12,6 @@ const argv = yargs
   .choices("t", Object.values(types))
   .describe("t", "Geo data type")
   .demandOption(["t"]).argv;
-
-const pause = (duration) =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      resolve();
-    }, duration)
-  );
-
-const slugIt = (string) => slug(string, { lower: true });
-
-const apigClient = apigClientFactory.newClient({
-  invokeUrl: "https://miifwj1qk7.execute-api.eu-west-3.amazonaws.com/dev",
-});
 
 const BASE_URL = "https://geo.api.gouv.fr";
 
@@ -85,20 +71,6 @@ async function getGeoItems(type) {
   const regions = await res.json();
 
   return regions.map(geoDataItem.format);
-}
-
-function putPlaces(places) {
-  return places.reduce(async (prev, place) => {
-    await prev;
-    await pause(1000);
-
-    console.log("put place", place.slug);
-    return await apigClient
-      .invokeApi({ slug: place.slug }, "/{slug}", "PUT", {}, place)
-      .catch(function (result) {
-        console.error(result);
-      });
-  }, Promise.resolve());
 }
 
 async function run() {
