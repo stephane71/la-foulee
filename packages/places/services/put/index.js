@@ -15,7 +15,7 @@ async function put(event) {
   try {
     await placesTable.putPlace(slug, body);
   } catch (e) {
-    return new createError.InternalServerError(JSON.stringify(e));
+    return new createError(e.statusCode);
   }
 
   return {
