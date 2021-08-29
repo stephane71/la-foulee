@@ -1,7 +1,7 @@
 const middy = require("@middy/core");
 const httpErrorHandler = require("@middy/http-error-handler");
 const validator = require("@middy/validator");
-// const createError = require("http-errors");
+const createError = require("http-errors");
 const inputSchema = require("./schema");
 const PlacesTable = require("../PlacesTable");
 
@@ -12,6 +12,9 @@ async function get(event) {
 
   const place = await placesTable.getPlace(slug);
 
+  if (!place) {
+    return createError.NotFound();
+  }
   return {
     statusCode: 200,
     body: JSON.stringify(place),
