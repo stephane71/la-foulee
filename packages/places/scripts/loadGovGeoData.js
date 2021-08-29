@@ -58,7 +58,7 @@ const geoApi = {
       codeDepartment: codeDepartement,
       type: types.CITY,
       postalCodes: codesPostaux,
-      location: centre.coordinates,
+      location: centre?.coordinates,
       population,
     }),
   },
