@@ -67,10 +67,15 @@ const geoApi = {
 async function getGeoItems(type) {
   const geoDataItem = geoApi[type];
   const fields = geoDataItem.fields ? `?fields=${geoDataItem.fields}` : "";
-  const res = await fetch(`${BASE_URL}/${geoDataItem.path}${fields}`);
-  const regions = await res.json();
+  const url = `${BASE_URL}/${geoDataItem.path}${fields}`;
 
-  return regions.map(geoDataItem.format);
+  console.log("Fetch data on Geo API");
+  console.log(url);
+
+  const res = await fetch(url);
+  const items = await res.json();
+
+  return items.map(geoDataItem.format);
 }
 
 async function run() {
