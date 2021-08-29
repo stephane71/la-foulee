@@ -13,7 +13,7 @@ async function get(event) {
   const place = await placesTable.getPlace(slug);
 
   if (!place) {
-    return createError.NotFound();
+    throw new createError.NotFound();
   }
   return {
     statusCode: 200,
