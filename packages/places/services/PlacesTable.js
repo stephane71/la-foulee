@@ -10,6 +10,10 @@ class PlacesTable extends DynamoDB {
   putPlace(slug, place) {
     return this.putItem({ [HASH_KEY]: slug }, place);
   }
+
+  deletePlace(slug) {
+    return this.deleteItem({ [HASH_KEY]: slug });
+  }
 }
 
 module.exports = PlacesTable;
