@@ -22,6 +22,7 @@ const geoApi = {
     path: "regions",
     format: ({ nom, code }) => ({
       slug: slugIt(nom),
+      county: 'france',
       name: nom,
       code,
       type: types.REGION,
