@@ -70,6 +70,7 @@ functions:
             parameters:
               paths:
                 slug: true
+                county: true
   put:
     handler: services/put/index.handler
     events:
@@ -82,6 +83,7 @@ functions:
             parameters:
               paths:
                 slug: true
+                county: true
   delete:
     handler: services/delete/index.handler
     events:
@@ -94,6 +96,7 @@ functions:
             parameters:
               paths:
                 slug: true
+                county: true
 
 custom:
   region: eu-west-3
