@@ -1,13 +1,9 @@
+const crudPathParameters = require("../pathParameters.schema");
+
 module.exports = {
   type: "object",
   required: ["pathParameters"],
   properties: {
-    pathParameters: {
-      type: "object",
-      required: ["slug"],
-      properties: {
-        slug: { type: "string" },
-      },
-    },
+    pathParameters: { ...crudPathParameters },
   },
 };
