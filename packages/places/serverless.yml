@@ -101,7 +101,7 @@ functions:
 custom:
   region: eu-west-3
   table:
-    name: PlacesTable
+    name: PlacesFr
     hashKey: slug
     rangeKey: county
 
