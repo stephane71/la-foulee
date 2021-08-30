@@ -29,7 +29,8 @@ const geoApi = {
   [types.DEPARTMENT]: {
     type: types.DEPARTMENT,
     path: "departements",
-    format: ({ nom, code, codeRegion }) => ({
+    fields: "region",
+    format: ({ nom, code, codeRegion, region }) => ({
       slug: slugIt(nom),
       name: nom,
       code,
