@@ -32,6 +32,7 @@ const geoApi = {
     fields: "region",
     format: ({ nom, code, codeRegion, region }) => ({
       slug: slugIt(nom),
+      county: slugIt(region.nom),
       name: nom,
       code,
       codeRegion,
@@ -51,8 +52,10 @@ const geoApi = {
       centre,
       population,
       codesPostaux,
+      departement,
     }) => ({
       slug: slugIt(nom),
+      county: slugIt(departement.nom),
       name: nom,
       code,
       codeRegion,
@@ -60,6 +63,7 @@ const geoApi = {
       type: types.CITY,
       postalCodes: codesPostaux,
       location: centre?.coordinates,
+      // geohash: getGeohash(centre?.coordinates),
       population,
     }),
   },
