@@ -2,6 +2,7 @@ const yargs = require("yargs");
 const fetch = require("node-fetch");
 const slugIt = require("./slugIt");
 const putPlaces = require("./putPlaces");
+const getGeohash = require("./getGeohash");
 const types = require("./placesTypes.json");
 
 const argv = yargs
@@ -63,7 +64,7 @@ const geoApi = {
       type: types.CITY,
       postalCodes: codesPostaux,
       location: centre?.coordinates,
-      // geohash: getGeohash(centre?.coordinates),
+      geohash: getGeohash(centre?.coordinates),
       population,
     }),
   },
