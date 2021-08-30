@@ -42,7 +42,7 @@ const geoApi = {
     type: types.CITY,
     path: "communes",
     fields:
-      "code,nom,codeDepartement,codeRegion,centre,population,codesPostaux",
+      "code,nom,codeDepartement,codeRegion,centre,population,codesPostaux,departement",
     format: ({
       nom,
       code,
