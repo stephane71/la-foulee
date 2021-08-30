@@ -8,10 +8,10 @@ const PlacesTable = require("../PlacesTable");
 const placesTable = new PlacesTable();
 
 async function deleteItem(event) {
-  const { slug } = event.pathParameters;
+  const { slug, county } = event.pathParameters;
 
   try {
-    await placesTable.deletePlace(slug);
+    await placesTable.deletePlace({ slug, county });
   } catch (e) {
     return new createError(e.statusCode);
   }

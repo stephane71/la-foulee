@@ -8,9 +8,9 @@ const PlacesTable = require("../PlacesTable");
 const placesTable = new PlacesTable();
 
 async function get(event) {
-  const { slug } = event.pathParameters;
+  const { slug, county } = event.pathParameters;
 
-  const place = await placesTable.getPlace(slug);
+  const place = await placesTable.getPlace({ slug, county });
 
   if (!place) {
     throw new createError.NotFound();

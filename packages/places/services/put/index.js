@@ -10,10 +10,10 @@ const placesTable = new PlacesTable();
 
 async function put(event) {
   const { body, pathParameters } = event;
-  const { slug } = pathParameters;
+  const { slug, county } = pathParameters;
 
   try {
-    await placesTable.putPlace(slug, body);
+    await placesTable.putPlace({ slug, county }, body);
   } catch (e) {
     return new createError(e.statusCode);
   }
