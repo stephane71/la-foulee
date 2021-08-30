@@ -17,6 +17,7 @@ provider:
   environment:
     TABLE_NAME: ${self:custom.table.name}
     TABLE_HASH_KEY: ${self:custom.table.hashKey}
+    TABLE_RANGE_KEY: ${self:custom.table.rangeKey}
     REGION: ${self:custom.region}
 
   ## API GATEWAY - API KEYS + USAGE PLAN ##
@@ -99,6 +100,7 @@ custom:
   table:
     name: PlacesTable
     hashKey: slug
+    rangeKey: county
 
 resources:
   Resources:
@@ -110,6 +112,10 @@ resources:
         AttributeDefinitions:
           - AttributeName: ${self:custom.table.hashKey}
             AttributeType: S
+          - AttributeName: ${self:custom.table.rangeKey}
+            AttributeType: S
         KeySchema:
           - AttributeName: ${self:custom.table.hashKey}
             KeyType: HASH
+          - AttributeName: ${self:custom.table.rangeKey}
+            KeyType: RANGE
