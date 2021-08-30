@@ -62,7 +62,7 @@ functions:
     handler: services/get/index.handler
     events:
       - http:
-          path: /{slug}
+          path: /{county}/{slug}
           method: get
           cors: true
           # private : true
@@ -74,7 +74,7 @@ functions:
     handler: services/put/index.handler
     events:
       - http:
-          path: /{slug}
+          path: /{county}/{slug}
           method: put
           cors: true
           # private : true
@@ -86,7 +86,7 @@ functions:
     handler: services/delete/index.handler
     events:
       - http:
-          path: /{slug}
+          path: /{county}/{slug}
           method: delete
           cors: true
           # private : true
