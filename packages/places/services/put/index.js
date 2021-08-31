@@ -1,10 +1,10 @@
-const middy = require("@middy/core");
-const httpErrorHandler = require("@middy/http-error-handler");
-const httpJsonBodyParser = require("@middy/http-json-body-parser");
-const validator = require("@middy/validator");
-const createError = require("http-errors");
-const inputSchema = require("./schema");
-const PlacesTable = require("../PlacesTable");
+import middy from "@middy/core";
+import httpErrorHandler from "@middy/http-error-handler";
+import httpJsonBodyParser from "@middy/http-json-body-parser";
+import validator from "@middy/validator";
+import createError from "http-errors";
+import inputSchema from "./schema";
+import PlacesTable from "../PlacesTable";
 
 const placesTable = new PlacesTable();
 
@@ -15,7 +15,7 @@ async function put(event) {
   try {
     await placesTable.putPlace({ slug, county }, body);
   } catch (e) {
-    return new createError(e.statusCode);
+    return createError(e.statusCode);
   }
 
   return {
@@ -24,7 +24,7 @@ async function put(event) {
   };
 }
 
-module.exports.handler = middy(put)
+export const handler = middy(put)
   .use(httpJsonBodyParser())
   .use(validator({ inputSchema }))
   .use(httpErrorHandler());

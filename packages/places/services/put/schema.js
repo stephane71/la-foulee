@@ -1,6 +1,6 @@
-const crudPathParameters = require("../pathParameters.schema");
+import crudPathParameters from "../pathParameters.schema";
 
-module.exports = {
+const schema = {
   type: "object",
   required: ["pathParameters", "body"],
   properties: {
@@ -18,3 +18,5 @@ module.exports = {
     },
   },
 };
+
+export default schema;
