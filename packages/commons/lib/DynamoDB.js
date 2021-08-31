@@ -1,4 +1,4 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const REGION = process.env.REGION;
@@ -48,4 +48,4 @@ class DynamoDB {
   }
 }
 
-module.exports = DynamoDB;
+export default DynamoDB;

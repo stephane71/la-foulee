@@ -1,4 +1,5 @@
-const latlonGeohash = require("latlon-geohash");
+import latlonGeohash from "latlon-geohash";
+
 const GEOHASH_PRECISION = 4;
 
 /**
@@ -8,8 +9,10 @@ const GEOHASH_PRECISION = 4;
  * @param {number} location.lng
  *
  * */
-module.exports = function getGeohashFromLocation(location) {
+function getGeohashFromLocation(location) {
   return location
     ? latlonGeohash.encode(location.lat, location.lng, GEOHASH_PRECISION)
     : null;
-};
+}
+
+export default getGeohashFromLocation;

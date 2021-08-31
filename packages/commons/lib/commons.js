@@ -1,9 +1,4 @@
 "use strict";
 
-const getGeohashFromLocation = require("./getGeohashFromLocation");
-const DynamoDB = require("./DynamoDB");
-
-module.exports = {
-  getGeohashFromLocation,
-  DynamoDB,
-};
+export { default as DynamoDB } from "./DynamoDB";
+export { default as getGeohashFromLocation } from "./getGeohashFromLocation";
