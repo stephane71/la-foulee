@@ -1,9 +1,9 @@
-const middy = require("@middy/core");
-const httpErrorHandler = require("@middy/http-error-handler");
-const validator = require("@middy/validator");
-const createError = require("http-errors");
-const inputSchema = require("./schema");
-const PlacesTable = require("../PlacesTable");
+import middy from "@middy/core";
+import httpErrorHandler from "@middy/http-error-handler";
+import validator from "@middy/validator";
+import createError from "http-errors";
+import inputSchema from "./schema";
+import PlacesTable from "../PlacesTable";
 
 const placesTable = new PlacesTable();
 
@@ -13,7 +13,7 @@ async function deleteItem(event) {
   try {
     await placesTable.deletePlace({ slug, county });
   } catch (e) {
-    return new createError(e.statusCode);
+    return createError(e.statusCode);
   }
 
   return {
@@ -22,6 +22,6 @@ async function deleteItem(event) {
   };
 }
 
-module.exports.handler = middy(deleteItem)
+export const handler = middy(deleteItem)
   .use(validator({ inputSchema }))
   .use(httpErrorHandler());
