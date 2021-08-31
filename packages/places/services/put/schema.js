@@ -1,4 +1,5 @@
 import crudPathParameters from "../pathParameters.schema";
+import validator from "./placeType.validator";
 
 const schema = {
   type: "object",
@@ -13,7 +14,10 @@ const schema = {
         county: { type: "string" },
         name: { type: "string" },
         code: { type: "string" },
-        type: { type: "string" },
+        type: {
+          type: "string",
+          [validator.name]: true,
+        },
       },
     },
   },
