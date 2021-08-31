@@ -1,4 +1,4 @@
-module.exports = {
+const schema = {
   type: "object",
   required: ["county", "slug"],
   properties: {
@@ -6,3 +6,5 @@ module.exports = {
     slug: { type: "string" },
   },
 };
+
+export default schema;

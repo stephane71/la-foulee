@@ -1,4 +1,4 @@
-const { DynamoDB } = require("commons");
+import { DynamoDB } from "commons";
 
 const HASH_KEY = process.env.TABLE_HASH_KEY;
 const RANGE_KEY = process.env.TABLE_RANGE_KEY;
@@ -17,4 +17,4 @@ class PlacesTable extends DynamoDB {
   }
 }
 
-module.exports = PlacesTable;
+export default PlacesTable;
