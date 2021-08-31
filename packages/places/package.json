@@ -5,7 +5,8 @@
   "author": "stephane71 <stephane@un-bourguignon.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test-bundle": "serverless-bundle test"
   },
   "dependencies": {
     "@middy/core": "^2.5.1",
@@ -19,12 +20,13 @@
   },
   "devDependencies": {
     "aws-api-gateway-client": "^0.3.7",
+    "commons": "0.0.0",
     "jest": "^27.1.0",
     "node-fetch": "^2.6.1",
+    "serverless-bundle": "^5.0.0",
     "serverless-offline": "^8.0.0",
     "serverless-plugin-common-excludes": "^4.0.0",
     "serverless-plugin-include-dependencies": "^5.0.0",
-    "yargs": "^17.1.1",
-    "commons": "0.0.0"
+    "yargs": "^17.1.1"
   }
 }
