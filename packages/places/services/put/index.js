@@ -4,6 +4,7 @@ import httpJsonBodyParser from "@middy/http-json-body-parser";
 import validator from "@middy/validator";
 import createError from "http-errors";
 import inputSchema from "./schema";
+import placeTypeValidator from "./placeType.validator";
 import PlacesTable from "../PlacesTable";
 
 const placesTable = new PlacesTable();
@@ -26,5 +27,14 @@ async function put(event) {
 
 export const handler = middy(put)
   .use(httpJsonBodyParser())
-  .use(validator({ inputSchema }))
+  .use(
+    validator({
+      inputSchema,
+      ajvOptions: {
+        keywords: {
+          [placeTypeValidator.name]: placeTypeValidator.definition,
+        },
+      },
+    })
+  )
   .use(httpErrorHandler());
