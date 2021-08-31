@@ -32,7 +32,7 @@ class DynamoDB {
   putItem(key, data) {
     const params = {
       TableName: TABLE_NAME,
-      Item: { ...key, ...data },
+      Item: { ...data, ...key },
     };
 
     return this.request("put", params);
