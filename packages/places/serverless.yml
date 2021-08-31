@@ -3,8 +3,7 @@ app: api
 service: places
 
 plugins:
-  - serverless-plugin-common-excludes # Still needed ?
-  - serverless-plugin-include-dependencies # Still needed ?
+  - serverless-bundle
 
 provider:
   name: aws
