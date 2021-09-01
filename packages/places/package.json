@@ -21,12 +21,10 @@
   "devDependencies": {
     "aws-api-gateway-client": "^0.3.7",
     "commons": "0.0.0",
+    "esm": "^3.2.25",
     "jest": "^27.1.0",
     "node-fetch": "^2.6.1",
     "serverless-bundle": "^5.0.0",
-    "serverless-offline": "^8.0.0",
-    "serverless-plugin-common-excludes": "^4.0.0",
-    "serverless-plugin-include-dependencies": "^5.0.0",
     "yargs": "^17.1.1"
   }
 }
