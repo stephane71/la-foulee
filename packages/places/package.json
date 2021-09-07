@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "test-bundle": "serverless-bundle test"
+    "test-bundle": "serverless-bundle test",
+    "load-geo-gov-data": "node scripts/loadGovGeoData.mjs"
   },
   "dependencies": {
     "@la-foulee/utils": "^0.0.0",
