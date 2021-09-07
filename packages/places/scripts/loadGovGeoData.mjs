@@ -1,6 +1,7 @@
 import fs from "fs";
 import { URL } from "url";
 import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 import fetch from "node-fetch";
 import { slugIt } from "@la-foulee/utils";
 //import putPlaces from "./putPlaces.mjs";
@@ -18,7 +19,7 @@ function getTypes() {
 
 const types = getTypes();
 
-const argv = yargs
+const argv = yargs(hideBin(process.argv))
   .usage("Usage: $0 <command> [options]")
   .command("type", "Type of the geo api data")
   .alias("t", "type")
@@ -98,9 +99,7 @@ async function getGeoItems({ fields, path }) {
 async function getFormattedItems(items, formatFct) {
   return await items.reduce(async (prev, item) => {
     const current = await prev;
-    console.log(current);
     const formattedItem = await formatFct(item);
-    console.log(formattedItem);
 
     return Promise.resolve([...current, formattedItem]);
   }, Promise.resolve([]));
