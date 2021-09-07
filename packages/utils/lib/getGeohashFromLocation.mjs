@@ -1,6 +1,6 @@
 import latlonGeohash from "latlon-geohash";
 
-const GEOHASH_PRECISION = 4;
+const GEOHASH_PRECISION = 7;
 
 /**
  * Geohash calculation
@@ -8,6 +8,8 @@ const GEOHASH_PRECISION = 4;
  * @param {number} location.lat
  * @param {number} location.lng
  *
+ * Source
+ * https://github.com/chrisveness/latlon-geohash
  * */
 function getGeohashFromLocation(location) {
     return location
