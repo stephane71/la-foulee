@@ -1,11 +1,12 @@
-const { getGeohashFromLocation } = require("commons");
+import { getGeohashFromLocation } from "@la-foulee/utils";
 
 function getGeohash(coordinates) {
   if (!coordinates) {
     return null;
   }
+
   const [lat, lng] = coordinates;
   return getGeohashFromLocation({ lat, lng });
 }
 
-module.exports = getGeohash;
+export default getGeohash;
