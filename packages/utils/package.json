@@ -1,0 +1,30 @@
+{
+  "name": "@la-foulee/utils",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "stephane71 <stephanemaire71@gmail.com>",
+  "homepage": "https://github.com/stephane71/la-foulee#readme",
+  "license": "ISC",
+  "type": "module",
+  "exports": "./lib/utils.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stephane71/la-foulee.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/stephane71/la-foulee/issues"
+  },
+  "dependencies": {
+    "latlon-geohash": "^2.0.0"
+  }
+}
