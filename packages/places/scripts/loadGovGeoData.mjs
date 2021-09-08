@@ -4,7 +4,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fetch from "node-fetch";
 import { slugIt } from "@la-foulee/utils";
-//import putPlaces from "./putPlaces.mjs";
+import putPlaces from "./putPlaces.mjs";
 import getGeohash from "./getGeohash.mjs";
 
 function getTypes() {
@@ -114,12 +114,10 @@ async function run() {
   console.log(items[0]);
 
   console.log("formatting items");
-  const formattedItems = await getFormattedItems(items.slice(0, 2), format);
+  const formattedItems = await getFormattedItems(items, format);
 
-  console.log("formatted items");
-  console.log(formattedItems);
-
-  //await putPlaces(items);
+  console.log("formatted items :", formattedItems.length, 'places');
+  await putPlaces(formattedItems);
 }
 
 run().then(() => console.log("end"));
