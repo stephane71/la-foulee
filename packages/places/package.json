@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "aws-api-gateway-client": "^0.3.7",
-    "commons": "0.0.0",
     "esm": "^3.2.25",
     "jest": "^27.1.0",
     "node-fetch": "^2.6.1",
