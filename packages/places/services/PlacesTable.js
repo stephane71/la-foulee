@@ -1,4 +1,4 @@
-import { DynamoDB } from "commons";
+import { DynamoDB } from "@la-foulee/utils";
 
 const HASH_KEY = process.env.TABLE_HASH_KEY;
 const RANGE_KEY = process.env.TABLE_RANGE_KEY;
