@@ -100,7 +100,7 @@ functions:
 custom:
   region: eu-west-3
   table:
-    name: PlacesFr
+    name: PlacesTableFr
     hashKey: slug
     rangeKey: county
 
@@ -116,8 +116,49 @@ resources:
             AttributeType: S
           - AttributeName: ${self:custom.table.rangeKey}
             AttributeType: S
+          - AttributeName: type
+            AttributeType: S
+          - AttributeName: geohash
+            AttributeType: S
+          - AttributeName: code
+            AttributeType: S
+          - AttributeName: population
+            AttributeType: N
         KeySchema:
           - AttributeName: ${self:custom.table.hashKey}
             KeyType: HASH
           - AttributeName: ${self:custom.table.rangeKey}
             KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: CountyTypeGSI
+            Projection:
+              ProjectionType: ALL
+            KeySchema:
+              - AttributeName: ${self:custom.table.rangeKey}
+                KeyType: HASH
+              - AttributeName: type
+                KeyType: RANGE
+          - IndexName: GeohashTypeGSI
+            Projection:
+              ProjectionType: ALL
+            KeySchema:
+              - AttributeName: geohash
+                KeyType: HASH
+              - AttributeName: type
+                KeyType: RANGE
+          - IndexName: CodeTypeGSI
+            Projection:
+              ProjectionType: ALL
+            KeySchema:
+              - AttributeName: code
+                KeyType: HASH
+              - AttributeName: type
+                KeyType: RANGE
+          - IndexName: TypePopulationGSI
+            Projection:
+              ProjectionType: ALL
+            KeySchema:
+              - AttributeName: type
+                KeyType: HASH
+              - AttributeName: population
+                KeyType: RANGE
