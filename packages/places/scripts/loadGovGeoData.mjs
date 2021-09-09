@@ -107,16 +107,24 @@ async function getFormattedItems(items, formatFct) {
 async function run() {
   const { type } = argv;
   const { fields, path, format } = geoApi[type];
+  const offset = 0;
 
-  const items = await getGeoItems({ fields, path });
+  const itemsCompete = await getGeoItems({ fields, path });
+  const items = itemsCompete.slice(offset);
   console.log("Fetched items");
   console.log(items[0]);
 
   console.log("formatting items");
   const formattedItems = await getFormattedItems(items, format);
 
-  console.log("formatted items :", formattedItems.length, 'places');
-  await putPlaces(formattedItems);
+  console.log("formatted items :", formattedItems.length, "places");
+  console.log(formattedItems[0]);
+
+  try {
+    await putPlaces(formattedItems);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 run().then(() => console.log("end"));
