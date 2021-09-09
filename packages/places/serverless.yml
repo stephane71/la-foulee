@@ -53,8 +53,10 @@ provider:
             - 'dynamodb:DeleteItem'
             - 'dynamodb:GetItem'
             - 'dynamodb:PutItem'
+            - 'dynamodb:Query'
           Resource:
             - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.table.name}
+            - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.table.name}/index/*
 
 functions:
   get:
@@ -96,6 +98,42 @@ functions:
               paths:
                 slug: true
                 county: true
+
+  #### Queries ####
+
+  getDepartmentFromCode:
+    handler: services/getDepartmentFromCode/index.handler
+    events:
+      - http:
+          path: /departments/{code}
+          method: get
+          cors: true
+          # private : true
+          request:
+            parameters:
+              paths:
+                code: true
+
+
+  #### Lists ####
+
+#  departments:
+#    handler: services/departments/index.handler
+#    events:
+#      - http:
+#        path: /departments
+#        method: get
+#        cors: true
+#        # private : true
+#  regions:
+#    handler: services/regions/index.handler
+#    events:
+#      - http:
+#        path: /regions
+#        method: get
+#        cors: true
+#        # private : true
+
 
 custom:
   region: eu-west-3
