@@ -100,20 +100,7 @@ functions:
                 county: true
 
   #### Queries ####
-
-  getDepartmentFromCode:
-    handler: services/getDepartmentFromCode/index.handler
-    events:
-      - http:
-          path: /departments/{code}
-          method: get
-          cors: true
-          # private : true
-          request:
-            parameters:
-              paths:
-                code: true
-
+  getDepartmentFromCode: ${file(./services/getDepartmentFromCode/serverless.yml):function}
 
   #### Lists ####
 

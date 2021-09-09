@@ -1,0 +1,12 @@
+function:
+  handler: services/getDepartmentFromCode/index.handler
+  events:
+    - http:
+        path: /departments/{code}
+        method: get
+        cors: true
+        # private : true
+        request:
+          parameters:
+            paths:
+              code: true
