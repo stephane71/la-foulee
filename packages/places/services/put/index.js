@@ -16,6 +16,7 @@ async function put(event) {
   try {
     await placesTable.putPlace({ slug, county }, body);
   } catch (e) {
+    console.log(e);
     return createError(e.statusCode);
   }
 
