@@ -1,12 +1,12 @@
-import { getGeohashFromLocation } from "@la-foulee/utils";
+import {getGeohashFromLocation} from "@la-foulee/utils";
 
 function getGeohash(coordinates) {
-  if (!coordinates) {
-    return null;
-  }
+    if (!coordinates) {
+        return undefined;
+    }
 
-  const [lat, lng] = coordinates;
-  return getGeohashFromLocation({ lat, lng });
+    const [lat, lng] = coordinates;
+    return getGeohashFromLocation({lat, lng}) || undefined;
 }
 
 export default getGeohash;
