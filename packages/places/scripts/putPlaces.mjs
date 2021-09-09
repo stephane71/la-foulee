@@ -8,8 +8,8 @@ const apigClient = apigClientFactory.default.newClient({
   invokeUrl: `https://${API_ID}.execute-api.${API_REGION}.amazonaws.com/dev`,
 });
 
-const BREAK = 5000;
-const BATCH = 15;
+const BREAK = 10;
+const BATCH = 1;
 
 function batchReq(placesSlice) {
   console.log(placesSlice);
