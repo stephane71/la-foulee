@@ -46,6 +46,28 @@ class DynamoDB {
 
     return this.request("delete", params);
   }
+
+  async queryGSI(gsi, keys, operation) {
+    const { name, hashKey: hashKeyName, rangeKey: rangeKeyName } = gsi;
+    const { hashKey, rangeKey } = keys;
+
+    const params = {
+      TableName: TABLE_NAME,
+      IndexName: name,
+      KeyConditionExpression: `#hashKey = :hashKey and #rangeKey ${operation} :rangeKey`,
+      ExpressionAttributeNames: {
+        "#hashKey": hashKeyName,
+        "#rangeKey": rangeKeyName,
+      },
+      ExpressionAttributeValues: {
+        ":hashKey": hashKey,
+        ":rangeKey": rangeKey,
+      },
+    };
+
+    const res = await this.request("query", params);
+    return res.Items;
+  }
 }
 
 export default DynamoDB;
