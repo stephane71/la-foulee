@@ -59,12 +59,10 @@ const geoApi = {
   [types.CITY]: {
     type: types.CITY,
     path: "communes",
-    fields:
-      "code,nom,codeDepartement,codeRegion,centre,population,codesPostaux,departement",
+    fields: "code,nom,codeRegion,centre,population,codesPostaux,departement",
     format: async ({
       nom,
       code,
-      codeDepartement,
       codeRegion,
       centre,
       population,
