@@ -75,7 +75,7 @@ const geoApi = {
       code,
       type: types.CITY,
       codeRegion,
-      codeDepartment: codeDepartement,
+      codeDepartment: departement?.code,
       postalCodes: codesPostaux,
       location: centre?.coordinates,
       geohash: await getGeohash(centre?.coordinates),
