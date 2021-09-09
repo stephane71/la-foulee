@@ -29,6 +29,7 @@ const argv = yargs(hideBin(process.argv))
   .demandOption(["t"]).argv;
 
 const BASE_URL = "https://geo.api.gouv.fr";
+const FRANCE_LOCATION = "france";
 
 const geoApi = {
   [types.REGION]: {
@@ -36,7 +37,7 @@ const geoApi = {
     path: "regions",
     format: async ({ nom, code }) => ({
       slug: slugIt(nom),
-      county: "france",
+      county: FRANCE_LOCATION,
       name: nom,
       code,
       type: types.REGION,
@@ -71,7 +72,7 @@ const geoApi = {
       departement,
     }) => ({
       slug: slugIt(nom),
-      county: slugIt(departement.nom),
+      county: slugIt(departement ? departement.nom : FRANCE_LOCATION),
       name: nom,
       code,
       type: types.CITY,
