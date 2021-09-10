@@ -17,7 +17,7 @@ class PlacesTable extends DynamoDB {
     return this.deleteItem({ [HASH_KEY]: slug, [RANGE_KEY]: county });
   }
 
-  getDepartment(code) {
+  getDepartmentFromCode(code) {
     return this.queryGSI(
       GSI.CodeTypeGSI,
       { hashKey: code, rangeKey: PLACE_TYPE.DEPARTMENT },

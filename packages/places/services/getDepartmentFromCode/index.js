@@ -10,7 +10,7 @@ const placesTable = new PlacesTable();
 async function getDepartmentFromCode(event) {
   const { code } = event.pathParameters;
 
-  const place = await placesTable.getDepartment(code);
+  const place = await placesTable.getDepartmentFromCode(code);
 
   if (!place) {
     throw new createError.NotFound();
