@@ -1,0 +1,14 @@
+function:
+  handler: services/getPlaces/index.handler
+  events:
+    - http:
+        path: /places/{slug}
+        method: get
+        cors: true
+        # private : true
+        request:
+          parameters:
+            paths:
+              slug: true
+            querystrings:
+              type: false
