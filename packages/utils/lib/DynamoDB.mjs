@@ -51,17 +51,31 @@ class DynamoDB {
     const { name, hashKey: hashKeyName, rangeKey: rangeKeyName } = gsi;
     const { hashKey, rangeKey } = keys;
 
+    if (!operation !== !rangeKey) {
+      throw new Error(
+        "[La Foulee] DynamoDB:queryGSI: You must provide a range key value AND an operation OR neither"
+      );
+    }
+
+    const baseExpression = "#hashKey = :hashKey";
+    const rangeKeyAttributeName = operation
+      ? { "#rangeKey": rangeKeyName }
+      : {};
+    const rangeKeyAttributeValue = operation ? { ":rangeKey": rangeKey } : {};
+
     const params = {
       TableName: TABLE_NAME,
       IndexName: name,
-      KeyConditionExpression: `#hashKey = :hashKey and #rangeKey ${operation} :rangeKey`,
+      KeyConditionExpression:
+        baseExpression +
+        (operation ? ` and #rangeKey ${operation} :rangeKey` : ""),
       ExpressionAttributeNames: {
         "#hashKey": hashKeyName,
-        "#rangeKey": rangeKeyName,
+        ...rangeKeyAttributeName,
       },
       ExpressionAttributeValues: {
         ":hashKey": hashKey,
-        ":rangeKey": rangeKey,
+        ...rangeKeyAttributeValue,
       },
     };
 
