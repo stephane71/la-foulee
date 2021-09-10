@@ -111,6 +111,9 @@ functions:
   getRegionFromCode: ${file(./services/getRegionFromCode/serverless.yml):function}
   getRegionList: ${file(./services/getRegionList/serverless.yml):function}
 
+  #### Places ####
+  getPlaces: ${file(./services/getPlaces/serverless.yml):function}
+
 custom:
   region: eu-west-3
   table:
@@ -176,6 +179,14 @@ resources:
                 KeyType: HASH
               - AttributeName: population
                 KeyType: RANGE
+#          - IndexName: SlugTypeGSI
+#              Projection:
+#                ProjectionType: ALL
+#              KeySchema:
+#                - AttributeName: slug
+#                  KeyType: HASH
+#                - AttributeName: type
+#                  KeyType: RANGE
 
         # ADD GSI slug - type
         # - /places/{slug} => toutes les places avec ce slug
