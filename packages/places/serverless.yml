@@ -59,6 +59,8 @@ provider:
             - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.table.name}/index/*
 
 functions:
+  #### ITEMS - GET / PUT / DELETE ####
+
   get:
     handler: services/get/index.handler
     events:
@@ -99,28 +101,15 @@ functions:
                 slug: true
                 county: true
 
-  #### Queries ####
+  #### DEPARTMENTS ####
+
   getDepartmentFromCode: ${file(./services/getDepartmentFromCode/serverless.yml):function}
+  getDepartmentList: ${file(./services/getDepartmentList/serverless.yml):function}
 
-  #### Lists ####
+  #### REGIONS ####
 
-#  departments:
-#    handler: services/departments/index.handler
-#    events:
-#      - http:
-#        path: /departments
-#        method: get
-#        cors: true
-#        # private : true
-#  regions:
-#    handler: services/regions/index.handler
-#    events:
-#      - http:
-#        path: /regions
-#        method: get
-#        cors: true
-#        # private : true
-
+  getRegionFromCode: ${file(./services/getRegionFromCode/serverless.yml):function}
+  getRegionList: ${file(./services/getRegionList/serverless.yml):function}
 
 custom:
   region: eu-west-3
@@ -187,3 +176,7 @@ resources:
                 KeyType: HASH
               - AttributeName: population
                 KeyType: RANGE
+
+        # ADD GSI slug - type
+        # - /places/{slug} => toutes les places avec ce slug
+        # - /places/{slug}?type={type} => toutes les places avec ce slug pour ce type
