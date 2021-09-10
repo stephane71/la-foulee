@@ -1,4 +1,7 @@
 import AWS from "aws-sdk";
+// TODO Migrate to the v3 of the SDK
+// see https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/index.html
+//import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const REGION = process.env.REGION;
@@ -76,6 +79,35 @@ class DynamoDB {
       ExpressionAttributeValues: {
         ":hashKey": hashKey,
         ...rangeKeyAttributeValue,
+      },
+    };
+
+    const res = await this.request("query", params);
+    return res.Items;
+  }
+
+  async query(hashKey, filterAttribute) {
+    const attributeName = filterAttribute
+      ? { "#attributeName": filterAttribute.name }
+      : {};
+    const attributeValue = filterAttribute
+      ? { ":attributeValue": filterAttribute.value }
+      : {};
+    const filterExpression = filterAttribute
+      ? { FilterExpression: `#attributeName = :attributeValue` }
+      : {};
+
+    const params = {
+      TableName: TABLE_NAME,
+      KeyConditionExpression: `#hashKey = :hashKey`,
+      ...filterExpression,
+      ExpressionAttributeNames: {
+        "#hashKey": hashKey.name,
+        ...attributeName,
+      },
+      ExpressionAttributeValues: {
+        ":hashKey": hashKey.value,
+        ...attributeValue,
       },
     };
 
