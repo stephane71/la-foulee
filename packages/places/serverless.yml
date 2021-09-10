@@ -179,15 +179,3 @@ resources:
                 KeyType: HASH
               - AttributeName: population
                 KeyType: RANGE
-#          - IndexName: SlugTypeGSI
-#              Projection:
-#                ProjectionType: ALL
-#              KeySchema:
-#                - AttributeName: slug
-#                  KeyType: HASH
-#                - AttributeName: type
-#                  KeyType: RANGE
-
-        # ADD GSI slug - type
-        # - /places/{slug} => toutes les places avec ce slug
-        # - /places/{slug}?type={type} => toutes les places avec ce slug pour ce type
