@@ -41,6 +41,7 @@ const geoApi = {
       name: nom,
       code,
       type: types.REGION,
+      population: 0
     }),
   },
   [types.DEPARTMENT]: {
@@ -54,6 +55,7 @@ const geoApi = {
       code,
       type: types.DEPARTMENT,
       codeRegion,
+      population: 0
     }),
   },
   [types.CITY]: {
