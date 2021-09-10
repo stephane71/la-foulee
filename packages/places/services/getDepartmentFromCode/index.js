@@ -10,15 +10,21 @@ const placesTable = new PlacesTable();
 async function getDepartmentFromCode(event) {
   const { code } = event.pathParameters;
 
-  const place = await placesTable.getDepartmentFromCode(code);
+  const places = await placesTable.getDepartmentFromCode(code);
 
-  if (!place) {
+  if (!places.length) {
     throw new createError.NotFound();
+  }
+
+  if (places.length > 1) {
+    throw new createError.InternalServerError(
+      "[La Foulee] getDepartmentFromCode: More than one department found"
+    );
   }
 
   return {
     statusCode: 200,
-    body: JSON.stringify(place),
+    body: JSON.stringify(places[0]),
     headers: { "Access-Control-Allow-Origin": "*" },
   };
 }
