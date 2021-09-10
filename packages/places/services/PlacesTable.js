@@ -24,6 +24,26 @@ class PlacesTable extends DynamoDB {
       "="
     );
   }
+
+  getDepartmentList() {
+    return this.queryGSI(GSI.TypePopulationGSI, {
+      hashKey: PLACE_TYPE.DEPARTMENT,
+    });
+  }
+
+  getRegionFromCode(code) {
+    return this.queryGSI(
+      GSI.CodeTypeGSI,
+      { hashKey: code, rangeKey: PLACE_TYPE.REGION },
+      "="
+    );
+  }
+
+  getRegionList() {
+    return this.queryGSI(GSI.TypePopulationGSI, {
+      hashKey: PLACE_TYPE.REGION,
+    });
+  }
 }
 
 export default PlacesTable;
