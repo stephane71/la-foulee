@@ -1,0 +1,8 @@
+function:
+  handler: services/getDepartmentList/index.handler
+  events:
+    - http:
+        path: /departments
+        method: get
+        cors: true
+        # private : true

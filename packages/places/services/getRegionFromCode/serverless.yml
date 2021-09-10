@@ -1,0 +1,12 @@
+function:
+  handler: services/getRegionFromCode/index.handler
+  events:
+    - http:
+        path: /regions/{code}
+        method: get
+        cors: true
+        # private : true
+        request:
+          parameters:
+            paths:
+              code: true
