@@ -1,5 +1,10 @@
 import { DynamoDB } from "@la-foulee/utils";
-import { GSI, PLACE_TYPE } from "../table.definitinon";
+import {
+  GSI,
+  PLACE_TYPE,
+  ATTRIBUTES_DEFINITION,
+  ATTRIBUTE,
+} from "../table.definitinon";
 
 const HASH_KEY = process.env.TABLE_HASH_KEY;
 const RANGE_KEY = process.env.TABLE_RANGE_KEY;
@@ -43,6 +48,15 @@ class PlacesTable extends DynamoDB {
     return this.queryGSI(GSI.TypePopulationGSI, {
       hashKey: PLACE_TYPE.REGION,
     });
+  }
+
+  getPlaces(slug, type) {
+    const TYPE = ATTRIBUTES_DEFINITION[ATTRIBUTE.TYPE];
+
+    return this.query(
+      { name: HASH_KEY, value: slug },
+      type ? { name: TYPE.name, value: type } : null
+    );
   }
 }
 
