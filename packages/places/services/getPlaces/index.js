@@ -1,7 +1,6 @@
 import middy from "@middy/core";
 import httpErrorHandler from "@middy/http-error-handler";
 import validator from "@middy/validator";
-import createError from "http-errors";
 import inputSchema from "./schema";
 import PlacesTable from "../PlacesTable";
 
@@ -13,10 +12,6 @@ async function getPlaces(event) {
   const type = queryStringParameters?.type;
 
   const places = await placesTable.getPlaces(slug, type);
-
-  if (!places.length) {
-    throw new createError.NotFound();
-  }
 
   return {
     statusCode: 200,
