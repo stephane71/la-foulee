@@ -7,6 +7,8 @@ const GEOHASH = "geohash";
 const CODE = "code";
 const POPULATION = "population";
 
+export const ATTRIBUTE = { SLUG, COUNTY, TYPE, GEOHASH, CODE, POPULATION };
+
 export const ATTRIBUTES_DEFINITION = {
   [SLUG]: {
     name: SLUG,
