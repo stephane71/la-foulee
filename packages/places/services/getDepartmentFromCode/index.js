@@ -7,10 +7,19 @@ import PlacesTable from "../PlacesTable";
 
 const placesTable = new PlacesTable();
 
+function formatCorsicaCodes(code) {
+  if (code === "2a" || code === "2b") {
+    return code.toUpperCase();
+  }
+  return code;
+}
+
 async function getDepartmentFromCode(event) {
   const { code } = event.pathParameters;
 
-  const places = await placesTable.getDepartmentFromCode(code);
+  const places = await placesTable.getDepartmentFromCode(
+    formatCorsicaCodes(code)
+  );
 
   if (!places.length) {
     throw new createError.NotFound();
