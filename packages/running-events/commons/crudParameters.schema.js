@@ -8,7 +8,7 @@ const HASH_KEY_TYPE = getJSONSchemaTypeFromDynamoDBType(
 );
 
 const RANGE_KEY_TYPE = getJSONSchemaTypeFromDynamoDBType(
-  ATTRIBUTE_DEFINITION[HASH_KEY].type
+  ATTRIBUTE_DEFINITION[RANGE_KEY].type
 );
 
 const crudParameters = {
