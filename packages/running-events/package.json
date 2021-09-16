@@ -1,0 +1,42 @@
+{
+  "name": "@la-foulee/running-events",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "stephane71 <stephanemaire71@gmail.com>",
+  "homepage": "https://github.com/stephane71/la-foulee#readme",
+  "license": "ISC",
+  "main": "lib/running-events.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stephane71/la-foulee.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/stephane71/la-foulee/issues"
+  },
+  "dependencies": {
+    "@la-foulee/utils": "^0.0.0",
+    "@middy/core": "^2.5.1",
+    "@middy/http-error-handler": "^2.5.1",
+    "@middy/http-json-body-parser": "^2.5.1",
+    "@middy/validator": "^2.5.1",
+    "ajv": "^8.6.2",
+    "ajv-keywords": "^5.0.0",
+    "http-errors": "^1.8.0"
+  },
+  "devDependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.122.0",
+    "@aws-cdk/core": "^1.122.0",
+    "json-to-pretty-yaml": "^1.2.2",
+    "serverless-bundle": "^5.0.0"
+  }
+}

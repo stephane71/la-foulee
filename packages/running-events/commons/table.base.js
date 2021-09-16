@@ -1,0 +1,5 @@
+module.exports = {
+  TABLE_NAME: "RunningEventsTable",
+  HASH_KEY: "keyword",
+  RANGE_KEY: "date",
+};

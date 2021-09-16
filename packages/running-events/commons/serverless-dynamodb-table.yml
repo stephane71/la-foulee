@@ -1,0 +1,53 @@
+TableName: "RunningEventsTable"
+BillingMode: "PAY_PER_REQUEST"
+AttributeDefinitions:
+  - AttributeName: "keyword"
+    AttributeType: "S"
+  - AttributeName: "date"
+    AttributeType: "N"
+  - AttributeName: "type"
+    AttributeType: "N"
+  - AttributeName: "geohash"
+    AttributeType: "S"
+  - AttributeName: "place"
+    AttributeType: "S"
+  - AttributeName: "county"
+    AttributeType: "S"
+KeySchema:
+  - AttributeName: "keyword"
+    KeyType: "HASH"
+  - AttributeName: "date"
+    KeyType: "RANGE"
+GlobalSecondaryIndexes:
+  - IndexName: "geohash-date-GSI"
+    Projection:
+      ProjectionType: "ALL"
+    KeySchema:
+      - AttributeName: "geohash"
+        KeyType: "HASH"
+      - AttributeName: "date"
+        KeyType: "RANGE"
+  - IndexName: "place-date-GSI"
+    Projection:
+      ProjectionType: "ALL"
+    KeySchema:
+      - AttributeName: "place"
+        KeyType: "HASH"
+      - AttributeName: "date"
+        KeyType: "RANGE"
+  - IndexName: "county-date-GSI"
+    Projection:
+      ProjectionType: "ALL"
+    KeySchema:
+      - AttributeName: "county"
+        KeyType: "HASH"
+      - AttributeName: "date"
+        KeyType: "RANGE"
+  - IndexName: "type-date-GSI"
+    Projection:
+      ProjectionType: "ALL"
+    KeySchema:
+      - AttributeName: "type"
+        KeyType: "HASH"
+      - AttributeName: "date"
+        KeyType: "RANGE"

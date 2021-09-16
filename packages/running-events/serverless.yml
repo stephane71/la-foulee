@@ -1,0 +1,112 @@
+org: stephane71
+app: api
+service: running-events
+
+plugins:
+  - serverless-bundle
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev # use variables
+  region: ${self:custom.region}
+  memorySize: 128
+
+  # Environment Variables
+  environment:
+    TABLE_NAME: ${self:custom.table.TABLE_NAME}
+    TABLE_HASH_KEY: ${self:custom.table.HASH_KEY}
+    TABLE_RANGE_KEY: ${self:custom.table.RANGE_KEY}
+    REGION: ${self:custom.region}
+
+  ## API GATEWAY - API KEYS + USAGE PLAN ##
+  apiGateway:
+    apiKeys:
+      - free:
+          - runningEventsKeyFree
+      - paid:
+          - runningEventsKeyPaid
+    usagePlan:
+      - free:
+          quota:
+            limit: 10000
+            offset: 0
+            period: MONTH
+          throttle:
+            burstLimit: 200
+            rateLimit: 100
+      - paid:
+          quota:
+            limit: 50000
+            offset: 1
+            period: MONTH
+          throttle:
+            burstLimit: 2000
+            rateLimit: 1000
+
+  ## IAM ROLE - ACCESS TO DYNAMODB TABLE ##
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 'dynamodb:DeleteItem'
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+            - 'dynamodb:Query'
+          Resource:
+            - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.table.TABLE_NAME}
+            - arn:aws:dynamodb:${self:provider.region}:514894570076:table/${self:custom.table.TABLE_NAME}/index/*
+
+functions:
+  #### ITEMS - GET / PUT / DELETE ####
+
+  get:
+    handler: services/get/index.handler
+    events:
+      - http:
+          path: /{date}/{keyword}
+          method: get
+          cors: true
+          # private : true
+          request:
+            parameters:
+              paths:
+                date: true
+                keyword: true
+  put:
+    handler: services/put/index.handler
+    events:
+      - http:
+          path: /{date}/{keyword}
+          method: put
+          cors: true
+          # private : true
+          request:
+            parameters:
+              paths:
+                date: true
+                keyword: true
+#  delete:
+#    handler: services/delete/index.handler
+#    events:
+#      - http:
+#          path: /{date}/{keyword}
+#          method: delete
+#          cors: true
+#          # private : true
+#          request:
+#            parameters:
+#              paths:
+#                slug: true
+#                county: true
+
+custom:
+  region: eu-west-3
+  table: ${file(./commons/serverless-table-base.yml)}
+
+resources:
+  Resources:
+    runningEventsTable:
+      Type: AWS::DynamoDB::Table
+      Properties: ${file(./commons/serverless-dynamodb-table.yml)}
