@@ -87,19 +87,19 @@ functions:
               paths:
                 date: true
                 keyword: true
-#  delete:
-#    handler: services/delete/index.handler
-#    events:
-#      - http:
-#          path: /{date}/{keyword}
-#          method: delete
-#          cors: true
-#          # private : true
-#          request:
-#            parameters:
-#              paths:
-#                slug: true
-#                county: true
+  delete:
+    handler: services/delete/index.handler
+    events:
+      - http:
+          path: /{date}/{keyword}
+          method: delete
+          cors: true
+          # private : true
+          request:
+            parameters:
+              paths:
+                date: true
+                keyword: true
 
 custom:
   region: eu-west-3
