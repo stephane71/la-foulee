@@ -9,7 +9,7 @@ const properties = Object.values(ATTRIBUTE_DEFINITION).reduce((prev, next) => {
   const { name, type } = next;
   return {
     ...prev,
-    [name]: getJSONSchemaTypeFromDynamoDBType(type),
+    [name]: { type: getJSONSchemaTypeFromDynamoDBType(type) },
   };
 }, {});
 
