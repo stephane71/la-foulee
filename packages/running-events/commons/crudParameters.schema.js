@@ -11,7 +11,7 @@ const RANGE_KEY_TYPE = getJSONSchemaTypeFromDynamoDBType(
   ATTRIBUTE_DEFINITION[HASH_KEY].type
 );
 
-module.exports = {
+const crudParameters = {
   type: "object",
   required: [HASH_KEY, RANGE_KEY],
   properties: {
@@ -19,3 +19,5 @@ module.exports = {
     [RANGE_KEY]: { type: RANGE_KEY_TYPE },
   },
 };
+
+export default crudParameters;
