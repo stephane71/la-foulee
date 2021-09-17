@@ -12,4 +12,4 @@ function getS3RecordInfo(record) {
   };
 }
 
-module.exports = getS3RecordInfo;
+export default getS3RecordInfo;

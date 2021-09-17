@@ -2,14 +2,8 @@ org: stephane71
 app: scraper
 service: ffa-scraper
 
-package:
-  exclude:
-    - node_modules/**
-
 plugins:
-  - serverless-offline
-  - serverless-plugin-common-excludes
-  - serverless-plugin-include-dependencies
+  - serverless-bundle
 
 provider:
   name: aws
@@ -18,15 +12,26 @@ provider:
   region: eu-west-3
   memorySize: 128
 
-  iamManagedPolicies:
-    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-read-s3-bucket
-    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-write-s3-bucket
-    - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-    - arn:aws:iam::514894570076:policy/La-Foulee-PlacesAPI-ExecuteAPI-dev
+  #  iamManagedPolicies:
+  #    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-read-s3-bucket
+  #    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-write-s3-bucket
+  #    - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  #    - arn:aws:iam::514894570076:policy/La-Foulee-PlacesAPI-ExecuteAPI-dev
 
-  environment:
-    ACCESS_KEY_ID: ${ssm:/scraper/ACCESS_KEY_ID~true}
-    SECRET_ACCESS_KEY: ${ssm:/scraper/SECRET_ACCESS_KEY~true}
+  ## IAM ROLE - ACCESS TO DYNAMODB TABLE ##
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+            - 'execute-api:Invoke'
+          Resource:
+            - arn:aws:s3:::ffa-scraper*/*
+            - arn:aws:execute-api:${self:custom.runningEventsApi.region}:514894570076:${self:custom.runningEventsApi.id}/dev/GET/*
+            - arn:aws:execute-api:${self:custom.runningEventsApi.region}:514894570076:${self:custom.runningEventsApi.id}/dev/PUT/*
+            - arn:aws:execute-api:${self:custom.runningEventsApi.region}:514894570076:${self:custom.runningEventsApi.id}/dev/DELETE/*
 
 functions:
   download-sources:
@@ -62,8 +67,13 @@ functions:
     memorySize: 192
     environment:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_LOCATION}
-      PLACE_PROXY_API_URL: ${param:PLACE_PROXY_API_URL}
-      PLACE_PROXY_API_REGION: ${param:PLACE_PROXY_API_REGION}
+      PLACES_API_URL: ${param:PLACES_API_URL}
+      PLACES_API_REGION: ${param:PLACES_API_REGION}
     events:
       - s3:
           bucket: ${param:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
+
+custom:
+  runningEventsApi:
+    id: faw96n173k
+    region: eu-west-3

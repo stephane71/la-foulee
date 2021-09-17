@@ -1,41 +1,19 @@
-const getPlace = require("./getPlace");
-const getFormattedDepartmentCode = require("./getFormattedDepartmentCode");
-const getDepartmentObject = require("./getDepartmentObject");
+import getFormattedDepartmentCode from "./getFormattedDepartmentCode";
+import getDepartment from "./getDepartment";
 
 /**
  * Get event department from FFA dep code
  * @param {Object} event
  * @param {string} event.dep
- * @param {Object} [event.address]
  *
- * @returns {Object} departmentInfo
- * @returns {string} departmentInfo.countySlug
- * @returns {Object} departmentInfo.address
+ * @returns {Object} department
  *
  * */
-module.exports = async function getEventDepartment(event) {
-  let { dep, address = {} } = event;
+async function getEventDepartment(event) {
+  const { dep } = event;
 
-  // Get department object
-  const depCode = getFormattedDepartmentCode(dep);
-  const department = getDepartmentObject(depCode);
-  if (!department) {
-    const message = "[La Foulée] ERROR: this event has an unknown department";
-    console.error(message, JSON.stringify(event, null, 2));
-    throw message;
-  }
+  const code = getFormattedDepartmentCode(dep);
+  return await getDepartment(code);
+}
 
-  // Get department details from La Foulée Places API
-  const res = await getPlace(department.slug);
-  if (!res.data) {
-    const message = `updateEventDepartment | Can't find slug in La Foulée Places API: ${dep.department}`;
-    console.error(message);
-    // Throw message ?
-    return null;
-  }
-
-  return {
-    countySlug: res.data.slug,
-    address: { ...address, county: res.data.name },
-  };
-};
+export default getEventDepartment;

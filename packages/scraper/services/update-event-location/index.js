@@ -1,10 +1,10 @@
-const middy = require("@middy/core");
-const httpErrorHandler = require("@middy/http-error-handler");
-const validator = require("@middy/validator");
-const FileManager = require("../../commons/FileManager");
-const getS3RecordInfo = require("../../commons/getS3RecordInfo");
-const updateEventLocation = require("./updateEventLocation");
-const inputSchema = require("./schemas");
+import middy from "@middy/core";
+import httpErrorHandler from "@middy/http-error-handler";
+import validator from "@middy/validator";
+import FileManager from "../../commons/FileManager";
+import getS3RecordInfo from "../../commons/getS3RecordInfo";
+import getEventLocation from "./getEventLocation";
+import inputSchema from "./schemas";
 
 /**
  * Extract events from FFA html document stored in S3
@@ -22,16 +22,17 @@ async function updateEventLocationMiddleware(S3event) {
   const event = JSON.parse(file);
 
   // 2. Update event location
-  const eventWithLocation = await updateEventLocation(event);
+  const { department, city } = await getEventLocation(event);
+  const newEvent = { ...event, department, city };
 
   // 3. Upload new event
   return FileManager.uploadToBucket(
     key,
-    JSON.stringify(eventWithLocation),
+    JSON.stringify(newEvent),
     process.env.S3_DESTINATION
   );
 }
 
-module.exports.handler = middy(updateEventLocationMiddleware)
+export const handler = middy(updateEventLocationMiddleware)
   .use(validator({ inputSchema }))
   .use(httpErrorHandler());

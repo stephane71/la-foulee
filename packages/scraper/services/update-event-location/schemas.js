@@ -1,4 +1,4 @@
-module.exports = {
+const schema = {
   type: "object",
   required: ["Records"],
   properties: {
@@ -7,3 +7,5 @@ module.exports = {
     },
   },
 };
+
+export default schema;

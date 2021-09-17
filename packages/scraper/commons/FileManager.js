@@ -1,10 +1,10 @@
-const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 
 // We don't need to add credentials (ACCESS_KEY_ID && SECRET_ACCESS_KEY)
 // because the IAM policies present in the serverless.yml take care of it.
 const s3 = new AWS.S3();
 
-module.exports = class FileManager {
+class FileManager {
   static uploadToBucket(fileName, data, bucket) {
     const params = {
       Key: fileName,
@@ -36,4 +36,6 @@ module.exports = class FileManager {
       });
     });
   }
-};
+}
+
+export default FileManager;
