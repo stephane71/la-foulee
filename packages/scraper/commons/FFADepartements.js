@@ -1,4 +1,4 @@
-module.exports = [
+const FFA_DEPARTMENTS = [
   "001",
   "002",
   "003",
@@ -100,5 +100,7 @@ module.exports = [
   "973",
   "974",
   "976",
-  "981"
+  "981",
 ];
+
+export default FFA_DEPARTMENTS;
