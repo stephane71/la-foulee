@@ -1,8 +1,6 @@
-const input = {
+const schema = {
   type: "object",
   required: ["Records"],
 };
 
-module.exports = {
-  input,
-};
+export default schema;

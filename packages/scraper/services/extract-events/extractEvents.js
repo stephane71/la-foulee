@@ -1,8 +1,8 @@
-const cheerio = require("cheerio");
-const EventListExtractor = require("./EventListExtractor");
-const removeDuplicateKeyword = require("./removeDuplicateKeyword.js");
+import cheerio from "cheerio";
+import EventListExtractor from "./EventListExtractor";
+import removeDuplicateKeyword from "./removeDuplicateKeyword.js";
 
-module.exports = async function extractEvents(data) {
+async function extractEvents(data) {
   const eventExtractor = new EventListExtractor(cheerio.load(data));
   const events = eventExtractor.extract();
 
@@ -14,4 +14,6 @@ module.exports = async function extractEvents(data) {
   );
 
   return removeDuplicateKeyword(events);
-};
+}
+
+export default extractEvents;

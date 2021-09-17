@@ -1,10 +1,10 @@
-const middy = require("@middy/core");
-const httpErrorHandler = require("@middy/http-error-handler");
-const validator = require("@middy/validator");
-const FileManager = require("../../commons/FileManager");
-const getS3RecordInfo = require("../../commons/getS3RecordInfo");
-const extractEvents = require("./extractEvents");
-const { input: inputSchema } = require("./schemas");
+import middy from "@middy/core";
+import httpErrorHandler from "@middy/http-error-handler";
+import validator from "@middy/validator";
+import FileManager from "../../commons/FileManager";
+import getS3RecordInfo from "../../commons/getS3RecordInfo";
+import extractEvents from "./extractEvents";
+import inputSchema from "./schemas";
 
 /**
  * Extract events from FFA html document stored in S3
@@ -35,6 +35,6 @@ async function extractEventsFromHtmlDocument(event) {
   return Promise.all(promises);
 }
 
-module.exports.handler = middy(extractEventsFromHtmlDocument)
+export const handler = middy(extractEventsFromHtmlDocument)
   .use(validator({ inputSchema }))
   .use(httpErrorHandler());

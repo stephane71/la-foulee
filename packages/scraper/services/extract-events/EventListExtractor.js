@@ -1,10 +1,10 @@
-const moment = require("moment");
-const slug = require("slug");
+import moment from "moment";
+import { slugIt } from "@la-foulee/utils";
 
 const CANCEL = "cancel";
 const NOT_VALIDATE = "notValidate";
 
-module.exports = class EventListExtractor {
+class EventListExtractor {
   constructor($) {
     this.$ = $;
   }
@@ -66,10 +66,8 @@ module.exports = class EventListExtractor {
     switch (status) {
       case "Compétition annulée":
         return CANCEL;
-        break;
       case "Compétition proposée non validée par la CDCHS":
         return NOT_VALIDATE;
-        break;
       default:
         return null;
     }
@@ -122,6 +120,8 @@ module.exports = class EventListExtractor {
   }
 
   getEventKeyword(title) {
-    return slug(title, { lower: true });
+    return slugIt(title);
   }
-};
+}
+
+export default EventListExtractor;

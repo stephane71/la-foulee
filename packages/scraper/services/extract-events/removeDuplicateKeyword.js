@@ -7,11 +7,13 @@
   WARNING: Number of races ?
 */
 
-module.exports = function removeDuplicateKeyword(events) {
+function removeDuplicateKeyword(events) {
   let uniqKeywordList = [];
   return events.filter(({ keyword }) => {
     let duplicate = uniqKeywordList.includes(keyword);
     if (!duplicate) uniqKeywordList.push(keyword);
     return !duplicate;
   });
-};
+}
+
+export default removeDuplicateKeyword;
