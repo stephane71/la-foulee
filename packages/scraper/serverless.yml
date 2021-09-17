@@ -37,6 +37,7 @@ functions:
   download-sources:
     handler: services/download-sources/index.handler
     timeout: 30
+    maximumRetryAttempts: 0
     environment:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER}
     events:
@@ -56,6 +57,7 @@ functions:
     handler: services/extract-events/index.handler
     timeout: 15
     memorySize: 192
+    maximumRetryAttempts: 0
     environment:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
     events:
@@ -65,6 +67,7 @@ functions:
   update-event-location:
     handler: services/update-event-location/index.handler
     memorySize: 192
+    maximumRetryAttempts: 0
     environment:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_LOCATION}
       PLACES_API_URL: ${param:PLACES_API_URL}
