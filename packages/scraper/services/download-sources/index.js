@@ -1,11 +1,11 @@
-const middy = require("@middy/core");
-const httpErrorHandler = require("@middy/http-error-handler");
-const validator = require("@middy/validator");
-const createError = require("http-errors");
-const isFFADepartmentKeyword = require("../../AJVKeywords/isFFADepartment");
-const FileManager = require("../../commons/FileManager");
-const { input: inputSchema } = require("./schemas");
-const downloadDepartmentPage = require("./downloadFFADepartmentPage");
+import middy from "@middy/core";
+import httpErrorHandler from "@middy/http-error-handler";
+import validator from "@middy/validator";
+import createError from "http-errors";
+import isFFADepartmentKeyword from "../../AJVKeywords/isFFADepartment";
+import FileManager from "../../commons/FileManager";
+import inputSchema from "./schemas";
+import downloadDepartmentPage from "./downloadFFADepartmentPage";
 
 /**
  * Download source page from FFA website
@@ -43,7 +43,7 @@ async function downloadSource(event) {
   };
 }
 
-module.exports.handler = middy(downloadSource)
+export const handler = middy(downloadSource)
   .use(
     validator({
       inputSchema,

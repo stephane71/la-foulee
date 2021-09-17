@@ -1,4 +1,4 @@
-const FFA_DEPARTMENTS = require("../commons/FFADepartements");
+import FFA_DEPARTMENTS from "../commons/FFADepartements";
 
 /**
  * AJV Validation function to check if a string is a FFA department
@@ -13,7 +13,7 @@ function isDepartment(schema, data) {
 
 const KEYWORD_NAME = "isDepartment";
 
-module.exports = {
+const validator = {
   name: KEYWORD_NAME,
   definition: {
     keyword: KEYWORD_NAME,
@@ -23,3 +23,5 @@ module.exports = {
     errors: false,
   },
 };
+
+export default validator;

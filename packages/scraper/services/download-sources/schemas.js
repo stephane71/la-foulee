@@ -1,4 +1,4 @@
-const input = {
+const schema = {
   type: "object",
   required: ["pathParameters"],
   properties: {
@@ -19,6 +19,4 @@ const input = {
   },
 };
 
-module.exports = {
-  input,
-};
+export default schema;

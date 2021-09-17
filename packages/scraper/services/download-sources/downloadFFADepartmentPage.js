@@ -1,7 +1,7 @@
-const axios = require("axios");
-const getSourceURL = require("./getSourceURL");
+import axios from "axios";
+import getSourceURL from "./getSourceURL";
 
-module.exports = async function downloadFFADepartmentPage(year, dep) {
+async function downloadFFADepartmentPage(year, dep) {
   if (!year || !dep) {
     throw {
       type: "MissingArguments",
@@ -23,4 +23,6 @@ module.exports = async function downloadFFADepartmentPage(year, dep) {
 
   const req = await axios.get(url);
   return req.data;
-};
+}
+
+export default downloadFFADepartmentPage;
