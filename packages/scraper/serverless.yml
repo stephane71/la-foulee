@@ -66,6 +66,7 @@ functions:
 
   update-event-location:
     handler: services/update-event-location/index.handler
+    timeout: 15
     memorySize: 192
     maximumRetryAttempts: 0
     environment:
