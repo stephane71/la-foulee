@@ -15,7 +15,9 @@ async function getEventCity(event, department) {
   const { city } = event;
   const { slug: slugDepartment } = department;
 
-  const slug = slugIt(city, { lower: true });
+  console.log("[La Foulee] Log: Looked for city place", city, slugDepartment);
+
+  const slug = slugIt(city);
   return getCity(slug, slugDepartment);
 }
 
