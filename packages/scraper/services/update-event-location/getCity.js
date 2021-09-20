@@ -14,13 +14,15 @@ const api = apigClientFactory.default.newClient({
  * @returns {Object} city
  *
  * */
-function getCity(slug, countySlug) {
-  return api.invokeApi(
+async function getCity(slug, countySlug) {
+  const res = await api.invokeApi(
     { slug, county: countySlug },
     "/{county}/{slug}",
     "GET",
     {}
   );
+
+  return res.data;
 }
 
 export default getCity;
