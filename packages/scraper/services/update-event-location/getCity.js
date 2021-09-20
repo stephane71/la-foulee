@@ -1,6 +1,6 @@
 import apigClientFactory from "aws-api-gateway-client";
 
-const api = apigClientFactory.default.newClient({
+const api = apigClientFactory.newClient({
   invokeUrl: process.env.PLACES_API_URL,
   region: process.env.PLACES_API_REGION,
   //apiKey: process.env.PLACES_API_KEY,
