@@ -15,7 +15,7 @@
     "@middy/validator": "^2.5.1",
     "ajv": "^8.6.3",
     "ajv-keywords": "^5.0.0",
-    "aws-api-gateway-client": "^0.3.5",
+    "aws-api-gateway-client": "^0.3.7",
     "aws-sdk": "^2.990.0",
     "axios": "^0.21.0",
     "cheerio": "^1.0.0-rc.10",
