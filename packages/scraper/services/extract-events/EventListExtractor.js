@@ -44,8 +44,8 @@ class EventListExtractor {
   }
 
   formatData({ statusCell, dateCell, titleCell, cityCell, depCell }) {
-    const state = this.getEventState(statusCell.attr("title"));
-    const idFFA = this.getIdFFA(state, titleCell);
+    const status = this.getEventState(statusCell.attr("title"));
+    const idFFA = this.getIdFFA(status, titleCell);
     const { dateStart, dateEnd } = this.getDate(dateCell);
     const dep = this.getDep(depCell);
     const title = titleCell.text();
@@ -59,6 +59,7 @@ class EventListExtractor {
       dateEnd,
       dep,
       idFFA,
+      status,
     };
   }
 
