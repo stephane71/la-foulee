@@ -7,6 +7,7 @@ import getS3RecordInfo from "../../commons/getS3RecordInfo";
 import inputSchema from "./schema";
 import getEventDetails from "./getEventDetails";
 import getEventType from "./getEventType";
+import getLaFouleeEvent from "./getLaFouleeEvent";
 
 /**
  * Extract events from FFA html document stored in S3
@@ -31,6 +32,8 @@ async function updateEventDetails(S3event) {
   const eventWithDetails = await getEventDetails(event);
   const eventType = getEventType(event);
 
+  const eventFinal = getLaFouleeEvent({ ...eventWithDetails, type: eventType });
+
   console.log(
     "[La Foulee] Log: push object",
     key,
@@ -41,7 +44,7 @@ async function updateEventDetails(S3event) {
   // 3. Upload new event
   return FileManager.uploadToBucket(
     key,
-    JSON.stringify({ ...eventWithDetails, type: eventType }),
+    JSON.stringify(eventFinal),
     process.env.S3_DESTINATION
   );
 }
