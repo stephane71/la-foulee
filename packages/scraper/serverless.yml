@@ -77,6 +77,13 @@ functions:
       - s3:
           bucket: ${param:S3_BUCKET_FFA_SCRAPER_EXTRACT_EVENTS}
 
+  update-event-details:
+    handler: services/update-event-details/index.handler
+    environment:
+      S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_DETAILS}
+    events:
+      - s3: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_LOCATION}
+
 custom:
   runningEventsApi:
     id: faw96n173k
