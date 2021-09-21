@@ -79,10 +79,21 @@ functions:
 
   update-event-details:
     handler: services/update-event-details/index.handler
+    maximumRetryAttempts: 0
     environment:
       S3_DESTINATION: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_DETAILS}
     events:
       - s3: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_LOCATION}
+
+  put-event:
+    handler: services/put-event/index.handler
+    maximumRetryAttempts: 0
+    timeout: 15
+    environment:
+      RUNNING_EVENTS_API_ID : ${self:custom.runningEventsApi.id}
+      RUNNING_EVENTS_API_REGION: ${self:custom.runningEventsApi.region}
+    events:
+      - s3: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_DETAILS}
 
 custom:
   runningEventsApi:

@@ -3,6 +3,7 @@ import { slugIt } from "@la-foulee/utils";
 
 const CANCEL = "cancel";
 const NOT_VALIDATE = "notValidate";
+const STATUS_EMPTY = "";
 
 class EventListExtractor {
   constructor($) {
@@ -70,7 +71,7 @@ class EventListExtractor {
       case "Compétition proposée non validée par la CDCHS":
         return NOT_VALIDATE;
       default:
-        return null;
+        return STATUS_EMPTY;
     }
   }
 
