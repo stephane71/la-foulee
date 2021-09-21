@@ -80,6 +80,10 @@ export const ATTRIBUTE_DEFINITION = {
     name: ATTRIBUTE.COUNTY,
     type: "S",
   },
+  [ATTRIBUTE.TITLE]: {
+    name: ATTRIBUTE.TITLE,
+    type: "S",
+  },
 };
 
 export const GSI_LIST = [
