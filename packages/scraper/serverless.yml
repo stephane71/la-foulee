@@ -12,12 +12,6 @@ provider:
   region: eu-west-3
   memorySize: 128
 
-  #  iamManagedPolicies:
-  #    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-read-s3-bucket
-  #    - arn:aws:iam::514894570076:policy/La-Foulee-ffa-scraper-write-s3-bucket
-  #    - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-  #    - arn:aws:iam::514894570076:policy/La-Foulee-PlacesAPI-ExecuteAPI-dev
-
   ## IAM ROLE - ACCESS TO DYNAMODB TABLE ##
   iam:
     role:
@@ -90,7 +84,7 @@ functions:
     maximumRetryAttempts: 0
     timeout: 15
     environment:
-      RUNNING_EVENTS_API_ID : ${self:custom.runningEventsApi.id}
+      RUNNING_EVENTS_API_ID: ${self:custom.runningEventsApi.id}
       RUNNING_EVENTS_API_REGION: ${self:custom.runningEventsApi.region}
     events:
       - s3: ${param:S3_BUCKET_FFA_SCRAPER_EVENTS_WITH_DETAILS}
