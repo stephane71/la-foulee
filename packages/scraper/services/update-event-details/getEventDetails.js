@@ -1,11 +1,12 @@
 import getEventDetailsHTMLPage from "./getEventDetailsHTMLPage";
 import extractEventDetails from "./extractEventDetails";
-import getEventDetailsFormatted from "./getEventDetailsFormatted";
+import formatEventDetails from "./formatEventDetails";
 
 async function getEventDetails(event) {
+  // GET - EXTRACT - FORMAT
   const htmlPage = await getEventDetailsHTMLPage(event.idFFA);
-  const eventDetailsExtracted = await extractEventDetails(htmlPage);
-  const formattedEvent = await getEventDetailsFormatted(eventDetailsExtracted);
+  const extractedEventDetails = await extractEventDetails(htmlPage);
+  const formattedEvent = await formatEventDetails(extractedEventDetails);
 
   return { ...event, ...formattedEvent };
 }

@@ -3,7 +3,7 @@ import formatEventDetailsActivities from "./format/formatEventDetailsActivities"
 import formatEventDetailsActivitiesDistances from "./format/formatEventDetailsActivitiesDistances";
 import formatEventDetailsActivitiesPrices from "./format/formatEventDetailsActivitiesPrices";
 
-async function getEventDetailsFormatted(eventExtracted) {
+async function formatEventDetails(eventExtracted) {
   if (!eventExtracted) {
     return {};
   }
@@ -17,4 +17,4 @@ async function getEventDetailsFormatted(eventExtracted) {
   return event;
 }
 
-export default getEventDetailsFormatted;
+export default formatEventDetails;
